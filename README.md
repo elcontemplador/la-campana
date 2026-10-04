@@ -1,6 +1,8 @@
 # La campaña · España en juego
 
-**Versión 0.8.5 · prototipo para probar con personas.** Crea tu candidatura,
+[**Jugar a La campaña**](https://elcontemplador.github.io/la-campana/)
+
+**Reglas 0.8.5 · presentación guía1 · demo para probar con personas.** Crea tu candidatura,
 disputa provincias durante diez turnos y convierte tus escaños en una investidura.
 Partidos y personajes ficticios; 52 circunscripciones y 350 escaños.
 
@@ -8,6 +10,16 @@ Para tu primera partida, elige **Partida personalizada → Campaña abierta →
 Iniciación**. Elige tu partido, candidato y equipo; la guía se puede saltar.
 **Visitar, Medios, Recaudar y Descansar** preparan una jugada; **Jugar** la ejecuta
 junto con las tareas del equipo. Las noticias y el debate tienen decisiones propias.
+
+## Ayuda en dos niveles
+
+**Básico** explica las cuatro jugadas, caja y energía. **Avanzado** detalla las
+siete tareas del equipo, preparación, cohesión, reputación, sondeos y pactos.
+Ambos están en Cómo jugar y en la guía durante la partida. Pulsa el nombre
+de un recurso para ver su explicación. Cambiar de nivel no ejecuta decisiones.
+
+Responde a una noticia para aplicar sus efectos; elegir jugada o tareas solo
+prepara la agenda, que ejecutas con Jugar. Reglas y guardados se conservan.
 
 ## Probar localmente
 
@@ -33,12 +45,12 @@ Una **partida nueva** usa la edición actual. No hay cuentas ni analítica remot
    carpeta**, incluyendo `.github/`. No subas la carpeta de trabajo original.
 2. En **Settings → Pages → Build and deployment**, selecciona **GitHub Actions**.
 3. Ejecuta **Publicar juego en Pages** desde **Actions**, o sube un commit a `main`.
-4. El workflow valida archivos y ejecuta las ocho suites incluidas; publica
+4. El workflow valida archivos y ejecuta las suites incluidas; publica
    exclusivamente `app/`. Usa la dirección que devuelve el job de despliegue.
 
 Las rutas son relativas, compatibles con la subcarpeta de un proyecto de Pages.
 No hacen falta un backend, Python en producción, API, claves ni variables secretas.
-El workflow no ha sido ejecutado en GitHub durante la preparación local.
+El workflow comprueba cada actualización antes del despliegue.
 En un repositorio privado, la disponibilidad de Pages depende del plan de GitHub.
 La publicación y visibilidad del repositorio las decide Fernando.
 
@@ -52,7 +64,7 @@ node --test --test-isolation=none tests/*.test.mjs
 ```
 
 El verificador revisa el manifiesto SHA-256, módulos, archivos públicos, enlaces
-locales y coincidencia entre datos canónicos y públicos. Las ocho suites son una
+locales y coincidencia entre datos canónicos y públicos. Las suites son una
 selección autocontenida: reparto/investidura, campaña, guardado/replay, creación,
 noticias preparadas, debate, previsiones y pérdida de novedad de Medios. No son
 la suite completa del desarrollo. Los escenarios de prueba son sintéticos; no

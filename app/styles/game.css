@@ -1382,3 +1382,28 @@ html:has(.setup){scroll-padding-top:140px}
 
 /* A folded previous answer must not stretch into an empty panel. */
 .debate-event .debate-memory{align-self:start}
+.guide-levels{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 18px}
+.guide-levels button{flex:1 1 180px;min-height:44px;font-size:.86rem;padding:10px 12px}
+.guide-levels button[aria-pressed=true]{background:var(--accent);color:var(--card);border-color:var(--accent)}
+.guide-intro{font-size:1rem;margin:0 0 16px}
+.guide-loop{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:14px 0}
+.guide-loop span{border:1px solid var(--line);border-radius:8px;padding:10px;font-size:.85rem;font-weight:700}
+.guide-decision-note{border-left:3px solid var(--accent);padding:8px 12px;background:var(--paper);font-size:.88rem}
+.guide-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.guide-action{border:1px solid var(--line);border-radius:10px;padding:14px;min-width:0}
+.guide-action h4{display:flex;align-items:center;gap:10px;margin:0 0 10px;font-size:1.05rem;font-family:inherit}
+.guide-action h4 span{width:26px;display:flex;flex:none}.guide-action h4 svg{width:26px;height:26px}
+.guide-action p,.guide-task-list p{font-size:.88rem;margin:7px 0}.guide-benefit{font-weight:650}
+.guide-action small,.guide-task-list small{display:block;font-size:.8rem;color:var(--accent);line-height:1.5}
+.guide-footnote{font-size:.8rem;color:var(--muted);margin:12px 0}
+.guide-resources-basic{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:18px 0}
+.guide-resources-basic>div{padding:12px;border-radius:8px;background:var(--paper)}.guide-resources-basic p{font-size:.86rem;margin:4px 0}
+.guide-detail{border-top:1px solid var(--line);padding:4px 0}
+.guide-detail>summary{min-height:48px;cursor:pointer;font-weight:700;padding:12px 0;font-size:.95rem}
+.guide-detail>p{font-size:.9rem}.guide-task-list article{padding:10px 0;border-top:1px solid var(--line)}
+.guide-task-list h4{font-family:inherit;margin:5px 0;font-size:1rem}.guide-task-list h4 span{font-weight:400;font-size:.88rem;color:var(--accent)}
+.guide-return{border-top:1px solid var(--line);padding-top:18px;margin-top:18px}
+.resource .resource-help{background:transparent;border:0;padding:0;min-height:32px;text-align:left;color:var(--muted);text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px;white-space:normal;box-shadow:none}
+.resource-help span{font-size:.7em}.tutorial-coach .guide-levels{margin:10px 0;gap:6px}.tutorial-coach .guide-levels button{font-size:.75rem;flex:1 1 150px;padding:7px;min-height:44px}
+.tutorial-more{font-size:.8rem;padding-left:18px;line-height:1.5}.tutorial-more li{margin:7px 0}
+@media(max-width:520px){.guide-actions,.guide-resources-basic{grid-template-columns:1fr}.guide-levels button{flex-basis:100%;font-size:.82rem}.guide-action{padding:12px}.resource .resource-help{min-height:44px}.tutorial-coach .guide-levels button{flex-basis:120px}}

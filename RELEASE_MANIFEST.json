@@ -11,7 +11,11 @@
     "prepared-news-v085.test.mjs",
     "debate-preparation.test.mjs",
     "event-limits.test.mjs",
-    "media-repetition-v084.test.mjs"
+    "media-repetition-v084.test.mjs",
+    "guide.test.mjs",
+    "tutorial.test.mjs",
+    "tutorial_chapters.test.mjs",
+    "team_practice.test.mjs"
   ],
   "sourceStable": true,
   "publication": "not-performed",
@@ -28,8 +32,8 @@
       "origin": "release-generated"
     },
     "README.md": {
-      "sha256": "2b05a643e234c00e32ce97a4488e4b5df2728b74b3488fdf6993a0b9204ab0e8",
-      "bytes": 4319,
+      "sha256": "f032b24ee990d93e43460de3c82f619bb8e4e0bc55cb1beb5a2bacfe41e2f0c9",
+      "bytes": 4890,
       "origin": "release-generated"
     },
     "app/.nojekyll": {
@@ -692,6 +696,16 @@
       "bytes": 568140,
       "origin": "canonical-source"
     },
+    "app/js/ui/guide-view.mjs": {
+      "sha256": "850408954a3cb6c6d933a68cba532ff2020028c61506169bbbff1a40a9d97560",
+      "bytes": 8670,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/guide.mjs": {
+      "sha256": "b0ef15bb679844531354bb96014de706a9fbe2bbc7a1338412e27f094a328429",
+      "bytes": 9936,
+      "origin": "canonical-source"
+    },
     "app/js/ui/issue-cases.mjs": {
       "sha256": "e957c7ace1ed6c547bbd8588512659c4b09dcc8a19a884edde993837b274b79a",
       "bytes": 19139,
@@ -708,8 +722,8 @@
       "origin": "canonical-source"
     },
     "app/js/ui/main.mjs": {
-      "sha256": "c1eb1e000b32b67d0b3c7e7228ccb087a913524daf83738c056a5b862ccc891c",
-      "bytes": 192877,
+      "sha256": "3fbdd673a94577aa4ceb5d25ca6218753ddb9146629d0a96307192a372fe5a05",
+      "bytes": 191755,
       "origin": "canonical-source"
     },
     "app/js/ui/meeting-agenda.mjs": {
@@ -873,8 +887,8 @@
       "origin": "canonical-source"
     },
     "app/styles/game.css": {
-      "sha256": "4d1db88b37f2df75da4faefbe7593de4e01539335d863e4336181925cb37ffbd",
-      "bytes": 153700,
+      "sha256": "94defdfdfb06b5a73218e53be34459c41a717781331819735129f7e38293b463",
+      "bytes": 156554,
       "origin": "canonical-source"
     },
     "data/electoral_fixtures.json": {
@@ -1057,6 +1071,11 @@
       "bytes": 11946,
       "origin": "canonical-source"
     },
+    "tests/guide.test.mjs": {
+      "sha256": "7218e4497533b2dc4ac812c45481e63d60d85f4a40cb5636ef24cda41d873450",
+      "bytes": 4231,
+      "origin": "canonical-source"
+    },
     "tests/helpers.mjs": {
       "sha256": "7d2a3b62f20ba8cf140d4078fae1170e8dd35b09464daffd0053c3d8a101fc10",
       "bytes": 2180,
@@ -1085,6 +1104,21 @@
     "tests/storage.test.mjs": {
       "sha256": "46ff67105b8267ae31bdb3740e4f438b1fcd22ea47c549e3913d483e744fc889",
       "bytes": 4523,
+      "origin": "canonical-source"
+    },
+    "tests/team_practice.test.mjs": {
+      "sha256": "89afb962d9f98d596cca73423ddcbf7a0c492a9273dd8d821d519b702c3b1206",
+      "bytes": 3868,
+      "origin": "canonical-source"
+    },
+    "tests/tutorial.test.mjs": {
+      "sha256": "df1f9230ecc170bd1f1400a3160c3f1cf7ff21c002a5e28035a86cd10f73048d",
+      "bytes": 8342,
+      "origin": "canonical-source"
+    },
+    "tests/tutorial_chapters.test.mjs": {
+      "sha256": "a79d6b6927c1ce4256ce50ee9ec5a516faa5de87b2a81a6b2ca778b646d80681",
+      "bytes": 2793,
       "origin": "canonical-source"
     }
   }
