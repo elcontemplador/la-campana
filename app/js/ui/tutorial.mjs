@@ -45,7 +45,7 @@ function waiting(state) {
   };
   if (state.phase === 'planning') return {
     title: 'Prepara tu jugada',
-    body: 'Juega la agenda para ver su consecuencia y la respuesta rival. Si faltan recursos, puedes descansar y reservar las tareas del equipo.',
+    body: 'Revisa tu jugada y pulsa Jugar para ver el resultado. Si te faltan recursos, elige Descansar y pon al equipo a Ahorrar en Cambiar tareas.',
     selector: target('action'),
   };
   return {
@@ -74,16 +74,16 @@ export function tutorialStep(state, progress) {
     // Selection belongs to the UI; this step introduces the available planning control.
     canAdvance = state.phase === 'planning';
   } else if (id === 'action') {
-    title = 'Una jugada y dos tareas de equipo';
+    title = 'Una jugada y hasta dos tareas de equipo';
     const reserved = state.reservedStaff?.length || 0;
     const team = reserved
       ? 'Una tarea del equipo puede estar ocupada por la noticia; ese colaborador no hará otra tarea.'
-      : 'El equipo propone dos tareas; puedes dejarlas o pulsar Cambiar.';
-    body = `El candidato hace una sola jugada por turno; puedes cambiarla antes de Jugar. ${team} Las tareas se hacen junto a tu jugada: gastan presupuesto, no energía del candidato. Jugar confirma todo; descansar también es una jugada.`;
+      : 'El equipo propone dos tareas; puedes dejarlas o pulsar Cambiar tareas.';
+    body = `El candidato hace una sola jugada por turno; puedes cambiarla antes de Jugar. ${team} Las tareas se hacen junto a tu jugada: gastan caja, no energía del candidato. Jugar confirma todo; descansar también es una jugada.`;
     targetSelector = target(id);
   } else if (id === 'consequence') {
     title = 'Reconoce lo que cambió';
-    body = 'Mira la recompensa de tu jugada y qué hicieron tus dos colaboradores. Preparación, presencia o diálogo pueden ayudarte después; reservar conserva recursos.';
+    body = 'Mira qué consiguió tu jugada y qué hizo el equipo. Ensayar prepara próximas intervenciones, los voluntarios suman apoyo y las reuniones ayudan a pactar. Ahorrar conserva caja.';
     targetSelector = target(id);
     canAdvance = state.phase === 'debrief' && candidateWasPlayed(state);
   } else if (id === 'rival') {
@@ -97,7 +97,7 @@ export function tutorialStep(state, progress) {
     targetSelector = target('pact');
     canAdvance = state.phase === 'ending' || (state.phase === 'negotiation' && (state.negotiation?.history?.length || 0) > 0);
     if (state.phase === 'election') {
-      body = 'Este recuento ya está cerrado. Mira qué tres candidaturas pueden presentar propuesta y abre los acuerdos. Las relaciones ayudan a negociar; el puente necesita una propuesta ajena. Primera votación: 176 síes; segunda: más síes que noes.';
+      body = 'Ya se han repartido los escaños. Mira qué candidaturas pueden proponer un Gobierno y abre los acuerdos. Puedes buscar apoyos para tu propuesta o apoyar la de otro partido. Primera votación: 176 síes; segunda: más síes que noes.';
       targetSelector = '[data-command="BEGIN_NEGOTIATION"]';
     } else if (state.phase === 'ending') {
       body = 'Revisa el acuerdo y tus prioridades. Puedes repetir la misma campaña y cambiar una decisión; terminar el tutorial no cambia este resultado.';
@@ -114,7 +114,7 @@ export function tutorialStep(state, progress) {
     targetSelector = context.selector;
   }
   const teamTips = id === 'action' && supported ? [
-    'Voluntarios: deja un equipo en una provincia; da apoyo desde este cierre. Cuanto antes lo organices, más cierres trabajará.',
+    'Voluntarios: deja un equipo en una provincia; suma apoyo al terminar este turno y los siguientes. Cuanto antes lo organices, más turnos trabajará.',
     'Ensayo: mejora Medios incluso hoy y sirve para el debate. En el último turno comprueba que vayas a usarlo.',
     'Reunión: escoge un rival y mejora la relación para los pactos; no asegura su voto.',
     'Ahorrar: el colaborador no hace una tarea adicional y no gasta. Conserva caja; no recauda dinero.',

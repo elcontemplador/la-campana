@@ -2,7 +2,7 @@
 
 [**Jugar a La campaña**](https://elcontemplador.github.io/la-campana/)
 
-**Reglas 0.8.5 · presentación guía1 · demo para probar con personas.** Crea tu candidatura,
+**Reglas 0.8.5 · presentación guía2 · demo para probar con personas.** Crea tu candidatura,
 disputa provincias durante diez turnos y convierte tus escaños en una investidura.
 Partidos y personajes ficticios; 52 circunscripciones y 350 escaños.
 

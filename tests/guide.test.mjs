@@ -45,6 +45,20 @@ test('retomar en planificación no explica consecuencias que aún no han ocurrid
   assert.equal(lesson.targetSelector,'[data-tutorial-target="action"]');
  }
 });
+test('preparar el debate conserva su explicación propia sin cambiar la decisión ni anticipar recursos',()=>{
+ const state={...newGame(),activeEvent:'E31',phase:'event'},progress=startTutorial(state);
+ const before=JSON.stringify({state,progress}),view=tutorialStep(state,progress);
+ for(const level of ['basic','advanced']){
+  const lesson=guidedLesson(view,state,level);
+  assert.match(lesson.body,/sin gastar recursos/);
+  assert.match(lesson.body,/podrás cambiar de respuesta/);
+  assert.equal(lesson.targetSelector,view.targetSelector);
+  assert.equal(lesson.canAdvance,false);
+ }
+ assert.equal(JSON.stringify({state,progress}),before);
+ const old={...state,contentVersion:'0.7.0'};
+ assert.doesNotMatch(guidedLesson(view,old).body,/sin gastar recursos/);
+});
 test('la ayuda se abre para las nueve ediciones y distingue sus reglas',()=>{
  for(const data of [legacyBundle,bundleV070,bundleV071,bundleV080,bundleV081,bundleV082,bundleV083,bundleV084,bundle]){
   const state=createGame(data,'guia-compatible',defaultSetup),guide=guideReference(state,data);

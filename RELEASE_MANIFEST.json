@@ -32,7 +32,7 @@
       "origin": "release-generated"
     },
     "README.md": {
-      "sha256": "f032b24ee990d93e43460de3c82f619bb8e4e0bc55cb1beb5a2bacfe41e2f0c9",
+      "sha256": "700fef1295a6b6a86b60375992e40de41a6d097b0ed0e9e4a7db6a58ad9de5a0",
       "bytes": 4890,
       "origin": "release-generated"
     },
@@ -697,13 +697,13 @@
       "origin": "canonical-source"
     },
     "app/js/ui/guide-view.mjs": {
-      "sha256": "850408954a3cb6c6d933a68cba532ff2020028c61506169bbbff1a40a9d97560",
-      "bytes": 8670,
+      "sha256": "d05c3e23f191ba72911fd0625ea49a5e13c189f74f30fec23f9a3b3a2c81b68b",
+      "bytes": 10355,
       "origin": "canonical-source"
     },
     "app/js/ui/guide.mjs": {
-      "sha256": "b0ef15bb679844531354bb96014de706a9fbe2bbc7a1338412e27f094a328429",
-      "bytes": 9936,
+      "sha256": "6de5f7b79d43bf91dd3ec6fa7140a0ab68aea7b89495a7836cde3d6aa05e438a",
+      "bytes": 10769,
       "origin": "canonical-source"
     },
     "app/js/ui/issue-cases.mjs": {
@@ -722,8 +722,8 @@
       "origin": "canonical-source"
     },
     "app/js/ui/main.mjs": {
-      "sha256": "3fbdd673a94577aa4ceb5d25ca6218753ddb9146629d0a96307192a372fe5a05",
-      "bytes": 191755,
+      "sha256": "eea1ada4b9b7fb24baf3c7ac91ddac6d7c544633aa5a5766e1f77c8d773303e3",
+      "bytes": 191774,
       "origin": "canonical-source"
     },
     "app/js/ui/meeting-agenda.mjs": {
@@ -867,8 +867,8 @@
       "origin": "canonical-source"
     },
     "app/js/ui/tutorial.mjs": {
-      "sha256": "59a1b0af1429e9002c62d3bc0ec1830afab1275e8548985e4443e91832e4f87d",
-      "bytes": 10806,
+      "sha256": "4dd0b89e4fadd8e4d4e6b8cd30456637dbcb633d2cb864c52aa748cf3dd6436c",
+      "bytes": 10844,
       "origin": "canonical-source"
     },
     "app/js/ui/usability.mjs": {
@@ -1072,8 +1072,8 @@
       "origin": "canonical-source"
     },
     "tests/guide.test.mjs": {
-      "sha256": "7218e4497533b2dc4ac812c45481e63d60d85f4a40cb5636ef24cda41d873450",
-      "bytes": 4231,
+      "sha256": "b0fb47bd8b528927d72995a2d5662d20395f4d06fa300ad639d278843bf728f7",
+      "bytes": 4998,
       "origin": "canonical-source"
     },
     "tests/helpers.mjs": {
