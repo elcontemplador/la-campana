@@ -1,0 +1,325 @@
+{
+  "schemaVersion": "0.1.0",
+  "snapshot": "2023-05-30",
+  "source": {
+    "title": "Real Decreto 400/2023, artículo 3 y anexo",
+    "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2023-12663",
+    "status": "vigencia agotada; referencia histórica de escaños, no convocatoria vigente",
+    "checked": "2026-10-02"
+  },
+  "totalSeats": 350,
+  "districts": [
+    {
+      "id": "01",
+      "name": "Araba/Álava",
+      "seats": 4,
+      "system": "dhondt"
+    },
+    {
+      "id": "02",
+      "name": "Albacete",
+      "seats": 4,
+      "system": "dhondt"
+    },
+    {
+      "id": "03",
+      "name": "Alicante/Alacant",
+      "seats": 12,
+      "system": "dhondt"
+    },
+    {
+      "id": "04",
+      "name": "Almería",
+      "seats": 6,
+      "system": "dhondt"
+    },
+    {
+      "id": "05",
+      "name": "Ávila",
+      "seats": 3,
+      "system": "dhondt"
+    },
+    {
+      "id": "06",
+      "name": "Badajoz",
+      "seats": 5,
+      "system": "dhondt"
+    },
+    {
+      "id": "07",
+      "name": "Balears (Illes)",
+      "seats": 8,
+      "system": "dhondt"
+    },
+    {
+      "id": "08",
+      "name": "Barcelona",
+      "seats": 32,
+      "system": "dhondt"
+    },
+    {
+      "id": "09",
+      "name": "Burgos",
+      "seats": 4,
+      "system": "dhondt"
+    },
+    {
+      "id": "10",
+      "name": "Cáceres",
+      "seats": 4,
+      "system": "dhondt"
+    },
+    {
+      "id": "11",
+      "name": "Cádiz",
+      "seats": 9,
+      "system": "dhondt"
+    },
+    {
+      "id": "12",
+      "name": "Castellón/Castelló",
+      "seats": 5,
+      "system": "dhondt"
+    },
+    {
+      "id": "13",
+      "name": "Ciudad Real",
+      "seats": 5,
+      "system": "dhondt"
+    },
+    {
+      "id": "14",
+      "name": "Córdoba",
+      "seats": 6,
+      "system": "dhondt"
+    },
+    {
+      "id": "15",
+      "name": "Coruña (A)",
+      "seats": 8,
+      "system": "dhondt"
+    },
+    {
+      "id": "16",
+      "name": "Cuenca",
+      "seats": 3,
+      "system": "dhondt"
+    },
+    {
+      "id": "17",
+      "name": "Girona",
+      "seats": 6,
+      "system": "dhondt"
+    },
+    {
+      "id": "18",
+      "name": "Granada",
+      "seats": 7,
+      "system": "dhondt"
+    },
+    {
+      "id": "19",
+      "name": "Guadalajara",
+      "seats": 3,
+      "system": "dhondt"
+    },
+    {
+      "id": "20",
+      "name": "Gipuzkoa",
+      "seats": 6,
+      "system": "dhondt"
+    },
+    {
+      "id": "21",
+      "name": "Huelva",
+      "seats": 5,
+      "system": "dhondt"
+    },
+    {
+      "id": "22",
+      "name": "Huesca",
+      "seats": 3,
+      "system": "dhondt"
+    },
+    {
+      "id": "23",
+      "name": "Jaén",
+      "seats": 5,
+      "system": "dhondt"
+    },
+    {
+      "id": "24",
+      "name": "León",
+      "seats": 4,
+      "system": "dhondt"
+    },
+    {
+      "id": "25",
+      "name": "Lleida",
+      "seats": 4,
+      "system": "dhondt"
+    },
+    {
+      "id": "26",
+      "name": "Rioja (La)",
+      "seats": 4,
+      "system": "dhondt"
+    },
+    {
+      "id": "27",
+      "name": "Lugo",
+      "seats": 4,
+      "system": "dhondt"
+    },
+    {
+      "id": "28",
+      "name": "Madrid",
+      "seats": 37,
+      "system": "dhondt"
+    },
+    {
+      "id": "29",
+      "name": "Málaga",
+      "seats": 11,
+      "system": "dhondt"
+    },
+    {
+      "id": "30",
+      "name": "Murcia",
+      "seats": 10,
+      "system": "dhondt"
+    },
+    {
+      "id": "31",
+      "name": "Navarra",
+      "seats": 5,
+      "system": "dhondt"
+    },
+    {
+      "id": "32",
+      "name": "Ourense",
+      "seats": 4,
+      "system": "dhondt"
+    },
+    {
+      "id": "33",
+      "name": "Asturias",
+      "seats": 7,
+      "system": "dhondt"
+    },
+    {
+      "id": "34",
+      "name": "Palencia",
+      "seats": 3,
+      "system": "dhondt"
+    },
+    {
+      "id": "35",
+      "name": "Palmas (Las)",
+      "seats": 8,
+      "system": "dhondt"
+    },
+    {
+      "id": "36",
+      "name": "Pontevedra",
+      "seats": 7,
+      "system": "dhondt"
+    },
+    {
+      "id": "37",
+      "name": "Salamanca",
+      "seats": 4,
+      "system": "dhondt"
+    },
+    {
+      "id": "38",
+      "name": "Santa Cruz de Tenerife",
+      "seats": 7,
+      "system": "dhondt"
+    },
+    {
+      "id": "39",
+      "name": "Cantabria",
+      "seats": 5,
+      "system": "dhondt"
+    },
+    {
+      "id": "40",
+      "name": "Segovia",
+      "seats": 3,
+      "system": "dhondt"
+    },
+    {
+      "id": "41",
+      "name": "Sevilla",
+      "seats": 12,
+      "system": "dhondt"
+    },
+    {
+      "id": "42",
+      "name": "Soria",
+      "seats": 2,
+      "system": "dhondt"
+    },
+    {
+      "id": "43",
+      "name": "Tarragona",
+      "seats": 6,
+      "system": "dhondt"
+    },
+    {
+      "id": "44",
+      "name": "Teruel",
+      "seats": 3,
+      "system": "dhondt"
+    },
+    {
+      "id": "45",
+      "name": "Toledo",
+      "seats": 6,
+      "system": "dhondt"
+    },
+    {
+      "id": "46",
+      "name": "Valencia/València",
+      "seats": 16,
+      "system": "dhondt"
+    },
+    {
+      "id": "47",
+      "name": "Valladolid",
+      "seats": 5,
+      "system": "dhondt"
+    },
+    {
+      "id": "48",
+      "name": "Bizkaia",
+      "seats": 8,
+      "system": "dhondt"
+    },
+    {
+      "id": "49",
+      "name": "Zamora",
+      "seats": 3,
+      "system": "dhondt"
+    },
+    {
+      "id": "50",
+      "name": "Zaragoza",
+      "seats": 7,
+      "system": "dhondt"
+    },
+    {
+      "id": "51",
+      "name": "Ceuta",
+      "seats": 1,
+      "system": "single_member"
+    },
+    {
+      "id": "52",
+      "name": "Melilla",
+      "seats": 1,
+      "system": "single_member"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#f2eee5">
+  <meta name="description" content="Dirige una campaña ficticia, elige tu equipo y juega diez turnos hasta las elecciones y la investidura.">
+  <title>La campaña · España en juego</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23315b70'/%3E%3Cpath d='M8 24V13l8-5 8 5v11M7 24h18M12 24v-8h8v8' fill='none' stroke='%23fcfaf4' stroke-width='2'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./styles/game.css">
+  <script type="module" src="./js/ui/main.mjs"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Ir a la decisión actual</a>
+  <div id="app"><main id="main" class="loading-view" tabindex="-1"><p class="eyebrow">La campaña · España en juego</p><h1>Abriendo la sala de campaña…</h1><p>Preparando el escenario y tu equipo.</p></main></div>
+  <p id="announcement" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  <input id="import-file" tabindex="-1" class="sr-only" type="file" accept="application/json,.json" aria-label="Importar una partida JSON">
+  <dialog id="panel-dialog" aria-labelledby="dialog-title"></dialog>
+  <noscript><p class="noscript">Activa JavaScript para jugar. La campaña funciona con archivos locales y no solicita una cuenta.</p></noscript>
+</body>
+</html>

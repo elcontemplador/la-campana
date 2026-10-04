@@ -1,0 +1,3569 @@
+{
+  "version": "0.8.2",
+  "events": [
+    {
+      "id": "E01",
+      "turn": 1,
+      "priority": 50,
+      "fallback": true,
+      "title": "Tu primer titular",
+      "body": "Puedes dedicar tu primer anuncio a una de tus dos prioridades. La propuesta puede encontrar apoyo o rechazo en la provincia inicial. También puedes reservar el anuncio y empezar por el mapa. No has gobernado ni puesto en marcha esa propuesta: estás eligiendo de qué hablar.",
+      "requiresFlags": [],
+      "forbidsFlags": [],
+      "requiresOpenPromise": null,
+      "options": [
+        {
+          "id": "launch_first",
+          "label": "Anunciar la primera prioridad",
+          "shortLabel": "Anunciar la primera prioridad",
+          "cost": {
+            "budget": 2,
+            "energy": 4
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "priority_support",
+              "priorityIndex": 0,
+              "base": 40
+            },
+            {
+              "type": "flag",
+              "flag": "agendaPosted",
+              "value": true
+            },
+            {
+              "type": "flag",
+              "flag": "reviewPending",
+              "value": false
+            }
+          ],
+          "feedback": "Has elegido el tema del primer anuncio. Tu postura y la importancia local explican su efecto. El otro asunto queda para otra intervención.",
+          "shortFeedback": "Has elegido el tema del primer anuncio; ahora prepara tu jugada en el mapa.",
+          "learning": "Opcional: elegir tema distribuye tu atención. Una propuesta puede encontrar resistencia aunque encaje con tu programa."
+        },
+        {
+          "id": "launch_second",
+          "label": "Anunciar la segunda prioridad",
+          "shortLabel": "Anunciar la segunda prioridad",
+          "cost": {
+            "budget": 2,
+            "energy": 4
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "priority_support",
+              "priorityIndex": 1,
+              "base": 40
+            },
+            {
+              "type": "flag",
+              "flag": "agendaPosted",
+              "value": true
+            },
+            {
+              "type": "flag",
+              "flag": "reviewPending",
+              "value": false
+            }
+          ],
+          "feedback": "Has elegido el tema del primer anuncio. Tu postura y la importancia local explican su efecto. El otro asunto queda para otra intervención.",
+          "shortFeedback": "Has elegido el tema del primer anuncio; ahora prepara tu jugada en el mapa.",
+          "learning": "Opcional: elegir tema distribuye tu atención. Una propuesta puede encontrar resistencia aunque encaje con tu programa."
+        },
+        {
+          "id": "keep_interval",
+          "label": "Reservar el anuncio y empezar por el mapa",
+          "shortLabel": "Reservar el anuncio",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "flag",
+              "flag": "agendaPosted",
+              "value": true
+            },
+            {
+              "type": "flag",
+              "flag": "reviewPending",
+              "value": false
+            }
+          ],
+          "feedback": "Todavía no anuncias ninguna de las dos prioridades. Conservas recursos para tu primera jugada y las tareas del equipo.",
+          "shortFeedback": "Conservas recursos y eliges tu primera jugada en el mapa.",
+          "learning": "Opcional: reservar una intervención no cambia el programa ni añade un efecto temático."
+        }
+      ],
+      "weight": 1,
+      "shortBody": "Tu programa tiene dos prioridades. ¿Con cuál abres la campaña?"
+    },
+    {
+      "id": "E02",
+      "turn": 2,
+      "priority": 10,
+      "fallback": false,
+      "title": "Dos citas, un candidato",
+      "body": "Mesa Abierta quiere conversar a las siete. Tu equipo local lleva una semana anunciando una visita a las siete. El candidato, por motivos que el organigrama todavía no ha resuelto, solo puede estar en un sitio.",
+      "requiresFlags": [
+        "agendaPosted"
+      ],
+      "forbidsFlags": [],
+      "requiresOpenPromise": null,
+      "options": [
+        {
+          "id": "keep_route",
+          "label": "Mantener la visita anunciada",
+          "cost": {
+            "budget": 0,
+            "energy": 6
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "organization",
+              "target": "focus",
+              "delta": 1
+            },
+            {
+              "type": "stat",
+              "stat": "cohesion",
+              "delta": 1
+            }
+          ],
+          "feedback": "El equipo local conserva el acto y gana confianza en la agenda. A Mesa Abierta le llegará una explicación breve: esta vez no podrás sentarte con ellos.",
+          "learning": "Una agenda creíble se construye también cumpliendo las presencias anunciadas.",
+          "shortLabel": "Mantener la visita",
+          "shortFeedback": "El equipo local conserva el acto y gana confianza en la agenda."
+        },
+        {
+          "id": "attend",
+          "label": "Cambiar la visita por la conversación",
+          "cost": {
+            "budget": 0,
+            "energy": 5
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "rapport",
+              "target": "C1",
+              "delta": 2
+            },
+            {
+              "type": "flag",
+              "flag": "c1Contact",
+              "value": true
+            },
+            {
+              "type": "promise_open",
+              "id": "C1_REPLY",
+              "target": "C1",
+              "dueTurn": 10
+            },
+            {
+              "type": "flag",
+              "flag": "agendaPosted",
+              "value": false
+            }
+          ],
+          "feedback": "En Mesa Abierta hablan de asuntos distintos y no todos están de acuerdo. Te llevas buenas preguntas y una respuesta comprometida para el último turno.",
+          "learning": "Escuchar abre una relación y añade trabajo a la agenda.",
+          "shortLabel": "Cambiar de cita",
+          "shortFeedback": "En Mesa Abierta hablan de asuntos distintos y no todos están de acuerdo."
+        },
+        {
+          "id": "delegate",
+          "label": "Enviar a un colaborador y recoger las preguntas",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": "any",
+          "reserveStaff": true,
+          "effects": [
+            {
+              "type": "rapport",
+              "target": "C1",
+              "delta": 1
+            },
+            {
+              "type": "flag",
+              "flag": "c1Contact",
+              "value": true
+            },
+            {
+              "type": "flag",
+              "flag": "externalDelegation",
+              "value": true
+            },
+            {
+              "type": "promise_open",
+              "id": "C1_REPLY",
+              "target": "C1",
+              "dueTurn": 10
+            }
+          ],
+          "feedback": "Tu representante emplea su turno en escuchar y vuelve con notas. Queda una respuesta pendiente y una advertencia: conviene confirmar quién puede anunciar qué.",
+          "learning": "Delegar funciona mejor cuando el representante conoce su margen de decisión.",
+          "shortLabel": "Enviar al equipo",
+          "shortFeedback": "Tu representante emplea su turno en escuchar y vuelve con notas."
+        },
+        {
+          "id": "decline",
+          "label": "Declinar y conservar la agenda",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [],
+          "feedback": "Mesa Abierta recibe la negativa. El calendario conserva una casilla libre y el equipo evita añadir otra entrega al cierre.",
+          "learning": "Renunciar a una invitación deja recursos para otras oportunidades.",
+          "shortLabel": "Declinar la reunión",
+          "shortFeedback": "Mesa Abierta recibe la negativa."
+        }
+      ],
+      "weight": 2,
+      "shortBody": "La visita local y una reunión coinciden. Solo hay un candidato."
+    },
+    {
+      "id": "E03",
+      "turn": 2,
+      "priority": 0,
+      "fallback": true,
+      "title": "Una conversación sin cámaras",
+      "body": "En Mesa Abierta hay café, sillas de sobra y tres personas discutiendo antes de que llegues. La conversación va sobre los servicios de tu programa. La prensa está en otro sitio; las preguntas, aquí.",
+      "requiresFlags": [],
+      "forbidsFlags": [],
+      "requiresOpenPromise": null,
+      "options": [
+        {
+          "id": "listen",
+          "label": "Sentarse, escuchar y comprometer una respuesta",
+          "cost": {
+            "budget": 0,
+            "energy": 5
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "rapport",
+              "target": "C1",
+              "delta": 2
+            },
+            {
+              "type": "flag",
+              "flag": "c1Contact",
+              "value": true
+            },
+            {
+              "type": "promise_open",
+              "id": "C1_REPLY",
+              "target": "C1",
+              "dueTurn": 10
+            }
+          ],
+          "feedback": "El café se enfría mientras ordenas las preguntas. Queda una respuesta para el cierre y una relación de trabajo algo más cercana.",
+          "learning": "La escucha es útil cuando permite concretar qué harás después.",
+          "shortLabel": "Escuchar y responder después",
+          "shortFeedback": "El café se enfría mientras ordenas las preguntas."
+        },
+        {
+          "id": "delegate",
+          "label": "Enviar a un colaborador con una libreta",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": "any",
+          "reserveStaff": true,
+          "effects": [
+            {
+              "type": "rapport",
+              "target": "C1",
+              "delta": 1
+            },
+            {
+              "type": "stat",
+              "stat": "cohesion",
+              "delta": 1
+            },
+            {
+              "type": "flag",
+              "flag": "c1Contact",
+              "value": true
+            },
+            {
+              "type": "flag",
+              "flag": "externalDelegation",
+              "value": true
+            },
+            {
+              "type": "promise_open",
+              "id": "C1_REPLY",
+              "target": "C1",
+              "dueTurn": 10
+            }
+          ],
+          "feedback": "El colaborador dedica su turno al encuentro y trae una nota que el equipo puede utilizar. También trae una respuesta pendiente y un aviso de agenda por confirmar.",
+          "learning": "Una buena delegación devuelve información y una tarea que alguien debe cerrar.",
+          "shortLabel": "Enviar al equipo",
+          "shortFeedback": "El colaborador dedica su turno al encuentro y trae una nota que el equipo puede utilizar."
+        },
+        {
+          "id": "receive_written",
+          "label": "Pedir las preguntas por escrito",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "flag",
+              "flag": "c1Contact",
+              "value": true
+            }
+          ],
+          "feedback": "Las preguntas llegan al buzón. Has abierto un contacto y conservado la mañana; el encuentro tendrá que esperar.",
+          "learning": "Cambiar el formato de una conversación cambia también su profundidad.",
+          "shortLabel": "Pedir las preguntas",
+          "shortFeedback": "Las preguntas llegan al buzón."
+        }
+      ],
+      "weight": 1,
+      "shortBody": "Hay café, preguntas y ninguna cámara. ¿Te sientas a escuchar?"
+    },
+    {
+      "id": "E04",
+      "turn": 2,
+      "priority": 10,
+      "fallback": false,
+      "title": "La propuesta tiene una factura",
+      "body": "Una propuesta sobre empleo o energía llega a la prensa. Taller Cívico te pregunta por su coste, sus controles o sus plazos. Puedes defenderla en público, comprometer una explicación antes de las urnas o aplazar la respuesta.",
+      "requiresFlags": [],
+      "forbidsFlags": [],
+      "requiresOpenPromise": null,
+      "options": [
+        {
+          "id": "announce_now",
+          "label": "Defender mi propuesta en público",
+          "shortLabel": "Defenderla en público",
+          "cost": {
+            "budget": 2,
+            "energy": 4
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "topic_support",
+              "topicId": "T3",
+              "base": 35
+            },
+            {
+              "type": "flag",
+              "flag": "c2Contact",
+              "value": true
+            },
+            {
+              "type": "flag",
+              "flag": "reviewPending",
+              "value": false
+            }
+          ],
+          "feedback": "Defendiste tu propuesta ante la prensa. Su recepción local depende de la postura y de cuánto importa el tema. La pregunta de Taller Cívico sigue sin respuesta.",
+          "shortFeedback": "Defendiste tu propuesta ante la prensa; la pregunta del coste sigue abierta.",
+          "learning": "Opcional: una intervención puede atraer o alejar público según tu propuesta; no resuelve la pregunta de financiación."
+        },
+        {
+          "id": "costed_commitment",
+          "label": "Comprometer una explicación antes de las urnas",
+          "shortLabel": "Prometer una explicación",
+          "cost": {
+            "budget": 0,
+            "energy": 6
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "rapport",
+              "target": "C2",
+              "delta": 2
+            },
+            {
+              "type": "stat",
+              "stat": "readiness",
+              "delta": 1
+            },
+            {
+              "type": "flag",
+              "flag": "c2Contact",
+              "value": true
+            },
+            {
+              "type": "flag",
+              "flag": "reviewPending",
+              "value": false
+            },
+            {
+              "type": "promise_open",
+              "id": "C2_REVIEW",
+              "target": "C2",
+              "dueTurn": 10
+            }
+          ],
+          "feedback": "Trabajaste la respuesta y prometiste explicar el coste, los controles o los plazos antes de las urnas. La entrega queda pendiente para el turno 10.",
+          "shortFeedback": "Preparaste la respuesta; ahora debes entregar la explicación prometida en el turno 10.",
+          "learning": "Opcional: comprometer una explicación da preparación y relación ahora, pero obliga a responder en el cierre."
+        },
+        {
+          "id": "postpone_answer",
+          "label": "Aplazar la respuesta y seguir mi campaña",
+          "shortLabel": "Aplazar la respuesta",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "rapport",
+              "target": "C2",
+              "delta": -1
+            },
+            {
+              "type": "flag",
+              "flag": "c2Contact",
+              "value": true
+            },
+            {
+              "type": "flag",
+              "flag": "reviewPending",
+              "value": false
+            }
+          ],
+          "feedback": "Aplazaste la respuesta sin gastar recursos. La pregunta sigue pendiente y el contacto puede enfriarse. No prometiste una entrega.",
+          "shortFeedback": "Aplazaste la respuesta; conservaste recursos sin abrir una promesa.",
+          "learning": "Opcional: conservar recursos también supone renunciar a atender esta pregunta; la relación puede enfriarse."
+        }
+      ],
+      "weight": 2,
+      "shortBody": "Tu propuesta llega a la prensa. Te preguntan cómo pagarla o hacerla funcionar. ¿Anuncias, comprometes una explicación o aplazas?"
+    },
+    {
+      "id": "E05",
+      "turn": 4,
+      "priority": 0,
+      "fallback": true,
+      "title": "Tu portavoz promete lo contrario",
+      "body": "Tu portavoz local anuncia una propuesta contraria a vuestro programa. La prensa ya tiene el vídeo. Puedes corregirle en público, preparar una aclaración dentro del partido o dejarlo pasar. Todavía no has elegido tu jugada.",
+      "requiresFlags": [],
+      "forbidsFlags": [],
+      "requiresOpenPromise": null,
+      "options": [
+        {
+          "id": "correct_publicly",
+          "label": "Corregirle delante de la prensa",
+          "cost": {
+            "budget": 0,
+            "energy": 6
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "topic_support",
+              "topicId": "T2",
+              "base": 30
+            },
+            {
+              "type": "stat",
+              "stat": "reputation",
+              "delta": 2
+            },
+            {
+              "type": "stat",
+              "stat": "cohesion",
+              "delta": -2
+            }
+          ],
+          "feedback": "Corriges el anuncio y defiendes tu programa ante la prensa. Ganas reputación; el equipo acusa la bronca pública.",
+          "learning": "Aclarar una contradicción delante del público puede costar unidad dentro del partido.",
+          "shortLabel": "Corregirle delante de la prensa",
+          "shortFeedback": "Corriges el anuncio y defiendes tu programa ante la prensa. Ganas reputación; el equipo acusa la bronca pública."
+        },
+        {
+          "id": "prepare_clarification",
+          "label": "Preparar una aclaración dentro del partido",
+          "cost": {
+            "budget": 2,
+            "energy": 4
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "readiness",
+              "delta": 2
+            },
+            {
+              "type": "stat",
+              "stat": "cohesion",
+              "delta": 2
+            }
+          ],
+          "feedback": "Preparas una aclaración con el portavoz. El equipo se une y suma argumentos; todavía no has corregido el anuncio ante la prensa.",
+          "learning": "Preparar una respuesta conserva el acuerdo interno; aún falta corregir el anuncio en público.",
+          "shortLabel": "Preparar una aclaración dentro del partido",
+          "shortFeedback": "Preparas una aclaración con el portavoz. El equipo se une y suma argumentos; todavía no has corregido el anuncio ante la prensa."
+        },
+        {
+          "id": "let_it_pass",
+          "label": "Dejar pasar el anuncio",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "reputation",
+              "delta": -2
+            },
+            {
+              "type": "stat",
+              "stat": "cohesion",
+              "delta": 1
+            }
+          ],
+          "feedback": "No corriges el anuncio. El equipo evita la bronca, pero tu reputación cae. El programa sigue igual.",
+          "learning": "Evitar un conflicto interno puede dejar al público con dos mensajes incompatibles.",
+          "shortLabel": "Dejar pasar el anuncio",
+          "shortFeedback": "No corriges el anuncio. El equipo evita la bronca, pero tu reputación cae. El programa sigue igual."
+        }
+      ],
+      "weight": 1,
+      "shortBody": "Tu portavoz promete lo contrario de vuestro programa. ¿Le corriges, preparas una aclaración o dejas pasar el anuncio?"
+    },
+    {
+      "id": "E06",
+      "turn": 4,
+      "priority": 35,
+      "fallback": false,
+      "title": "Tu campaña dice sí y no",
+      "body": "El equipo descubre un anuncio que contradice tu programa. Los dos siguen circulando. Puedes corregir el anuncio, pedir a Saúl que acuerde un solo mensaje o aprovechar la atención y dejar el problema para después.",
+      "requiresFlags": [
+        "externalDelegation"
+      ],
+      "forbidsFlags": [],
+      "requiresOpenPromise": null,
+      "options": [
+        {
+          "id": "reschedule",
+          "label": "Retirar el anuncio contrario",
+          "cost": {
+            "budget": 2,
+            "energy": 4
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "cohesion",
+              "delta": 2
+            },
+            {
+              "type": "stat",
+              "stat": "reputation",
+              "delta": 1
+            },
+            {
+              "type": "flag",
+              "flag": "contradiction",
+              "value": false
+            }
+          ],
+          "feedback": "Corriges el anuncio y explicas cuál es tu propuesta. El programa sigue igual; la contradicción queda cerrada.",
+          "learning": "Corregir un anuncio mantiene el programa y tiene un coste visible.",
+          "shortLabel": "Retirar el anuncio contrario",
+          "shortFeedback": "Corriges el anuncio y explicas cuál es tu propuesta."
+        },
+        {
+          "id": "saul_mediates",
+          "label": "Acordar un mensaje con Saúl",
+          "cost": {
+            "budget": 1,
+            "energy": 0
+          },
+          "requiresStaff": "S4",
+          "reserveStaff": true,
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "cohesion",
+              "delta": 1
+            },
+            {
+              "type": "stat",
+              "stat": "reputation",
+              "delta": 1
+            },
+            {
+              "type": "flag",
+              "flag": "contradiction",
+              "value": false
+            }
+          ],
+          "feedback": "Saúl dedica su tarea a acordar una corrección con el equipo. Retiráis el anuncio contrario; el programa sigue igual.",
+          "learning": "Corregir un anuncio mantiene el programa y tiene un coste visible.",
+          "shortLabel": "Acordar un mensaje con Saúl",
+          "shortFeedback": "Saúl dedica su tarea a acordar una corrección con el equipo."
+        },
+        {
+          "id": "keep_claim",
+          "label": "Dejar circular los dos mensajes",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "support",
+              "target": "focus",
+              "delta": 120
+            },
+            {
+              "type": "stat",
+              "stat": "cohesion",
+              "delta": 1
+            },
+            {
+              "type": "flag",
+              "flag": "contradiction",
+              "value": true
+            }
+          ],
+          "feedback": "Mantienes los anuncios y sumas presencia local. El equipo evita discutirlo ahora; la contradicción sigue pendiente para después del debate.",
+          "learning": "La atención de hoy puede dejar una contradicción que tendrás que responder después.",
+          "shortLabel": "Dejar circular los dos mensajes",
+          "shortFeedback": "Mantienes los anuncios y sumas presencia local."
+        },
+        {
+          "id": "cancel",
+          "label": "Cancelar el acto y retirar su anuncio",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "reputation",
+              "delta": -1
+            },
+            {
+              "type": "stat",
+              "stat": "cohesion",
+              "delta": -1
+            },
+            {
+              "type": "flag",
+              "flag": "contradiction",
+              "value": false
+            }
+          ],
+          "feedback": "Cancelas el acto y retiras su anuncio. Pierdes reputación y cohesión, pero cierras la contradicción sin cambiar el programa.",
+          "learning": "Corregir un anuncio mantiene el programa y tiene un coste visible.",
+          "shortLabel": "Cancelar el acto y retirar su anuncio",
+          "shortFeedback": "Cancelas el acto y retiras su anuncio."
+        }
+      ],
+      "weight": 1,
+      "shortBody": "Tu programa y el anuncio de un acto prometen cosas contrarias. ¿Retiras el anuncio o dejas circular los dos mensajes?"
+    },
+    {
+      "id": "E07",
+      "turn": 6,
+      "priority": 50,
+      "fallback": true,
+      "title": "La noche del debate",
+      "body": "Luces encendidas. El moderador ha ordenado las tarjetas y los rivales ya están en sus atriles. Tendrás tres intervenciones: abrir, responder y cerrar. Lo que has preparado debe durar hasta el último minuto.",
+      "requiresFlags": [],
+      "forbidsFlags": [],
+      "requiresOpenPromise": null,
+      "stages": [
+        {
+          "id": "opening",
+          "title": "Primero, que se entienda",
+          "body": "Dispones de un minuto para explicar qué propone tu campaña. El reloj ya está contando.",
+          "options": [
+            {
+              "id": "full_opening",
+              "label": "Gastar preparación en una apertura firme",
+              "cost": {
+                "budget": 0,
+                "energy": 4
+              },
+              "requiresStaff": null,
+              "reserveStaff": false,
+              "effects": [
+                {
+                  "type": "stat",
+                  "stat": "readiness",
+                  "delta": -1
+                },
+                {
+                  "type": "support",
+                  "target": "national",
+                  "delta": 60
+                }
+              ],
+              "feedback": "La apertura entra completa y tu prioridad domina la primera ronda. Has consumido una unidad de preparación; quedan dos intervenciones.",
+              "learning": "Concentrar el esfuerzo al principio puede darte iniciativa y dejar menos margen después.",
+              "shortLabel": "Abrir con fuerza",
+              "shortFeedback": "La apertura entra completa y tu prioridad domina la primera ronda."
+            },
+            {
+              "id": "ada_outline",
+              "label": "Reservar a Ada para ordenar la apertura",
+              "cost": {
+                "budget": 0,
+                "energy": 0
+              },
+              "requiresStaff": "S3",
+              "reserveStaff": true,
+              "effects": [
+                {
+                  "type": "stat",
+                  "stat": "readiness",
+                  "delta": 1
+                },
+                {
+                  "type": "support",
+                  "target": "national",
+                  "delta": 30
+                }
+              ],
+              "feedback": "Ada dedica su turno a un esquema que te permite arrancar y guardar una idea para las réplicas. La apertura consigue una atención moderada.",
+              "learning": "Un apoyo especializado puede producir preparación mientras consume una acción del equipo.",
+              "shortLabel": "Prepararlo con Ada",
+              "shortFeedback": "Ada dedica su turno a un esquema que te permite arrancar y guardar una idea para las réplicas."
+            },
+            {
+              "id": "brief_opening",
+              "label": "Abrir con una idea sencilla",
+              "cost": {
+                "budget": 0,
+                "energy": 0
+              },
+              "requiresStaff": null,
+              "reserveStaff": false,
+              "effects": [
+                {
+                  "type": "support",
+                  "target": "national",
+                  "delta": 10
+                }
+              ],
+              "feedback": "La frase sale limpia y corta. Mantienes recursos para las réplicas; otros candidatos ocupan más espacio en la primera ronda.",
+              "learning": "Una apertura breve conserva capacidad para el resto del debate.",
+              "shortLabel": "Lanzar una idea sencilla",
+              "shortFeedback": "La frase sale limpia y corta."
+            }
+          ],
+          "shortBody": "Un minuto para explicar tu propuesta. La cámara es tuya."
+        },
+        {
+          "id": "contrast",
+          "title": "Ahora, la pregunta incómoda",
+          "body": "Un rival pregunta cómo vas a ejecutar tu propuesta. El moderador te da la réplica y te recuerda que queda poco tiempo.",
+          "options": [
+            {
+              "id": "separate_claims",
+              "label": "Explicar qué está listo y qué exige negociar",
+              "cost": {
+                "budget": 0,
+                "energy": 3
+              },
+              "requiresStaff": null,
+              "reserveStaff": false,
+              "effects": [
+                {
+                  "type": "stat",
+                  "stat": "reputation",
+                  "delta": 2
+                },
+                {
+                  "type": "support",
+                  "target": "national",
+                  "delta": 25
+                }
+              ],
+              "feedback": "Separar etapas vuelve la respuesta más creíble y consigue atención, aunque consume energía. El moderador pasa a la siguiente tarjeta.",
+              "learning": "La claridad de ejecución puede ser una ventaja distinta de la contundencia.",
+              "shortLabel": "Explicar cómo hacerlo",
+              "shortFeedback": "Separar etapas vuelve la respuesta más creíble y consigue atención, aunque consume energía."
+            },
+            {
+              "id": "compare_programmes",
+              "label": "Gastar preparación y comparar las propuestas",
+              "cost": {
+                "budget": 0,
+                "energy": 4
+              },
+              "requiresStaff": null,
+              "reserveStaff": false,
+              "effects": [
+                {
+                  "type": "stat",
+                  "stat": "readiness",
+                  "delta": -1
+                },
+                {
+                  "type": "support",
+                  "target": "national",
+                  "delta": 60
+                }
+              ],
+              "feedback": "La comparación te permite disputar la iniciativa de la ronda. Has usado otra unidad de preparación para sostenerla.",
+              "learning": "Una réplica preparada convierte conocimiento en una oportunidad de contraste.",
+              "shortLabel": "Comparar las propuestas",
+              "shortFeedback": "La comparación te permite disputar la iniciativa de la ronda."
+            },
+            {
+              "id": "acknowledge_limit",
+              "label": "Reconocer el límite y responder brevemente",
+              "cost": {
+                "budget": 0,
+                "energy": 0
+              },
+              "requiresStaff": null,
+              "reserveStaff": false,
+              "effects": [
+                {
+                  "type": "stat",
+                  "stat": "reputation",
+                  "delta": 1
+                },
+                {
+                  "type": "support",
+                  "target": "national",
+                  "delta": -20
+                }
+              ],
+              "feedback": "La respuesta suena franca, pero la ronda la ocupa el rival. Conservas energía y preparación para el cierre.",
+              "learning": "Una respuesta corta puede proteger credibilidad y ceder parte de la atención.",
+              "shortLabel": "Reconocer el límite",
+              "shortFeedback": "La respuesta suena franca, pero la ronda la ocupa el rival."
+            }
+          ],
+          "shortBody": "Un rival pregunta cómo cumplirás tu propuesta. Te toca responder."
+        },
+        {
+          "id": "closing",
+          "title": "El último minuto",
+          "body": "La cámara vuelve a tu atril. Puedes dejar una prioridad, abrir una puerta al acuerdo o despedirte con una frase breve. Esta vez el reloj no admite prórroga.",
+          "options": [
+            {
+              "id": "reaffirm",
+              "label": "Gastar preparación y rematar la prioridad",
+              "cost": {
+                "budget": 0,
+                "energy": 4
+              },
+              "requiresStaff": null,
+              "reserveStaff": false,
+              "effects": [
+                {
+                  "type": "stat",
+                  "stat": "readiness",
+                  "delta": -1
+                },
+                {
+                  "type": "support",
+                  "target": "national",
+                  "delta": 60
+                },
+                {
+                  "type": "stat",
+                  "stat": "cohesion",
+                  "delta": 1
+                }
+              ],
+              "feedback": "El cierre devuelve el foco a tu campaña y ordena al equipo alrededor de una idea. La última unidad utilizada ha tenido su momento.",
+              "learning": "Un cierre preparado puede consolidar la atención que has ganado.",
+              "shortLabel": "Rematar tu prioridad",
+              "shortFeedback": "El cierre devuelve el foco a tu campaña y ordena al equipo alrededor de una idea."
+            },
+            {
+              "id": "open_dialogue",
+              "label": "Cerrar con una puerta al acuerdo",
+              "cost": {
+                "budget": 0,
+                "energy": 2
+              },
+              "requiresStaff": null,
+              "reserveStaff": false,
+              "effects": [
+                {
+                  "type": "relation",
+                  "target": "P2",
+                  "delta": 1
+                },
+                {
+                  "type": "relation",
+                  "target": "P3",
+                  "delta": 1
+                },
+                {
+                  "type": "support",
+                  "target": "national",
+                  "delta": 20
+                }
+              ],
+              "feedback": "{party:P2} y {party:P3} recogen el tono de acuerdo. Ganas algo de atención y dejas una conversación posible para después de las urnas.",
+              "learning": "Una intervención puede construir relaciones además de disputar atención.",
+              "shortLabel": "Abrir la puerta al acuerdo",
+              "shortFeedback": "{party:P2} y {party:P3} recogen el tono de acuerdo."
+            },
+            {
+              "id": "simple_close",
+              "label": "Dejar una frase breve y cerrar",
+              "cost": {
+                "budget": 0,
+                "energy": 0
+              },
+              "requiresStaff": null,
+              "reserveStaff": false,
+              "effects": [
+                {
+                  "type": "support",
+                  "target": "national",
+                  "delta": 10
+                }
+              ],
+              "feedback": "La frase deja una presencia modesta. El debate termina con tus recursos disponibles para la última parte de la campaña.",
+              "learning": "La campaña continúa después del debate; conservar recursos puede tener sentido.",
+              "shortLabel": "Cerrar con una frase",
+              "shortFeedback": "La frase deja una presencia modesta."
+            }
+          ],
+          "shortBody": "Último minuto: tu prioridad, un acuerdo o una despedida breve."
+        }
+      ],
+      "weight": 1,
+      "shortBody": "Tres intervenciones. Cinco rivales. El reloj ya corre."
+    },
+    {
+      "id": "E08",
+      "turn": 8,
+      "priority": 0,
+      "fallback": true,
+      "title": "Demasiados decimales",
+      "body": "Llega un informe con una cifra tan precisa que casi parece una dirección postal. El titular del resumen es contundente. La explicación de cómo han llegado hasta él ocupa, curiosamente, mucho menos.",
+      "requiresFlags": [],
+      "forbidsFlags": [],
+      "requiresOpenPromise": null,
+      "options": [
+        {
+          "id": "verify",
+          "label": "Pagar una revisión del informe",
+          "cost": {
+            "budget": 5,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "readiness",
+              "delta": 2
+            },
+            {
+              "type": "flag",
+              "flag": "lateReportChecked",
+              "value": true
+            }
+          ],
+          "feedback": "La revisión devuelve un resumen mejor explicado y aumenta tu preparación. La cifra pierde algunos decimales y gana contexto.",
+          "learning": "Una cifra es más útil cuando conoces cómo se ha obtenido y qué permite concluir.",
+          "shortLabel": "Revisar el informe",
+          "shortFeedback": "La revisión devuelve un resumen mejor explicado y aumenta tu preparación."
+        },
+        {
+          "id": "ines_verify",
+          "label": "Reservar a Inés para desmontar el resumen",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": "S1",
+          "reserveStaff": true,
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "readiness",
+              "delta": 1
+            },
+            {
+              "type": "stat",
+              "stat": "cohesion",
+              "delta": 1
+            },
+            {
+              "type": "flag",
+              "flag": "lateReportChecked",
+              "value": true
+            }
+          ],
+          "feedback": "Inés emplea su turno en el informe. El equipo sale con una explicación más ordenada y una base algo mejor para sus intervenciones.",
+          "learning": "Revisar información compite con las otras tareas de la especialista.",
+          "shortLabel": "Encargarlo a Inés",
+          "shortFeedback": "Inés emplea su turno en el informe."
+        },
+        {
+          "id": "remove",
+          "label": "Retirar el resumen de la agenda",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "flag",
+              "flag": "lateReportDiscarded",
+              "value": true
+            }
+          ],
+          "feedback": "El informe sale del material de trabajo. Conservas recursos y continúas con las estimaciones que ya conocías.",
+          "learning": "Descartar información también tiene un coste de oportunidad.",
+          "shortLabel": "Retirar el resumen",
+          "shortFeedback": "El informe sale del material de trabajo."
+        }
+      ],
+      "weight": 1,
+      "shortBody": "El informe tiene muchos decimales y pocas explicaciones."
+    },
+    {
+      "id": "E09",
+      "turn": 8,
+      "priority": 40,
+      "fallback": false,
+      "title": "¿Con cuál de los dos te quedas?",
+      "body": "Lola Rivas trae el programa y el anuncio de campaña. Prometen cosas contrarias y decidiste conservar ambos. Puedes retirar el anuncio equivocado personalmente, publicar la corrección con el equipo o negarte a aclararlo.",
+      "requiresFlags": [
+        "contradiction"
+      ],
+      "forbidsFlags": [],
+      "requiresOpenPromise": null,
+      "options": [
+        {
+          "id": "explain",
+          "label": "Dar la cara y retirar el anuncio",
+          "cost": {
+            "budget": 0,
+            "energy": 6
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "reputation",
+              "delta": -1
+            },
+            {
+              "type": "stat",
+              "stat": "cohesion",
+              "delta": -1
+            },
+            {
+              "type": "flag",
+              "flag": "contradiction",
+              "value": false
+            },
+            {
+              "type": "flag",
+              "flag": "contradictionResolved",
+              "value": true
+            }
+          ],
+          "feedback": "Reconoces que dejaste circular un anuncio contrario y lo retiras. El programa sigue igual. Cierras el problema, aunque pierdes energía, reputación y cohesión.",
+          "learning": "Corregir un anuncio mantiene el programa y tiene un coste visible.",
+          "shortLabel": "Dar la cara y retirar el anuncio",
+          "shortFeedback": "Reconoces que dejaste circular un anuncio contrario y lo retiras."
+        },
+        {
+          "id": "team_correction",
+          "label": "Publicar la corrección con el equipo",
+          "cost": {
+            "budget": 3,
+            "energy": 0
+          },
+          "requiresStaff": "any",
+          "reserveStaff": true,
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "reputation",
+              "delta": -2
+            },
+            {
+              "type": "stat",
+              "stat": "cohesion",
+              "delta": 1
+            },
+            {
+              "type": "flag",
+              "flag": "contradiction",
+              "value": false
+            },
+            {
+              "type": "flag",
+              "flag": "contradictionResolved",
+              "value": true
+            }
+          ],
+          "feedback": "El colaborador publica la corrección y retira el anuncio contrario. El programa sigue igual. Cierras el problema; la reputación cae y el equipo gana cohesión.",
+          "learning": "Corregir un anuncio mantiene el programa y tiene un coste visible.",
+          "shortLabel": "Publicar la corrección con el equipo",
+          "shortFeedback": "El colaborador publica la corrección y retira el anuncio contrario."
+        },
+        {
+          "id": "leave_unresolved",
+          "label": "No retirar ninguno",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "reputation",
+              "delta": -4
+            },
+            {
+              "type": "relation",
+              "target": "P2",
+              "delta": -1
+            },
+            {
+              "type": "relation",
+              "target": "P3",
+              "delta": -1
+            },
+            {
+              "type": "flag",
+              "flag": "contradictionUnresolved",
+              "value": true
+            }
+          ],
+          "feedback": "Dejas los dos mensajes sin aclarar. Pierdes reputación y empeoran las relaciones con {party:P2} y {party:P3}. La contradicción sigue abierta.",
+          "learning": "La atención de hoy puede dejar una contradicción que tendrás que responder después.",
+          "shortLabel": "No retirar ninguno",
+          "shortFeedback": "Dejas los dos mensajes sin aclarar."
+        }
+      ],
+      "weight": 1,
+      "shortBody": "Lola muestra los dos mensajes contrarios que mantuviste. ¿Cuál es tu propuesta?"
+    },
+    {
+      "id": "E10",
+      "turn": 8,
+      "priority": 10,
+      "fallback": false,
+      "title": "La foto y el pie de foto",
+      "body": "Taller Cívico propone publicar qué habéis trabajado. El borrador tiene dos líneas sobre la propuesta y una foto bastante grande. Hay tiempo para acordar qué dice el pie antes de que circule.",
+      "requiresFlags": [
+        "c2Contact"
+      ],
+      "forbidsFlags": [
+        "contradiction"
+      ],
+      "requiresOpenPromise": null,
+      "options": [
+        {
+          "id": "limited_statement",
+          "label": "Firmar una nota sobre el trabajo y sus límites",
+          "cost": {
+            "budget": 0,
+            "energy": 3
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "rapport",
+              "target": "C2",
+              "delta": 2
+            },
+            {
+              "type": "promise_open",
+              "id": "C2_REVIEW",
+              "target": "C2",
+              "dueTurn": 10
+            }
+          ],
+          "feedback": "La nota recoge el trabajo realizado y la aclaración que enviarás antes del cierre. Taller Cívico agradece que el texto se ajuste a lo acordado.",
+          "learning": "Una colaboración necesita un relato que ambas partes puedan sostener.",
+          "shortLabel": "Acordar una nota",
+          "shortFeedback": "La nota recoge el trabajo realizado y la aclaración que enviarás antes del cierre."
+        },
+        {
+          "id": "saul_limits",
+          "label": "Reservar a Saúl para acordar el texto",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": "S4",
+          "reserveStaff": true,
+          "effects": [
+            {
+              "type": "rapport",
+              "target": "C2",
+              "delta": 1
+            },
+            {
+              "type": "stat",
+              "stat": "cohesion",
+              "delta": 1
+            },
+            {
+              "type": "promise_open",
+              "id": "C2_REVIEW",
+              "target": "C2",
+              "dueTurn": 10
+            }
+          ],
+          "feedback": "Saúl dedica su turno al texto y concreta una aclaración para el cierre. El equipo gana una versión común de lo que puede comunicar.",
+          "learning": "Negociar un texto también requiere tiempo de una persona concreta.",
+          "shortLabel": "Encargarlo a Saúl",
+          "shortFeedback": "Saúl dedica su turno al texto y concreta una aclaración para el cierre."
+        },
+        {
+          "id": "no_statement",
+          "label": "Aplazar la publicación conjunta",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [],
+          "feedback": "La nota se queda en borrador. Conservas el calendario y cualquier tarea que ya estuviera pendiente.",
+          "learning": "Aplazar una publicación no cierra por sí solo el trabajo comprometido.",
+          "shortLabel": "Aplazar la publicación",
+          "shortFeedback": "La nota se queda en borrador."
+        }
+      ],
+      "weight": 2,
+      "shortBody": "Hay foto conjunta. Falta acordar qué dirá el pie de foto."
+    },
+    {
+      "id": "E11",
+      "turn": 10,
+      "priority": 40,
+      "fallback": false,
+      "title": "La carpeta que seguía abierta",
+      "body": "Es el último turno. Entre el cartel de cierre y los teléfonos aparece la carpeta de las respuestas prometidas a Mesa Abierta o Taller Cívico. El calendario, poco impresionado por la campaña, marca hoy.",
+      "requiresFlags": [],
+      "forbidsFlags": [],
+      "requiresOpenPromise": "ANY",
+      "options": [
+        {
+          "id": "fulfil",
+          "label": "Entregar las respuestas y cerrar la carpeta",
+          "cost": {
+            "budget": 4,
+            "energy": 4
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "reputation",
+              "delta": 2
+            },
+            {
+              "type": "stat",
+              "stat": "cohesion",
+              "delta": 1
+            },
+            {
+              "type": "promise_close",
+              "id": "ALL_OPEN",
+              "status": "fulfilled"
+            }
+          ],
+          "feedback": "Las respuestas llegan a tiempo. El equipo cierra la carpeta y gana confianza en lo que anuncia. Has empleado recursos que ya no irán al cierre electoral.",
+          "learning": "Cumplir una tarea consolida relaciones de trabajo y compite con otras prioridades.",
+          "shortLabel": "Entregar las respuestas",
+          "shortFeedback": "Las respuestas llegan a tiempo."
+        },
+        {
+          "id": "delegate_fulfil",
+          "label": "Reservar a un colaborador para preparar la entrega",
+          "cost": {
+            "budget": 6,
+            "energy": 0
+          },
+          "requiresStaff": "any",
+          "reserveStaff": true,
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "reputation",
+              "delta": 2
+            },
+            {
+              "type": "stat",
+              "stat": "cohesion",
+              "delta": 1
+            },
+            {
+              "type": "promise_close",
+              "id": "ALL_OPEN",
+              "status": "fulfilled"
+            }
+          ],
+          "feedback": "El colaborador utiliza su turno para cerrar las respuestas. La entrega llega y el equipo puede concentrarse en las tareas que quedan.",
+          "learning": "Delegar una entrega conserva energía del candidato a cambio de capacidad del equipo.",
+          "shortLabel": "Delegar la entrega",
+          "shortFeedback": "El colaborador utiliza su turno para cerrar las respuestas."
+        },
+        {
+          "id": "reduce_with_saul",
+          "label": "Pedir a Saúl que acuerde una entrega más breve",
+          "cost": {
+            "budget": 2,
+            "energy": 0
+          },
+          "requiresStaff": "S4",
+          "reserveStaff": true,
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "reputation",
+              "delta": 1
+            },
+            {
+              "type": "promise_close",
+              "id": "ALL_OPEN",
+              "status": "reduced"
+            }
+          ],
+          "feedback": "Saúl dedica su turno a acordar un alcance reducido. La carpeta se cierra con una entrega más corta que ambas partes conocen.",
+          "learning": "Reducir un compromiso de forma acordada cambia su alcance y deja una trazabilidad.",
+          "shortLabel": "Reducir con Saúl",
+          "shortFeedback": "Saúl dedica su turno a acordar un alcance reducido."
+        },
+        {
+          "id": "acknowledge_miss",
+          "label": "Comunicar que la entrega no llegará",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "reputation",
+              "delta": -2
+            },
+            {
+              "type": "stat",
+              "stat": "cohesion",
+              "delta": -1
+            },
+            {
+              "type": "promise_close",
+              "id": "ALL_OPEN",
+              "status": "missed"
+            }
+          ],
+          "feedback": "Mesa Abierta o Taller Cívico reciben la comunicación. La tarea se cierra incumplida y el equipo acusa el golpe de credibilidad.",
+          "learning": "Reconocer un incumplimiento cierra la incertidumbre, aunque conserva sus consecuencias.",
+          "shortLabel": "Reconocer el incumplimiento",
+          "shortFeedback": "Mesa Abierta o Taller Cívico reciben la comunicación."
+        }
+      ],
+      "weight": 1,
+      "shortBody": "Último turno: las respuestas que prometiste vencen hoy."
+    },
+    {
+      "id": "E12",
+      "turn": 10,
+      "priority": 0,
+      "fallback": true,
+      "title": "La última ruta",
+      "body": "Queda un acto antes de las urnas. En el mapa caben muchas provincias; en el calendario, una sola ruta. El equipo espera saber con qué fuerza cerraréis.",
+      "requiresFlags": [],
+      "forbidsFlags": [],
+      "requiresOpenPromise": null,
+      "options": [
+        {
+          "id": "territorial_close",
+          "label": "Concentrar el cierre en la provincia",
+          "cost": {
+            "budget": 6,
+            "energy": 8
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "support",
+              "target": "focus",
+              "delta": 150
+            }
+          ],
+          "feedback": "El cierre llena la agenda local y aumenta el atractivo de la campaña en esa provincia. Presupuesto y energía quedan más ajustados.",
+          "learning": "Concentrar el esfuerzo puede producir un efecto local más fuerte.",
+          "shortLabel": "Volcarse en la provincia",
+          "shortFeedback": "El cierre llena la agenda local y aumenta el atractivo de la campaña en esa provincia."
+        },
+        {
+          "id": "team_close",
+          "label": "Reservar a un colaborador para organizar el cierre",
+          "cost": {
+            "budget": 3,
+            "energy": 0
+          },
+          "requiresStaff": "any",
+          "reserveStaff": true,
+          "effects": [
+            {
+              "type": "organization",
+              "target": "focus",
+              "delta": 1
+            },
+            {
+              "type": "stat",
+              "stat": "cohesion",
+              "delta": 1
+            },
+            {
+              "type": "support",
+              "target": "focus",
+              "delta": 90
+            }
+          ],
+          "feedback": "El colaborador emplea su turno en el cierre. La campaña gana presencia, organización y un equipo algo más unido.",
+          "learning": "Un cierre organizado deja capacidades además de atención.",
+          "shortLabel": "Encargar el cierre al equipo",
+          "shortFeedback": "El colaborador emplea su turno en el cierre."
+        },
+        {
+          "id": "simple_close",
+          "label": "Cerrar con el formato que ya está preparado",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "support",
+              "target": "focus",
+              "delta": 35
+            }
+          ],
+          "feedback": "El acto termina con una presencia pequeña y suficiente para cerrar la ruta. El equipo utiliza lo que ya tenía disponible.",
+          "learning": "Un formato sencillo permite mantener actividad cuando los recursos escasean.",
+          "shortLabel": "Mantener el formato",
+          "shortFeedback": "El acto termina con una presencia pequeña y suficiente para cerrar la ruta."
+        }
+      ],
+      "weight": 1,
+      "shortBody": "Queda un acto antes de las urnas. ¿Con qué fuerza cierras?"
+    },
+    {
+      "id": "E13",
+      "turn": 2,
+      "priority": 10,
+      "fallback": false,
+      "title": "Siete minutos de radio",
+      "body": "Radio Viento tiene un hueco en directo. Siete minutos, una pregunta de Lola Rivas y muy poco tiempo para prepararla. El equipo tenía otros planes para la mañana.",
+      "requiresFlags": [],
+      "forbidsFlags": [],
+      "requiresOpenPromise": null,
+      "weight": 2,
+      "options": [
+        {
+          "id": "candidate_live",
+          "label": "Ir al estudio y dar la cara",
+          "cost": {
+            "budget": 3,
+            "energy": 8
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "support",
+              "target": "national",
+              "delta": 25
+            },
+            {
+              "type": "stat",
+              "stat": "reputation",
+              "delta": 1
+            }
+          ],
+          "feedback": "La entrevista consigue atención y una respuesta que suena propia. Sales del estudio con menos energía y con la mañana bastante más corta.",
+          "learning": "Una oportunidad de exposición compite con las tareas que ya habías previsto.",
+          "shortLabel": "Ir al estudio",
+          "shortFeedback": "La entrevista consigue atención y una respuesta que suena propia."
+        },
+        {
+          "id": "ada_live",
+          "label": "Reservar a Ada para una intervención del equipo",
+          "cost": {
+            "budget": 2,
+            "energy": 0
+          },
+          "requiresStaff": "S3",
+          "reserveStaff": true,
+          "effects": [
+            {
+              "type": "support",
+              "target": "national",
+              "delta": 15
+            },
+            {
+              "type": "stat",
+              "stat": "readiness",
+              "delta": 1
+            }
+          ],
+          "feedback": "Ada emplea su turno en ordenar la intervención y responder en el estudio. La campaña gana una presencia menor y una idea que el candidato puede utilizar después.",
+          "learning": "La portavocía del equipo amplía la campaña a cambio de una acción disponible.",
+          "shortLabel": "Enviar a Ada",
+          "shortFeedback": "Ada emplea su turno en ordenar la intervención y responder en el estudio."
+        },
+        {
+          "id": "keep_schedule",
+          "label": "Agradecer la invitación y conservar la agenda",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "cohesion",
+              "delta": 1
+            }
+          ],
+          "feedback": "Lola ocupa el hueco con otra candidatura. Tu equipo conserva el plan de la mañana y puede ejecutar lo que ya tenía preparado.",
+          "learning": "Dejar pasar una oportunidad evita añadir presión a una agenda limitada.",
+          "shortLabel": "Conservar la agenda",
+          "shortFeedback": "Lola ocupa el hueco con otra candidatura."
+        }
+      ],
+      "shortBody": "Siete minutos de radio en directo. Lola ya tiene su pregunta."
+    },
+    {
+      "id": "E14",
+      "turn": 2,
+      "priority": 10,
+      "fallback": false,
+      "title": "Un polideportivo, dos carteles",
+      "body": "El polideportivo ofrece una franja compartida a varias candidaturas. Tu equipo había imaginado un acto propio. Podéis compartir horarios, pagar otro local o reducir el formato.",
+      "requiresFlags": [],
+      "forbidsFlags": [],
+      "requiresOpenPromise": null,
+      "weight": 1,
+      "options": [
+        {
+          "id": "private_venue",
+          "label": "Pagar un local para mantener el acto propio",
+          "cost": {
+            "budget": 6,
+            "energy": 4
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "support",
+              "target": "focus",
+              "delta": 150
+            },
+            {
+              "type": "organization",
+              "target": "focus",
+              "delta": 1
+            }
+          ],
+          "feedback": "El acto conserva su formato y deja una base local algo más organizada. El nuevo alquiler reduce lo disponible para el resto de la campaña.",
+          "learning": "El control de un espacio tiene un coste que debe compararse con la oportunidad que ofrece.",
+          "shortLabel": "Alquilar otro local",
+          "shortFeedback": "El acto conserva su formato y deja una base local algo más organizada."
+        },
+        {
+          "id": "shared_slot",
+          "label": "Aceptar la franja compartida",
+          "cost": {
+            "budget": 0,
+            "energy": 6
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "support",
+              "target": "focus",
+              "delta": 90
+            },
+            {
+              "type": "relation",
+              "target": "P2",
+              "delta": 1
+            }
+          ],
+          "feedback": "El acto gana presencia local dentro de un horario más apretado. {party:P2} valora la coordinación; el candidato acaba la jornada con menos energía.",
+          "learning": "Compartir un recurso puede cambiar la escala del acto y la relación con otros equipos.",
+          "shortLabel": "Compartir horario",
+          "shortFeedback": "El acto gana presencia local dentro de un horario más apretado."
+        },
+        {
+          "id": "small_format",
+          "label": "Cambiarlo por un encuentro pequeño",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "cohesion",
+              "delta": 2
+            },
+            {
+              "type": "support",
+              "target": "focus",
+              "delta": -35
+            }
+          ],
+          "feedback": "El equipo puede sostener el encuentro, aunque la campaña pierde parte de la atención que esperaba conseguir en la provincia.",
+          "learning": "Reducir formato conserva capacidad y puede reducir alcance.",
+          "shortLabel": "Hacer un encuentro pequeño",
+          "shortFeedback": "El equipo puede sostener el encuentro, aunque la campaña pierde parte de la atención que esperaba conseguir en la provincia."
+        }
+      ],
+      "shortBody": "El polideportivo ofrece un horario compartido con tus rivales."
+    },
+    {
+      "id": "E15",
+      "turn": 2,
+      "priority": 10,
+      "fallback": false,
+      "title": "La frase que ya es un titular",
+      "body": "Lola Rivas necesita una frase para cerrar su pieza. Te ofrece destacar la ambición de tu programa o una explicación de cómo avanzarlo. El titular tiene espacio; tu equipo tiene opiniones.",
+      "requiresFlags": [],
+      "forbidsFlags": [],
+      "requiresOpenPromise": null,
+      "weight": 2,
+      "options": [
+        {
+          "id": "bold_line",
+          "label": "Lanzar una frase ambiciosa",
+          "cost": {
+            "budget": 0,
+            "energy": 5
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "support",
+              "target": "national",
+              "delta": 25
+            },
+            {
+              "type": "stat",
+              "stat": "cohesion",
+              "delta": -2
+            }
+          ],
+          "feedback": "La frase entra en el titular y aumenta la atención a la campaña. Parte del equipo prefería una explicación más gradual y el tono abre una discusión.",
+          "learning": "Un mensaje que gana espacio puede exigir después una coordinación interna mayor.",
+          "shortLabel": "Lanzar un gran titular",
+          "shortFeedback": "La frase entra en el titular y aumenta la atención a la campaña."
+        },
+        {
+          "id": "team_line",
+          "label": "Reservar a un colaborador para afinar la frase",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": "any",
+          "reserveStaff": true,
+          "effects": [
+            {
+              "type": "support",
+              "target": "national",
+              "delta": 15
+            },
+            {
+              "type": "stat",
+              "stat": "cohesion",
+              "delta": 1
+            }
+          ],
+          "feedback": "El colaborador dedica su turno a acordar una frase que el equipo puede sostener. Consigue un espacio más pequeño y una versión común del mensaje.",
+          "learning": "Acordar un mensaje tiene un coste de tiempo y puede facilitar su ejecución.",
+          "shortLabel": "Afinarlo con el equipo",
+          "shortFeedback": "El colaborador dedica su turno a acordar una frase que el equipo puede sostener."
+        },
+        {
+          "id": "written_note",
+          "label": "Enviar una nota breve y seguir con la agenda",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "reputation",
+              "delta": 1
+            },
+            {
+              "type": "support",
+              "target": "national",
+              "delta": -10
+            }
+          ],
+          "feedback": "La nota suena sobria y la campaña gana algo de credibilidad. Otra candidatura ocupa el titular más visible.",
+          "learning": "La precisión y la exposición pueden avanzar a ritmos diferentes.",
+          "shortLabel": "Enviar una nota breve",
+          "shortFeedback": "La nota suena sobria y la campaña gana algo de credibilidad."
+        }
+      ],
+      "shortBody": "La prensa pide una frase. ¿Ambición, precisión o perfil bajo?"
+    },
+    {
+      "id": "E16",
+      "turn": 4,
+      "priority": 10,
+      "fallback": false,
+      "title": "El micrófono seguía abierto",
+      "body": "Al acabar un acto se oye una voz del equipo: «El único que todavía no ha llegado es el candidato». El vídeo dura ocho segundos. La jornada, bastante más. Ya te piden una reacción.",
+      "requiresFlags": [],
+      "forbidsFlags": [],
+      "requiresOpenPromise": null,
+      "weight": 2,
+      "options": [
+        {
+          "id": "own_joke",
+          "label": "Responder con humor y volver al programa",
+          "cost": {
+            "budget": 0,
+            "energy": 4
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "support",
+              "target": "national",
+              "delta": 20
+            },
+            {
+              "type": "stat",
+              "stat": "cohesion",
+              "delta": -1
+            }
+          ],
+          "feedback": "La respuesta consigue atención y evita alargar el episodio. Dentro del equipo hay quien habría preferido proteger la conversación de después del acto.",
+          "learning": "El humor puede cambiar el marco de un incidente y afectar a la confianza interna.",
+          "shortLabel": "Responder con humor",
+          "shortFeedback": "La respuesta consigue atención y evita alargar el episodio."
+        },
+        {
+          "id": "full_context",
+          "label": "Preparar el contexto completo del vídeo",
+          "cost": {
+            "budget": 3,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "readiness",
+              "delta": 1
+            },
+            {
+              "type": "stat",
+              "stat": "reputation",
+              "delta": 2
+            },
+            {
+              "type": "support",
+              "target": "national",
+              "delta": 5
+            }
+          ],
+          "feedback": "La campaña ordena lo que ocurrió y gana una explicación consistente. La respuesta llega con menos ruido del que consiguió el vídeo.",
+          "learning": "El contexto puede reforzar credibilidad sin competir siempre en alcance con el primer fragmento.",
+          "shortLabel": "Explicar el contexto",
+          "shortFeedback": "La campaña ordena lo que ocurrió y gana una explicación consistente."
+        },
+        {
+          "id": "let_it_pass",
+          "label": "Dejar pasar el vídeo y sostener al equipo",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "cohesion",
+              "delta": 2
+            },
+            {
+              "type": "support",
+              "target": "national",
+              "delta": -15
+            }
+          ],
+          "feedback": "El equipo agradece que la sobremesa del acto no se convierta en una disputa. El vídeo conserva parte de la conversación pública de hoy.",
+          "learning": "Proteger una relación interna puede implicar ceder atención externa.",
+          "shortLabel": "Dejarlo pasar",
+          "shortFeedback": "El equipo agradece que la sobremesa del acto no se convierta en una disputa."
+        }
+      ],
+      "shortBody": "Un comentario del equipo lleva ocho segundos de vídeo y miles de vueltas."
+    },
+    {
+      "id": "E17",
+      "turn": 4,
+      "priority": 10,
+      "fallback": false,
+      "title": "Te han elegido adversario",
+      "body": "Una campaña rival ha dedicado su intervención a contrastarse contigo. Tu equipo quiere responder antes del siguiente boletín. También tenéis una ruta y una agenda propias que atender.",
+      "requiresFlags": [
+        "underContrast"
+      ],
+      "forbidsFlags": [],
+      "requiresOpenPromise": null,
+      "weight": 2,
+      "options": [
+        {
+          "id": "prepared_reply",
+          "label": "Gastar preparación en una réplica directa",
+          "cost": {
+            "budget": 0,
+            "energy": 8
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "readiness",
+              "delta": -1
+            },
+            {
+              "type": "support",
+              "target": "national",
+              "delta": 25
+            }
+          ],
+          "feedback": "La réplica devuelve iniciativa a tu campaña. Has utilizado energía y una unidad de preparación para sostenerla.",
+          "learning": "Responder a un rival consume capacidad que podrías dedicar a una prioridad propia.",
+          "shortLabel": "Dar una réplica firme",
+          "shortFeedback": "La réplica devuelve iniciativa a tu campaña."
+        },
+        {
+          "id": "ada_reply",
+          "label": "Reservar a Ada para una respuesta del equipo",
+          "cost": {
+            "budget": 2,
+            "energy": 0
+          },
+          "requiresStaff": "S3",
+          "reserveStaff": true,
+          "effects": [
+            {
+              "type": "support",
+              "target": "national",
+              "delta": 15
+            },
+            {
+              "type": "stat",
+              "stat": "readiness",
+              "delta": 1
+            }
+          ],
+          "feedback": "Ada dedica su turno a responder y deja una idea preparada para el candidato. La respuesta consigue presencia sin ocupar toda la agenda.",
+          "learning": "La respuesta del equipo cambia quién asume el coste de la confrontación.",
+          "shortLabel": "Encargar la réplica a Ada",
+          "shortFeedback": "Ada dedica su turno a responder y deja una idea preparada para el candidato."
+        },
+        {
+          "id": "own_route",
+          "label": "Volver a la ruta y a la prioridad local",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "support",
+              "target": "focus",
+              "delta": 80
+            },
+            {
+              "type": "stat",
+              "stat": "cohesion",
+              "delta": 1
+            },
+            {
+              "type": "support",
+              "target": "national",
+              "delta": -5
+            }
+          ],
+          "feedback": "La campaña refuerza su prioridad local y el equipo recupera un rumbo común. En el boletín nacional continúa destacando el contraste del rival.",
+          "learning": "Elegir dónde disputar atención es tan relevante como elegir cuándo responder.",
+          "shortLabel": "Volver a tu ruta",
+          "shortFeedback": "La campaña refuerza su prioridad local y el equipo recupera un rumbo común."
+        }
+      ],
+      "shortBody": "Un rival te ataca en antena. Tu equipo quiere responder."
+    },
+    {
+      "id": "E18",
+      "turn": 4,
+      "priority": 10,
+      "fallback": false,
+      "title": "La puerta era más estrecha",
+      "body": "El local cabe en la reserva. La cola no. La entrada dificulta el acceso y el acto empieza a retrasarse. Podéis rehacer el espacio, trasladarlo o convertirlo en una actividad más pequeña.",
+      "requiresFlags": [],
+      "forbidsFlags": [],
+      "requiresOpenPromise": null,
+      "weight": 1,
+      "options": [
+        {
+          "id": "adapt_space",
+          "label": "Adaptar el espacio y la entrada",
+          "cost": {
+            "budget": 5,
+            "energy": 4
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "organization",
+              "target": "focus",
+              "delta": 1
+            },
+            {
+              "type": "support",
+              "target": "focus",
+              "delta": 100
+            },
+            {
+              "type": "stat",
+              "stat": "reputation",
+              "delta": 1
+            }
+          ],
+          "feedback": "El equipo reorganiza el acceso y el acto recupera ritmo. La provincia gana una estructura de trabajo que servirá en próximas visitas.",
+          "learning": "La experiencia de un acto depende también de resolver sus condiciones materiales.",
+          "shortLabel": "Adaptar la entrada",
+          "shortFeedback": "El equipo reorganiza el acceso y el acto recupera ritmo."
+        },
+        {
+          "id": "move_venue",
+          "label": "Trasladarlo a un espacio más pequeño",
+          "cost": {
+            "budget": 2,
+            "energy": 2
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "support",
+              "target": "focus",
+              "delta": 90
+            },
+            {
+              "type": "stat",
+              "stat": "cohesion",
+              "delta": -1
+            }
+          ],
+          "feedback": "El encuentro sale adelante con menos aforo. El traslado consigue presencia, aunque obliga al equipo a improvisar tareas que no esperaba.",
+          "learning": "Cambiar de formato redistribuye recursos y carga de organización.",
+          "shortLabel": "Cambiar de espacio",
+          "shortFeedback": "El encuentro sale adelante con menos aforo."
+        },
+        {
+          "id": "short_route",
+          "label": "Cerrar el montaje y hacer un recorrido breve",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "support",
+              "target": "focus",
+              "delta": 20
+            },
+            {
+              "type": "stat",
+              "stat": "cohesion",
+              "delta": -2
+            }
+          ],
+          "feedback": "La campaña conserva una presencia modesta con un recorrido breve. El equipo acusa el esfuerzo de desmontar un acto que había preparado.",
+          "learning": "Una salida viable puede tener un coste interno aunque permita continuar.",
+          "shortLabel": "Hacer un recorrido breve",
+          "shortFeedback": "La campaña conserva una presencia modesta con un recorrido breve."
+        }
+      ],
+      "shortBody": "La cola no cabe en el local. El acto empieza a retrasarse."
+    },
+    {
+      "id": "E19",
+      "turn": 4,
+      "priority": 10,
+      "fallback": false,
+      "title": "Era diez, no cien",
+      "body": "En una intervención has confundido dos cifras de tu propuesta. El equipo lo detecta al salir del acto y Lola Rivas ya tiene el fragmento. El lapsus es pequeño; la siguiente pregunta será bastante precisa.",
+      "requiresFlags": [],
+      "forbidsFlags": [],
+      "requiresOpenPromise": null,
+      "weight": 2,
+      "options": [
+        {
+          "id": "correct_now",
+          "label": "Corregir la cifra personalmente",
+          "cost": {
+            "budget": 0,
+            "energy": 4
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "reputation",
+              "delta": 2
+            },
+            {
+              "type": "support",
+              "target": "national",
+              "delta": -5
+            },
+            {
+              "type": "stat",
+              "stat": "readiness",
+              "delta": 1
+            }
+          ],
+          "feedback": "La corrección devuelve claridad al programa. El lapsus ocupa parte de la atención, pero la siguiente intervención tendrá una cifra mejor preparada.",
+          "learning": "Corregir puede reforzar credibilidad y mantener visible el error durante un tiempo.",
+          "shortLabel": "Corregir personalmente",
+          "shortFeedback": "La corrección devuelve claridad al programa."
+        },
+        {
+          "id": "team_explanation",
+          "label": "Reservar a un colaborador para explicar la cifra",
+          "cost": {
+            "budget": 2,
+            "energy": 0
+          },
+          "requiresStaff": "any",
+          "reserveStaff": true,
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "readiness",
+              "delta": 2
+            },
+            {
+              "type": "support",
+              "target": "national",
+              "delta": 10
+            },
+            {
+              "type": "stat",
+              "stat": "cohesion",
+              "delta": -1
+            }
+          ],
+          "feedback": "El colaborador utiliza su turno para preparar una explicación y consigue algo de presencia para el programa. El equipo lamenta otro cambio de agenda.",
+          "learning": "Una aclaración delegada consume una capacidad que ya tenía otras tareas.",
+          "shortLabel": "Preparar una explicación",
+          "shortFeedback": "El colaborador utiliza su turno para preparar una explicación y consigue algo de presencia para el programa."
+        },
+        {
+          "id": "admit_with_humour",
+          "label": "Reconocer el lapsus con una broma",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "support",
+              "target": "national",
+              "delta": 15
+            },
+            {
+              "type": "stat",
+              "stat": "reputation",
+              "delta": -2
+            }
+          ],
+          "feedback": "La cifra correcta aparece dentro de una respuesta que circula con facilidad. El tono ligero gana atención y deja una impresión de menor preparación.",
+          "learning": "Una reacción puede ser memorable y poco convincente al mismo tiempo.",
+          "shortLabel": "Reconocerlo con humor",
+          "shortFeedback": "La cifra correcta aparece dentro de una respuesta que circula con facilidad."
+        }
+      ],
+      "shortBody": "Has confundido dos cifras en directo. La prensa tiene el fragmento."
+    },
+    {
+      "id": "E20",
+      "turn": 8,
+      "priority": 10,
+      "fallback": false,
+      "title": "El rival se ha ido de frenada",
+      "body": "La última maniobra de contraste de otra campaña ha acabado destacando su propia torpeza. El vídeo circula. En tu equipo proponen aprovecharlo; otros preferirían dejar que siguiera su camino.",
+      "requiresFlags": [
+        "rivalBlunder"
+      ],
+      "forbidsFlags": [],
+      "requiresOpenPromise": null,
+      "weight": 2,
+      "options": [
+        {
+          "id": "amplify_clip",
+          "label": "Utilizar el vídeo para una réplica",
+          "cost": {
+            "budget": 2,
+            "energy": 4
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "support",
+              "target": "national",
+              "delta": 25
+            },
+            {
+              "type": "stat",
+              "stat": "cohesion",
+              "delta": -1
+            }
+          ],
+          "feedback": "La réplica aumenta tu atención nacional. El equipo discrepa sobre cuánto tiempo dedicar a una escena que empezó en otra campaña.",
+          "learning": "Aprovechar un error ajeno puede desviar trabajo de tu agenda propia.",
+          "shortLabel": "Aprovechar el vídeo",
+          "shortFeedback": "La réplica aumenta tu atención nacional."
+        },
+        {
+          "id": "cool_reaction",
+          "label": "Responder con un tono de acuerdo",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "support",
+              "target": "national",
+              "delta": 8
+            },
+            {
+              "type": "relation",
+              "target": "P2",
+              "delta": 1
+            },
+            {
+              "type": "relation",
+              "target": "P3",
+              "delta": 1
+            }
+          ],
+          "feedback": "La respuesta consigue una presencia menor y deja mejor disposición en {party:P2} y {party:P3}. El vídeo sigue circulando por su cuenta.",
+          "learning": "Una intervención pública también puede influir en la relación posterior entre campañas.",
+          "shortLabel": "Tender una mano",
+          "shortFeedback": "La respuesta consigue una presencia menor y deja mejor disposición en {party:P2} y {party:P3}."
+        },
+        {
+          "id": "local_priority",
+          "label": "Dedicar la energía a la provincia",
+          "cost": {
+            "budget": 0,
+            "energy": 6
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "support",
+              "target": "focus",
+              "delta": 150
+            },
+            {
+              "type": "stat",
+              "stat": "cohesion",
+              "delta": 1
+            }
+          ],
+          "feedback": "La campaña ocupa su jornada con una presencia local fuerte. El equipo recupera una prioridad propia mientras el incidente continúa en las noticias.",
+          "learning": "La atención disponible puede emplearse en espacios distintos.",
+          "shortLabel": "Volcarse en la provincia",
+          "shortFeedback": "La campaña ocupa su jornada con una presencia local fuerte."
+        }
+      ],
+      "shortBody": "El ataque rival ha acabado en metedura de pata. El vídeo circula."
+    },
+    {
+      "id": "E21",
+      "turn": 8,
+      "priority": 10,
+      "fallback": false,
+      "title": "La pregunta que te persigue",
+      "body": "El contraste de una campaña rival vuelve en cada entrevista. Lola Rivas abre la llamada con la misma objeción. Quedan pocos turnos y decidir quién marca tu agenda empieza a importar más.",
+      "requiresFlags": [
+        "underContrast"
+      ],
+      "forbidsFlags": [],
+      "requiresOpenPromise": null,
+      "weight": 2,
+      "options": [
+        {
+          "id": "long_answer",
+          "label": "Invertir en una explicación completa",
+          "cost": {
+            "budget": 4,
+            "energy": 6
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "support",
+              "target": "national",
+              "delta": 25
+            },
+            {
+              "type": "stat",
+              "stat": "reputation",
+              "delta": 2
+            }
+          ],
+          "feedback": "La explicación gana atención y ofrece una respuesta que la campaña puede reutilizar. Presupuesto y energía quedan más ajustados para el cierre.",
+          "learning": "Una explicación completa puede recuperar iniciativa a cambio de recursos escasos.",
+          "shortLabel": "Preparar una gran respuesta",
+          "shortFeedback": "La explicación gana atención y ofrece una respuesta que la campaña puede reutilizar."
+        },
+        {
+          "id": "ines_brief",
+          "label": "Reservar a Inés para una respuesta breve y contrastada",
+          "cost": {
+            "budget": 2,
+            "energy": 0
+          },
+          "requiresStaff": "S1",
+          "reserveStaff": true,
+          "effects": [
+            {
+              "type": "support",
+              "target": "national",
+              "delta": 15
+            },
+            {
+              "type": "stat",
+              "stat": "readiness",
+              "delta": 1
+            }
+          ],
+          "feedback": "Inés dedica su turno al documento y deja una respuesta preparada. La campaña consigue presencia moderada sin ocupar la jornada del candidato.",
+          "learning": "Elegir portavoz y formato cambia el reparto del esfuerzo de respuesta.",
+          "shortLabel": "Encargarlo a Inés",
+          "shortFeedback": "Inés dedica su turno al documento y deja una respuesta preparada."
+        },
+        {
+          "id": "keep_own_agenda",
+          "label": "Seguir con la agenda y dejar la objeción abierta",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "support",
+              "target": "national",
+              "delta": -20
+            },
+            {
+              "type": "stat",
+              "stat": "cohesion",
+              "delta": 2
+            }
+          ],
+          "feedback": "El equipo conserva su plan y gana un rumbo común. La objeción rival sigue ocupando espacio en la conversación nacional.",
+          "learning": "Mantener tu agenda puede exigir aceptar un coste de atención.",
+          "shortLabel": "Mantener tu agenda",
+          "shortFeedback": "El equipo conserva su plan y gana un rumbo común."
+        }
+      ],
+      "shortBody": "Todas las entrevistas empiezan con la misma objeción rival."
+    },
+    {
+      "id": "E22",
+      "turn": 8,
+      "priority": 10,
+      "fallback": false,
+      "title": "La avería que cambió los titulares",
+      "body": "Una avería deja parado un servicio ferroviario del escenario. Las noticias cambian de tema y empiezan las llamadas a todas las campañas. Todavía faltan datos, pero ya te ofrecen una intervención.",
+      "requiresFlags": [],
+      "forbidsFlags": [],
+      "requiresOpenPromise": null,
+      "weight": 1,
+      "options": [
+        {
+          "id": "listen_affected",
+          "label": "Escuchar a las personas afectadas y abrir una reunión",
+          "cost": {
+            "budget": 0,
+            "energy": 8
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "support",
+              "target": "focus",
+              "delta": 150
+            },
+            {
+              "type": "stat",
+              "stat": "reputation",
+              "delta": 1
+            }
+          ],
+          "feedback": "La campaña consigue presencia local y una reacción que suena cercana. El tiempo empleado deja al candidato con menos energía para el resto de la ruta.",
+          "learning": "Un cambio de actualidad redistribuye oportunidades y presión sobre la agenda.",
+          "shortLabel": "Escuchar a los afectados",
+          "shortFeedback": "La campaña consigue presencia local y una reacción que suena cercana."
+        },
+        {
+          "id": "prepared_position",
+          "label": "Gastar preparación en una intervención sobre tu propuesta",
+          "cost": {
+            "budget": 1,
+            "energy": 3
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "readiness",
+              "delta": -1
+            },
+            {
+              "type": "support",
+              "target": "national",
+              "delta": 20
+            }
+          ],
+          "feedback": "La intervención conecta tu propuesta con la noticia y obtiene espacio nacional. Has empleado una unidad de preparación en ese nuevo marco.",
+          "learning": "Una prioridad preparada puede encontrar una oportunidad cuando cambia la actualidad.",
+          "shortLabel": "Defender tu propuesta",
+          "shortFeedback": "La intervención conecta tu propuesta con la noticia y obtiene espacio nacional."
+        },
+        {
+          "id": "wait_for_details",
+          "label": "Esperar detalles y continuar con el plan",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "reputation",
+              "delta": 1
+            },
+            {
+              "type": "support",
+              "target": "national",
+              "delta": -10
+            },
+            {
+              "type": "stat",
+              "stat": "cohesion",
+              "delta": 1
+            }
+          ],
+          "feedback": "La campaña mantiene una posición prudente y el equipo conserva su agenda. Otras candidaturas ocupan el primer ciclo de noticias.",
+          "learning": "Esperar información protege la explicación y puede ceder la primera oportunidad de atención.",
+          "shortLabel": "Esperar más información",
+          "shortFeedback": "La campaña mantiene una posición prudente y el equipo conserva su agenda."
+        }
+      ],
+      "shortBody": "Una avería ferroviaria cambia las noticias. Te ofrecen intervenir."
+    },
+    {
+      "id": "E23",
+      "turn": 8,
+      "priority": 10,
+      "fallback": false,
+      "title": "Una mesa, cuatro carteles",
+      "body": "Las candidaturas comparten una mesa pública para hablar de cómo seguirá la vida institucional tras las urnas. La foto será conjunta. La pregunta será individual: ¿qué estarías dispuesto a acordar?",
+      "requiresFlags": [],
+      "forbidsFlags": [],
+      "requiresOpenPromise": null,
+      "weight": 1,
+      "options": [
+        {
+          "id": "shared_table",
+          "label": "Acudir y abrir una conversación de acuerdo",
+          "cost": {
+            "budget": 0,
+            "energy": 4
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "support",
+              "target": "national",
+              "delta": 10
+            },
+            {
+              "type": "relation",
+              "target": "P2",
+              "delta": 1
+            },
+            {
+              "type": "relation",
+              "target": "P3",
+              "delta": 1
+            }
+          ],
+          "feedback": "La foto consigue algo de atención. {party:P2} y {party:P3} salen con una conversación abierta; cada candidatura conserva su programa.",
+          "learning": "Una relación puede empezar antes de que exista un resultado parlamentario.",
+          "shortLabel": "Abrir una conversación",
+          "shortFeedback": "La foto consigue algo de atención."
+        },
+        {
+          "id": "own_act",
+          "label": "Dedicar los recursos a un acto propio",
+          "cost": {
+            "budget": 4,
+            "energy": 6
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "support",
+              "target": "focus",
+              "delta": 150
+            },
+            {
+              "type": "relation",
+              "target": "P2",
+              "delta": -1
+            }
+          ],
+          "feedback": "Tu acto concentra la presencia en la provincia. {party:P2} interpreta la ausencia como mayor distancia para una conversación posterior.",
+          "learning": "La autonomía de agenda y la relación con otros partidos pueden pedir esfuerzos distintos.",
+          "shortLabel": "Hacer tu propio acto",
+          "shortFeedback": "Tu acto concentra la presencia en la provincia."
+        },
+        {
+          "id": "written_greeting",
+          "label": "Enviar un saludo y conservar la agenda",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "relation",
+              "target": "P4",
+              "delta": 1
+            },
+            {
+              "type": "stat",
+              "stat": "cohesion",
+              "delta": 1
+            }
+          ],
+          "feedback": "{party:P4} recoge el saludo y el equipo conserva su plan. La foto se hace con quienes han asistido.",
+          "learning": "Una intervención pequeña puede sostener una relación sin asumir una actividad completa.",
+          "shortLabel": "Enviar un saludo",
+          "shortFeedback": "{party:P4} recoge el saludo y el equipo conserva su plan."
+        }
+      ],
+      "shortBody": "Foto conjunta de las candidaturas. La pregunta: ¿con quién acordarías?"
+    },
+    {
+      "id": "E24",
+      "turn": 10,
+      "priority": 10,
+      "fallback": false,
+      "title": "La lluvia no entiende de escaños",
+      "body": "El cierre local estaba previsto al aire libre. Ahora el parte anuncia lluvia y el montaje ya ha empezado. Hay una sala cubierta, varias rutas cortas y un equipo que mira al cielo.",
+      "requiresFlags": [],
+      "forbidsFlags": [],
+      "requiresOpenPromise": null,
+      "weight": 2,
+      "options": [
+        {
+          "id": "covered_close",
+          "label": "Pagar la sala cubierta y mantener el cierre",
+          "cost": {
+            "budget": 8,
+            "energy": 4
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "support",
+              "target": "focus",
+              "delta": 150
+            },
+            {
+              "type": "stat",
+              "stat": "cohesion",
+              "delta": 2
+            }
+          ],
+          "feedback": "El cierre mantiene su presencia y el equipo agradece un plan estable. El alquiler consume una parte considerable de lo que quedaba.",
+          "learning": "Una contingencia material obliga a comparar gasto, continuidad y escala.",
+          "shortLabel": "Alquilar una sala",
+          "shortFeedback": "El cierre mantiene su presencia y el equipo agradece un plan estable."
+        },
+        {
+          "id": "team_routes",
+          "label": "Reservar a un colaborador para repartir rutas breves",
+          "cost": {
+            "budget": 3,
+            "energy": 0
+          },
+          "requiresStaff": "any",
+          "reserveStaff": true,
+          "effects": [
+            {
+              "type": "support",
+              "target": "focus",
+              "delta": 100
+            },
+            {
+              "type": "organization",
+              "target": "focus",
+              "delta": 1
+            }
+          ],
+          "feedback": "El colaborador dedica su turno a coordinar recorridos pequeños. El cierre gana presencia y una organización local algo mejor.",
+          "learning": "Distribuir una actividad cambia la forma de ejecución y su demanda de coordinación.",
+          "shortLabel": "Repartir rutas con el equipo",
+          "shortFeedback": "El colaborador dedica su turno a coordinar recorridos pequeños."
+        },
+        {
+          "id": "short_broadcast",
+          "label": "Cerrar con una intervención breve desde el local",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "support",
+              "target": "national",
+              "delta": 8
+            },
+            {
+              "type": "stat",
+              "stat": "cohesion",
+              "delta": -1
+            }
+          ],
+          "feedback": "La campaña consigue una presencia modesta desde el local. El equipo lamenta el montaje perdido, aunque el cierre puede continuar.",
+          "learning": "Una alternativa barata puede conservar actividad y reducir el resultado esperado.",
+          "shortLabel": "Intervenir desde el local",
+          "shortFeedback": "La campaña consigue una presencia modesta desde el local."
+        }
+      ],
+      "shortBody": "El cierre era al aire libre. Ahora anuncian lluvia."
+    },
+    {
+      "id": "E25",
+      "turn": 10,
+      "priority": 10,
+      "fallback": false,
+      "title": "La última entrevista",
+      "body": "Radio Viento ofrece una última llamada antes de las urnas. Lola Rivas abrirá con una pregunta sencilla de formular: «¿Qué haría primero su candidatura?» Tienes programa, preparación y poco tiempo.",
+      "requiresFlags": [],
+      "forbidsFlags": [],
+      "requiresOpenPromise": null,
+      "weight": 2,
+      "options": [
+        {
+          "id": "first_commitment",
+          "label": "Gastar preparación en explicar una prioridad",
+          "cost": {
+            "budget": 0,
+            "energy": 8
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "readiness",
+              "delta": -1
+            },
+            {
+              "type": "support",
+              "target": "national",
+              "delta": 25
+            },
+            {
+              "type": "stat",
+              "stat": "cohesion",
+              "delta": 1
+            }
+          ],
+          "feedback": "La prioridad queda clara y la entrevista aumenta la atención a la campaña. El equipo comparte una idea de cierre; has utilizado energía y preparación.",
+          "learning": "El último mensaje puede ordenar la campaña y disputar atención al mismo tiempo.",
+          "shortLabel": "Defender una prioridad",
+          "shortFeedback": "La prioridad queda clara y la entrevista aumenta la atención a la campaña."
+        },
+        {
+          "id": "ada_last_interview",
+          "label": "Reservar a Ada para preparar la llamada",
+          "cost": {
+            "budget": 3,
+            "energy": 2
+          },
+          "requiresStaff": "S3",
+          "reserveStaff": true,
+          "effects": [
+            {
+              "type": "support",
+              "target": "national",
+              "delta": 15
+            },
+            {
+              "type": "stat",
+              "stat": "readiness",
+              "delta": 1
+            }
+          ],
+          "feedback": "Ada dedica su turno a preparar una respuesta breve. La entrevista logra una presencia moderada y deja al candidato una idea mejor ordenada.",
+          "learning": "Preparar una intervención puede ser más sostenible que buscar su máxima exposición.",
+          "shortLabel": "Prepararlo con Ada",
+          "shortFeedback": "Ada dedica su turno a preparar una respuesta breve."
+        },
+        {
+          "id": "brief_answer",
+          "label": "Responder brevemente y terminar la ruta",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "reputation",
+              "delta": 2
+            },
+            {
+              "type": "support",
+              "target": "national",
+              "delta": -8
+            }
+          ],
+          "feedback": "La respuesta suena sobria y convincente. La entrevista ocupa menos espacio que las de otras candidaturas; conservas recursos para cerrar.",
+          "learning": "Una reacción creíble puede competir peor por atención que otra más extensa.",
+          "shortLabel": "Dar una respuesta breve",
+          "shortFeedback": "La respuesta suena sobria y convincente."
+        }
+      ],
+      "shortBody": "Última llamada de radio: «¿Qué haría primero su candidatura?»"
+    },
+    {
+      "id": "E26",
+      "turn": 10,
+      "priority": 10,
+      "fallback": false,
+      "title": "Quedan carteles, falta tiempo",
+      "body": "Los últimos carteles están preparados. Quienes pueden colocarlos miran el reloj y la lista de tareas. Puedes ampliar la ruta, encargar un reparto más pequeño o cerrar la jornada del equipo.",
+      "requiresFlags": [],
+      "forbidsFlags": [],
+      "requiresOpenPromise": null,
+      "weight": 1,
+      "options": [
+        {
+          "id": "extend_route",
+          "label": "Ampliar la última ruta del candidato",
+          "cost": {
+            "budget": 4,
+            "energy": 8
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "support",
+              "target": "focus",
+              "delta": 150
+            }
+          ],
+          "feedback": "La ruta aumenta con fuerza la presencia local. Terminas con menos recursos y un equipo que ya está pensando en el recuento.",
+          "learning": "El esfuerzo final debe compararse con lo que puede ganar en una circunscripción.",
+          "shortLabel": "Ampliar la ruta",
+          "shortFeedback": "La ruta aumenta con fuerza la presencia local."
+        },
+        {
+          "id": "organised_distribution",
+          "label": "Reservar a un colaborador para cerrar el reparto",
+          "cost": {
+            "budget": 2,
+            "energy": 0
+          },
+          "requiresStaff": "any",
+          "reserveStaff": true,
+          "effects": [
+            {
+              "type": "organization",
+              "target": "focus",
+              "delta": 1
+            },
+            {
+              "type": "stat",
+              "stat": "cohesion",
+              "delta": 2
+            },
+            {
+              "type": "support",
+              "target": "focus",
+              "delta": 80
+            }
+          ],
+          "feedback": "El colaborador dedica su turno al reparto y deja una organización más firme. El equipo cierra con una tarea clara y una presencia local moderada.",
+          "learning": "Una tarea organizada combina alcance y capacidad del equipo.",
+          "shortLabel": "Delegar el reparto",
+          "shortFeedback": "El colaborador dedica su turno al reparto y deja una organización más firme."
+        },
+        {
+          "id": "close_team_day",
+          "label": "Cerrar la jornada y conservar al equipo",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "cohesion",
+              "delta": 3
+            },
+            {
+              "type": "support",
+              "target": "focus",
+              "delta": -25
+            }
+          ],
+          "feedback": "El equipo recupera ánimo y la campaña renuncia a la última ampliación de presencia. Los carteles que quedan irán a la carpeta de la siguiente partida.",
+          "learning": "Una renuncia de alcance puede proteger la capacidad y la relación interna.",
+          "shortLabel": "Cerrar la jornada",
+          "shortFeedback": "El equipo recupera ánimo y la campaña renuncia a la última ampliación de presencia."
+        }
+      ],
+      "shortBody": "Los últimos carteles esperan. El equipo mira el reloj."
+    },
+    {
+      "id": "E27",
+      "turn": 3,
+      "priority": 0,
+      "fallback": true,
+      "title": "El mapa no cabe en la furgoneta",
+      "body": "Dos provincias reclaman tu próxima visita. El equipo espera una dirección.",
+      "shortBody": "Dos provincias reclaman tu próxima visita. El equipo espera una dirección.",
+      "requiresFlags": [],
+      "forbidsFlags": [],
+      "requiresOpenPromise": null,
+      "weight": 2,
+      "options": [
+        {
+          "id": "act",
+          "label": "Refuerza la base local",
+          "shortLabel": "Refuerza la base local",
+          "cost": {
+            "budget": 3,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "organization",
+              "target": "focus",
+              "delta": 1
+            }
+          ],
+          "feedback": "La organización se queda trabajando cuando te marchas.",
+          "shortFeedback": "La organización se queda trabajando cuando te marchas.",
+          "learning": "Opcional: distintas prioridades y costes cambian lo que puedes hacer después."
+        },
+        {
+          "id": "take_airtime",
+          "label": "Llevar el mensaje a los medios",
+          "shortLabel": "Llevar el mensaje a los medios",
+          "cost": {
+            "budget": 2,
+            "energy": 4
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "support",
+              "target": "national",
+              "delta": 15
+            }
+          ],
+          "feedback": "Tu mensaje gana alcance nacional hoy; el equipo local no crece.",
+          "shortFeedback": "Tu mensaje gana alcance nacional hoy; el equipo local no crece.",
+          "learning": "Opcional: compara la ganancia de hoy con los recursos y las tareas que dejas para después."
+        },
+        {
+          "id": "save",
+          "label": "Conserva recursos",
+          "shortLabel": "Conserva recursos",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [],
+          "feedback": "La campaña conserva caja y energía para tu jugada.",
+          "shortFeedback": "La campaña conserva caja y energía para tu jugada.",
+          "learning": "Opcional: distintas prioridades y costes cambian lo que puedes hacer después."
+        }
+      ]
+    },
+    {
+      "id": "E28",
+      "turn": 3,
+      "priority": 0,
+      "fallback": false,
+      "title": "El minuto de radio",
+      "body": "Te ofrecen un hueco corto. Cabe una idea, y poco más.",
+      "shortBody": "Te ofrecen un hueco corto. Cabe una idea, y poco más.",
+      "requiresFlags": [],
+      "forbidsFlags": [],
+      "requiresOpenPromise": null,
+      "weight": 2,
+      "options": [
+        {
+          "id": "act",
+          "label": "Una idea en antena",
+          "shortLabel": "Una idea en antena",
+          "cost": {
+            "budget": 2,
+            "energy": 4
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "support",
+              "target": "national",
+              "delta": 15
+            }
+          ],
+          "feedback": "Tu mensaje encuentra espacio fuera de la ruta.",
+          "shortFeedback": "Tu mensaje encuentra espacio fuera de la ruta.",
+          "learning": "Opcional: distintas prioridades y costes cambian lo que puedes hacer después."
+        },
+        {
+          "id": "save",
+          "label": "Conserva recursos",
+          "shortLabel": "Conserva recursos",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [],
+          "feedback": "La campaña conserva caja y energía para tu jugada.",
+          "shortFeedback": "La campaña conserva caja y energía para tu jugada.",
+          "learning": "Opcional: distintas prioridades y costes cambian lo que puedes hacer después."
+        }
+      ]
+    },
+    {
+      "id": "E29",
+      "turn": 3,
+      "priority": 0,
+      "fallback": false,
+      "title": "Carteles prestados",
+      "body": "Un rival comparte escenario, pero no sus prioridades.",
+      "shortBody": "Un rival comparte escenario, pero no sus prioridades.",
+      "requiresFlags": [],
+      "forbidsFlags": [],
+      "requiresOpenPromise": null,
+      "weight": 2,
+      "options": [
+        {
+          "id": "act",
+          "label": "Abre una conversación",
+          "shortLabel": "Abre una conversación",
+          "cost": {
+            "budget": 2,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "relation",
+              "target": "P3",
+              "delta": 1
+            }
+          ],
+          "feedback": "La distancia sigue ahí; al menos ya os escucháis.",
+          "shortFeedback": "La distancia sigue ahí; al menos ya os escucháis.",
+          "learning": "Opcional: distintas prioridades y costes cambian lo que puedes hacer después."
+        },
+        {
+          "id": "save",
+          "label": "Conserva recursos",
+          "shortLabel": "Conserva recursos",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [],
+          "feedback": "La campaña conserva caja y energía para tu jugada.",
+          "shortFeedback": "La campaña conserva caja y energía para tu jugada.",
+          "learning": "Opcional: distintas prioridades y costes cambian lo que puedes hacer después."
+        }
+      ]
+    },
+    {
+      "id": "E30",
+      "turn": 5,
+      "priority": 0,
+      "fallback": true,
+      "title": "El equipo también juega",
+      "body": "Tu colaboradora trae dos planes: sembrar ahora o guardar recursos para el cierre.",
+      "shortBody": "Tu colaboradora trae dos planes: sembrar ahora o guardar recursos para el cierre.",
+      "requiresFlags": [],
+      "forbidsFlags": [],
+      "requiresOpenPromise": null,
+      "weight": 2,
+      "options": [
+        {
+          "id": "act",
+          "label": "Siembra una sede",
+          "shortLabel": "Siembra una sede",
+          "cost": {
+            "budget": 3,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "organization",
+              "target": "focus",
+              "delta": 1
+            }
+          ],
+          "feedback": "La nueva presencia trabajará durante el resto de la campaña.",
+          "shortFeedback": "La nueva presencia trabajará durante el resto de la campaña.",
+          "learning": "Opcional: distintas prioridades y costes cambian lo que puedes hacer después."
+        },
+        {
+          "id": "rehearse",
+          "label": "Ensayar antes del debate",
+          "shortLabel": "Ensayar antes del debate",
+          "cost": {
+            "budget": 2,
+            "energy": 0
+          },
+          "requiresStaff": "any",
+          "reserveStaff": true,
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "readiness",
+              "delta": 2
+            }
+          ],
+          "feedback": "El ensayo añade preparación. Quien lo dirige ya tiene su tarea de hoy.",
+          "shortFeedback": "El ensayo añade preparación. Quien lo dirige ya tiene su tarea de hoy.",
+          "learning": "Opcional: compara la ganancia de hoy con los recursos y las tareas que dejas para después."
+        },
+        {
+          "id": "save",
+          "label": "Conserva recursos",
+          "shortLabel": "Conserva recursos",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [],
+          "feedback": "La campaña conserva caja y energía para tu jugada.",
+          "shortFeedback": "La campaña conserva caja y energía para tu jugada.",
+          "learning": "Opcional: distintas prioridades y costes cambian lo que puedes hacer después."
+        }
+      ]
+    },
+    {
+      "id": "E31",
+      "turn": 5,
+      "priority": 0,
+      "fallback": false,
+      "title": "La víspera del atril",
+      "body": "Mañana habrá preguntas que no caben en un eslogan.",
+      "shortBody": "Mañana habrá preguntas que no caben en un eslogan.",
+      "requiresFlags": [],
+      "forbidsFlags": [],
+      "requiresOpenPromise": null,
+      "weight": 2,
+      "options": [
+        {
+          "id": "act",
+          "label": "Ensaya las respuestas",
+          "shortLabel": "Ensaya las respuestas",
+          "cost": {
+            "budget": 2,
+            "energy": 4
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "stat",
+              "stat": "readiness",
+              "delta": 2
+            }
+          ],
+          "feedback": "Una respuesta preparada vale más que tres improvisadas.",
+          "shortFeedback": "Una respuesta preparada vale más que tres improvisadas.",
+          "learning": "Opcional: distintas prioridades y costes cambian lo que puedes hacer después."
+        },
+        {
+          "id": "save",
+          "label": "Conserva recursos",
+          "shortLabel": "Conserva recursos",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [],
+          "feedback": "La campaña conserva caja y energía para tu jugada.",
+          "shortFeedback": "La campaña conserva caja y energía para tu jugada.",
+          "learning": "Opcional: distintas prioridades y costes cambian lo que puedes hacer después."
+        }
+      ]
+    },
+    {
+      "id": "E32",
+      "turn": 5,
+      "priority": 0,
+      "fallback": false,
+      "title": "La agenda de los otros",
+      "body": "Otro partido quiere saber si todavía hay conversación posible.",
+      "shortBody": "Otro partido quiere saber si todavía hay conversación posible.",
+      "requiresFlags": [],
+      "forbidsFlags": [],
+      "requiresOpenPromise": null,
+      "weight": 2,
+      "options": [
+        {
+          "id": "act",
+          "label": "Acerca las posiciones",
+          "shortLabel": "Acerca las posiciones",
+          "cost": {
+            "budget": 2,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "relation",
+              "target": "P4",
+              "delta": 1
+            }
+          ],
+          "feedback": "La relación mejora; el programa sigue por negociar.",
+          "shortFeedback": "La relación mejora; el programa sigue por negociar.",
+          "learning": "Opcional: distintas prioridades y costes cambian lo que puedes hacer después."
+        },
+        {
+          "id": "save",
+          "label": "Conserva recursos",
+          "shortLabel": "Conserva recursos",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [],
+          "feedback": "La campaña conserva caja y energía para tu jugada.",
+          "shortFeedback": "La campaña conserva caja y energía para tu jugada.",
+          "learning": "Opcional: distintas prioridades y costes cambian lo que puedes hacer después."
+        }
+      ]
+    },
+    {
+      "id": "E33",
+      "turn": 7,
+      "priority": 0,
+      "fallback": true,
+      "title": "¿Vivienda o energía?",
+      "body": "El debate dejó preguntas abiertas. Elige qué propuesta defender hoy.",
+      "shortBody": "El debate dejó preguntas abiertas. Elige qué propuesta defender hoy.",
+      "requiresFlags": [],
+      "forbidsFlags": [],
+      "requiresOpenPromise": null,
+      "weight": 2,
+      "options": [
+        {
+          "id": "act",
+          "label": "Defiende tu plan de vivienda",
+          "shortLabel": "Defiende tu plan de vivienda",
+          "cost": {
+            "budget": 2,
+            "energy": 4
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "topic_support",
+              "topicId": "T1",
+              "base": 35
+            }
+          ],
+          "feedback": "Tu postura despierta apoyos y rechazo según la provincia.",
+          "shortFeedback": "Tu postura despierta apoyos y rechazo según la provincia.",
+          "learning": "Opcional: distintas prioridades y costes cambian lo que puedes hacer después."
+        },
+        {
+          "id": "energy",
+          "label": "Defiende tu plan de energía",
+          "shortLabel": "Defiende tu plan de energía",
+          "cost": {
+            "budget": 4,
+            "energy": 2
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "topic_support",
+              "topicId": "T3",
+              "base": 35
+            }
+          ],
+          "feedback": "Tu postura despierta apoyos y rechazo según la provincia.",
+          "shortFeedback": "Tu postura despierta apoyos y rechazo según la provincia.",
+          "learning": "Opcional: distintas prioridades y costes cambian lo que puedes hacer después."
+        },
+        {
+          "id": "save",
+          "label": "Conserva recursos",
+          "shortLabel": "Conserva recursos",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [],
+          "feedback": "La campaña conserva caja y energía para tu jugada.",
+          "shortFeedback": "La campaña conserva caja y energía para tu jugada.",
+          "learning": "Opcional: distintas prioridades y costes cambian lo que puedes hacer después."
+        }
+      ]
+    },
+    {
+      "id": "E34",
+      "turn": 7,
+      "priority": 0,
+      "fallback": false,
+      "title": "La réplica del día después",
+      "body": "La prensa pide una frase; el equipo tiene un argumento.",
+      "shortBody": "La prensa pide una frase; el equipo tiene un argumento.",
+      "requiresFlags": [],
+      "forbidsFlags": [],
+      "requiresOpenPromise": null,
+      "weight": 2,
+      "options": [
+        {
+          "id": "act",
+          "label": "Una respuesta preparada",
+          "shortLabel": "Una respuesta preparada",
+          "cost": {
+            "budget": 2,
+            "energy": 2
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "support",
+              "target": "national",
+              "delta": 20
+            },
+            {
+              "type": "stat",
+              "stat": "readiness",
+              "delta": -1
+            }
+          ],
+          "feedback": "El argumento tiene más recorrido que el titular.",
+          "shortFeedback": "El argumento tiene más recorrido que el titular.",
+          "learning": "Opcional: distintas prioridades y costes cambian lo que puedes hacer después."
+        },
+        {
+          "id": "save",
+          "label": "Conserva recursos",
+          "shortLabel": "Conserva recursos",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [],
+          "feedback": "La campaña conserva caja y energía para tu jugada.",
+          "shortFeedback": "La campaña conserva caja y energía para tu jugada.",
+          "learning": "Opcional: distintas prioridades y costes cambian lo que puedes hacer después."
+        }
+      ]
+    },
+    {
+      "id": "E35",
+      "turn": 7,
+      "priority": 0,
+      "fallback": false,
+      "title": "Una puerta medio abierta",
+      "body": "Hay un rival dispuesto a escuchar. Las cámaras se quedan fuera.",
+      "shortBody": "Hay un rival dispuesto a escuchar. Las cámaras se quedan fuera.",
+      "requiresFlags": [],
+      "forbidsFlags": [],
+      "requiresOpenPromise": null,
+      "weight": 2,
+      "options": [
+        {
+          "id": "act",
+          "label": "Mantén la conversación",
+          "shortLabel": "Mantén la conversación",
+          "cost": {
+            "budget": 2,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "relation",
+              "target": "P3",
+              "delta": 1
+            }
+          ],
+          "feedback": "El posible pacto gana una conversación, todavía no un voto.",
+          "shortFeedback": "El posible pacto gana una conversación, todavía no un voto.",
+          "learning": "Opcional: distintas prioridades y costes cambian lo que puedes hacer después."
+        },
+        {
+          "id": "save",
+          "label": "Conserva recursos",
+          "shortLabel": "Conserva recursos",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [],
+          "feedback": "La campaña conserva caja y energía para tu jugada.",
+          "shortFeedback": "La campaña conserva caja y energía para tu jugada.",
+          "learning": "Opcional: distintas prioridades y costes cambian lo que puedes hacer después."
+        }
+      ]
+    },
+    {
+      "id": "E36",
+      "turn": 9,
+      "priority": 0,
+      "fallback": true,
+      "title": "La penúltima maleta",
+      "body": "Queda una salida antes de las urnas. La organización propone concentrar fuerzas.",
+      "shortBody": "Queda una salida antes de las urnas. La organización propone concentrar fuerzas.",
+      "requiresFlags": [],
+      "forbidsFlags": [],
+      "requiresOpenPromise": null,
+      "weight": 2,
+      "options": [
+        {
+          "id": "act",
+          "label": "Refuerza el territorio",
+          "shortLabel": "Refuerza el territorio",
+          "cost": {
+            "budget": 3,
+            "energy": 6
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "support",
+              "target": "focus",
+              "delta": 90
+            }
+          ],
+          "feedback": "La presencia local gana un último empujón.",
+          "shortFeedback": "La presencia local gana un último empujón.",
+          "learning": "Opcional: distintas prioridades y costes cambian lo que puedes hacer después."
+        },
+        {
+          "id": "open_dialogue",
+          "label": "Abrir conversación con {party:P2}",
+          "shortLabel": "Abrir conversación con {party:P2}",
+          "cost": {
+            "budget": 3,
+            "energy": 4
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "relation",
+              "target": "P2",
+              "delta": 2
+            },
+            {
+              "type": "support",
+              "target": "national",
+              "delta": -10
+            }
+          ],
+          "feedback": "La conversación mejora la confianza con {party:P2}; pierdes alcance nacional. Su voto sigue dependiendo del programa.",
+          "shortFeedback": "La conversación mejora la confianza con {party:P2}; pierdes alcance nacional. Su voto sigue dependiendo del programa.",
+          "learning": "Opcional: compara la ganancia de hoy con los recursos y las tareas que dejas para después."
+        },
+        {
+          "id": "save",
+          "label": "Conserva recursos",
+          "shortLabel": "Conserva recursos",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [],
+          "feedback": "La campaña conserva caja y energía para tu jugada.",
+          "shortFeedback": "La campaña conserva caja y energía para tu jugada.",
+          "learning": "Opcional: distintas prioridades y costes cambian lo que puedes hacer después."
+        }
+      ]
+    },
+    {
+      "id": "E37",
+      "turn": 9,
+      "priority": 0,
+      "fallback": false,
+      "title": "Una caja con eco",
+      "body": "Hay pocos recursos. La prensa insiste en que vuelvas.",
+      "shortBody": "Hay pocos recursos. La prensa insiste en que vuelvas.",
+      "requiresFlags": [],
+      "forbidsFlags": [],
+      "requiresOpenPromise": null,
+      "weight": 2,
+      "options": [
+        {
+          "id": "act",
+          "label": "Una última respuesta",
+          "shortLabel": "Una última respuesta",
+          "cost": {
+            "budget": 2,
+            "energy": 4
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "support",
+              "target": "national",
+              "delta": 15
+            }
+          ],
+          "feedback": "La campaña vuelve a sonar antes del cierre.",
+          "shortFeedback": "La campaña vuelve a sonar antes del cierre.",
+          "learning": "Opcional: distintas prioridades y costes cambian lo que puedes hacer después."
+        },
+        {
+          "id": "save",
+          "label": "Conserva recursos",
+          "shortLabel": "Conserva recursos",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [],
+          "feedback": "La campaña conserva caja y energía para tu jugada.",
+          "shortFeedback": "La campaña conserva caja y energía para tu jugada.",
+          "learning": "Opcional: distintas prioridades y costes cambian lo que puedes hacer después."
+        }
+      ]
+    },
+    {
+      "id": "E38",
+      "turn": 9,
+      "priority": 0,
+      "fallback": false,
+      "title": "La mesa del día después",
+      "body": "Quien compite contigo hoy podría negociar contigo mañana.",
+      "shortBody": "Quien compite contigo hoy podría negociar contigo mañana.",
+      "requiresFlags": [],
+      "forbidsFlags": [],
+      "requiresOpenPromise": null,
+      "weight": 2,
+      "options": [
+        {
+          "id": "act",
+          "label": "Prepara un acercamiento",
+          "shortLabel": "Prepara un acercamiento",
+          "cost": {
+            "budget": 2,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [
+            {
+              "type": "relation",
+              "target": "P4",
+              "delta": 1
+            }
+          ],
+          "feedback": "La puerta queda un poco más abierta para el recuento.",
+          "shortFeedback": "La puerta queda un poco más abierta para el recuento.",
+          "learning": "Opcional: distintas prioridades y costes cambian lo que puedes hacer después."
+        },
+        {
+          "id": "save",
+          "label": "Conserva recursos",
+          "shortLabel": "Conserva recursos",
+          "cost": {
+            "budget": 0,
+            "energy": 0
+          },
+          "requiresStaff": null,
+          "reserveStaff": false,
+          "effects": [],
+          "feedback": "La campaña conserva caja y energía para tu jugada.",
+          "shortFeedback": "La campaña conserva caja y energía para tu jugada.",
+          "learning": "Opcional: distintas prioridades y costes cambian lo que puedes hacer después."
+        }
+      ]
+    }
+  ],
+  "status": "playable_content"
+}

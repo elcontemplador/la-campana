@@ -1,0 +1,1091 @@
+{
+  "format": "la-campana-public-release-v1",
+  "rulesVersion": "0.8.5",
+  "contentVersion": "0.8.5",
+  "sourceChecksum": "ea8e3df2",
+  "testSuites": [
+    "campaign.test.mjs",
+    "storage.test.mjs",
+    "setup.test.mjs",
+    "electoral.test.mjs",
+    "prepared-news-v085.test.mjs",
+    "debate-preparation.test.mjs",
+    "event-limits.test.mjs",
+    "media-repetition-v084.test.mjs"
+  ],
+  "sourceStable": true,
+  "publication": "not-performed",
+  "humanFeedback": "pending",
+  "files": {
+    ".github/workflows/pages.yml": {
+      "sha256": "1f00ff6bdc941f6c61b9f2c8a9aff1fe6ec99badb8bcf32bd6a315f57ce90ebb",
+      "bytes": 1050,
+      "origin": "release-generated"
+    },
+    ".gitignore": {
+      "sha256": "d6439973d8a506f44142877efa1b34b8f7d904803a04bf61a03ab338883a8e2c",
+      "bytes": 39,
+      "origin": "release-generated"
+    },
+    "README.md": {
+      "sha256": "2b05a643e234c00e32ce97a4488e4b5df2728b74b3488fdf6993a0b9204ab0e8",
+      "bytes": 4319,
+      "origin": "release-generated"
+    },
+    "app/.nojekyll": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "origin": "release-generated"
+    },
+    "app/assets/spain-map.svg": {
+      "sha256": "eee7cf04d5d9f81e7b9d8ae2fcca6765a34c88d18b2b138206acab240baf85b0",
+      "bytes": 583007,
+      "origin": "canonical-source"
+    },
+    "app/credits.html": {
+      "sha256": "946dbbf65b4531b2181b0107ddaf26348c9231f20552d56794f347e9baf1718e",
+      "bytes": 7516,
+      "origin": "canonical-source"
+    },
+    "app/data/events.json": {
+      "sha256": "a358f1b064735fc12e772f28e03dde1e39a60b2758e447a52fd214970bec732e",
+      "bytes": 134003,
+      "origin": "canonical-source"
+    },
+    "app/data/game_config.json": {
+      "sha256": "c268e25500d073d7b5eac39e3551a577bad80c56238f58af1b5601838ce20dd2",
+      "bytes": 28873,
+      "origin": "canonical-source"
+    },
+    "app/data/legacy/v082/events.json": {
+      "sha256": "11c7805523900ab5c95c4eb4867ce4083970af16da48aba30eaf698090e3b8a0",
+      "bytes": 132101,
+      "origin": "canonical-source"
+    },
+    "app/data/legacy/v082/game_config.json": {
+      "sha256": "9db0bc7d53f963fa7c7ad013cf60076fac8cf1b9884e9da5a51862fd9fd19265",
+      "bytes": 28601,
+      "origin": "canonical-source"
+    },
+    "app/data/legacy/v082/provinces_2023.json": {
+      "sha256": "47207b4e3864222fae31bd9958e46c3fa85a0230294353217361f4a6e9808b1d",
+      "bytes": 5621,
+      "origin": "canonical-source"
+    },
+    "app/data/legacy/v083/events.json": {
+      "sha256": "3c81be20f664b78ecef5c896536d7bec080a5b5093e1a16e98e0fa91bbc64cbf",
+      "bytes": 133129,
+      "origin": "canonical-source"
+    },
+    "app/data/legacy/v083/game_config.json": {
+      "sha256": "7526fb589a57d65e7ade8aa3b5485fe4b858f8c121b808662c5602694d244b6b",
+      "bytes": 28601,
+      "origin": "canonical-source"
+    },
+    "app/data/legacy/v083/provinces_2023.json": {
+      "sha256": "47207b4e3864222fae31bd9958e46c3fa85a0230294353217361f4a6e9808b1d",
+      "bytes": 5621,
+      "origin": "canonical-source"
+    },
+    "app/data/legacy/v084/events.json": {
+      "sha256": "afa4820c3a2b9b1c8052952f4887dd73af62480bc17c000fad83f1aa8ebab258",
+      "bytes": 134003,
+      "origin": "canonical-source"
+    },
+    "app/data/legacy/v084/game_config.json": {
+      "sha256": "a59182d11e104ea198702195b864b55b0e97f7cbe0349a66fceaa49e06a4e2e8",
+      "bytes": 28818,
+      "origin": "canonical-source"
+    },
+    "app/data/legacy/v084/provinces_2023.json": {
+      "sha256": "47207b4e3864222fae31bd9958e46c3fa85a0230294353217361f4a6e9808b1d",
+      "bytes": 5621,
+      "origin": "canonical-source"
+    },
+    "app/data/provinces_2023.json": {
+      "sha256": "47207b4e3864222fae31bd9958e46c3fa85a0230294353217361f4a6e9808b1d",
+      "bytes": 5621,
+      "origin": "canonical-source"
+    },
+    "app/index.html": {
+      "sha256": "1a38c5035b523c818f05c3e46bbb0ccf0b82a09430fafdcd9c29e6af3024fc6d",
+      "bytes": 1676,
+      "origin": "canonical-source"
+    },
+    "app/js/ai/rivals.mjs": {
+      "sha256": "6f6f496ec0e9eebb650f2bf6ffa357b58f13f2e26fdd677aed5f81220aff041b",
+      "bytes": 8584,
+      "origin": "canonical-source"
+    },
+    "app/js/core/action-yield.mjs": {
+      "sha256": "05aec3a959b83faf2a0310978c9d965f8d460b2bf659455988bbdf0ddd2cab71",
+      "bytes": 818,
+      "origin": "canonical-source"
+    },
+    "app/js/core/actions.mjs": {
+      "sha256": "e593f4b5bdeb63df8d548d3cac611bdcc94763ce9bdfa477fb60310d3ba6fd21",
+      "bytes": 4258,
+      "origin": "canonical-source"
+    },
+    "app/js/core/bundles.mjs": {
+      "sha256": "df24bdae768baa3f0bd33d617670208de2068e10232ffdb24f92b60269acd04e",
+      "bytes": 3418,
+      "origin": "canonical-source"
+    },
+    "app/js/core/campaign.mjs": {
+      "sha256": "88f8795f95c5847af5dd37b86625be82c7d28f8ee0d06288dd692ff93d0ba4b2",
+      "bytes": 8988,
+      "origin": "canonical-source"
+    },
+    "app/js/core/debate-bet.mjs": {
+      "sha256": "7d1691c9e290beb93ba4d4e101f527382e48242b8738df31d681ac853631eed3",
+      "bytes": 1687,
+      "origin": "canonical-source"
+    },
+    "app/js/core/electoral.mjs": {
+      "sha256": "ae172e720d44f07a35823502cf0795a65cb36c87fb8d46e093f3e5638c87e9e3",
+      "bytes": 7831,
+      "origin": "canonical-source"
+    },
+    "app/js/core/engine.mjs": {
+      "sha256": "f80d1fe29bb751d6c4de6c698cf6d30cd927e4b9136985dc09b3106bb6c3f3ff",
+      "bytes": 41980,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v061/ai/rivals.mjs": {
+      "sha256": "e37aed43f578702fb141bdb681f0e34db958c29489f3362dfa212c7999892eb1",
+      "bytes": 7416,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v061/bundle.mjs": {
+      "sha256": "43ff84733c7f90e1c5d518297592d396f91dcb0c34c82343055192c8bff57d14",
+      "bytes": 103991,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v061/core/actions.mjs": {
+      "sha256": "5cbbb610cf73bd4ff086917553539b3e34ba37d8ff3d3f849e5acb85d6171159",
+      "bytes": 4204,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v061/core/campaign.mjs": {
+      "sha256": "5f17504a1ed27e24db4451fbcdde4e6792510c7944dcbcc576cd78e1b9f9a974",
+      "bytes": 8759,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v061/core/electoral.mjs": {
+      "sha256": "194b5728b32de139a8ac213c84f2971068e84620862f4189a2bbd2ee944f18d7",
+      "bytes": 7645,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v061/core/engine.mjs": {
+      "sha256": "888bae5f0667b4d4e7165c1725f51c4a25ae48cb55ec9ada0cf5ea0a7520424e",
+      "bytes": 36303,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v061/core/negotiation.mjs": {
+      "sha256": "df3c347a3eacdf91785138bf4ae13c66c9e26179c9761fb0bc17960dee292631",
+      "bytes": 10822,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v061/core/polls.mjs": {
+      "sha256": "02e32ea19014d6f30ccc84899d936f3106f911c1438e97e529e8b80977604b7c",
+      "bytes": 11563,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v061/core/scenario.mjs": {
+      "sha256": "45c8dd9d1f87158dbd2d49871786e9b035e31345f2b4d35dc603fac8c14e0ac1",
+      "bytes": 17642,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v061/core/utils.mjs": {
+      "sha256": "36ba294752d5d22e4788defe04f769109f23b0d80096c86d3bb346c5e43c62e9",
+      "bytes": 3095,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v070/ai/rivals.mjs": {
+      "sha256": "24d4c4129d9633a037bb95b2b15c3e76580efc2cb9211300dff9ec5fbfecf61e",
+      "bytes": 7925,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v070/bundle.mjs": {
+      "sha256": "0f35b9298083636024586845e548dcaac595957dc4029730978ec182bfdff01a",
+      "bytes": 105749,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v070/core/actions.mjs": {
+      "sha256": "5cbbb610cf73bd4ff086917553539b3e34ba37d8ff3d3f849e5acb85d6171159",
+      "bytes": 4204,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v070/core/bundles.mjs": {
+      "sha256": "3150a3e1a1d9fdaf57f03f5ade8d0d25e5e155f76d0a676657611e042cb796d0",
+      "bytes": 1487,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v070/core/campaign.mjs": {
+      "sha256": "9f9b7df552f57640db863dae76011257025427eb6017c50f61b0fafb32d7d8f8",
+      "bytes": 8857,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v070/core/electoral.mjs": {
+      "sha256": "194b5728b32de139a8ac213c84f2971068e84620862f4189a2bbd2ee944f18d7",
+      "bytes": 7645,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v070/core/engine.mjs": {
+      "sha256": "51014bb3cb0561e59064292027171c70ae8f503d130d24c286e55960746c2ada",
+      "bytes": 38616,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v070/core/negotiation.mjs": {
+      "sha256": "e5c18907796996bd81444faef5e0db3721eab97a0a465ac00f78c53bec053d62",
+      "bytes": 12404,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v070/core/polls.mjs": {
+      "sha256": "02e32ea19014d6f30ccc84899d936f3106f911c1438e97e529e8b80977604b7c",
+      "bytes": 11563,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v070/core/scenario.mjs": {
+      "sha256": "fdd4de3408e64c156cd7b801f551dab32d9810bf6c3993b857a1e52a8fd10924",
+      "bytes": 17782,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v070/core/utils.mjs": {
+      "sha256": "36ba294752d5d22e4788defe04f769109f23b0d80096c86d3bb346c5e43c62e9",
+      "bytes": 3095,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v071/bundle.mjs": {
+      "sha256": "facfbc54050c1d03cf96c4ec8c6e7bee40ef542d87e9f07eaafe7bbfe233e959",
+      "bytes": 105746,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v080/ai/rivals.mjs": {
+      "sha256": "24d4c4129d9633a037bb95b2b15c3e76580efc2cb9211300dff9ec5fbfecf61e",
+      "bytes": 7925,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v080/bundle.mjs": {
+      "sha256": "b325bbfdb6fe03fa94d16a7ad12ed81701dc36cec1c2a50490fbb4d748839af5",
+      "bytes": 105853,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v080/core/actions.mjs": {
+      "sha256": "5cbbb610cf73bd4ff086917553539b3e34ba37d8ff3d3f849e5acb85d6171159",
+      "bytes": 4204,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v080/core/bundles.mjs": {
+      "sha256": "15a79955845e9df653388293c9887469ab7d35c6ed9addf5cc3e750d1b227b79",
+      "bytes": 1809,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v080/core/campaign.mjs": {
+      "sha256": "9f9b7df552f57640db863dae76011257025427eb6017c50f61b0fafb32d7d8f8",
+      "bytes": 8857,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v080/core/electoral.mjs": {
+      "sha256": "194b5728b32de139a8ac213c84f2971068e84620862f4189a2bbd2ee944f18d7",
+      "bytes": 7645,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v080/core/engine.mjs": {
+      "sha256": "31991835cd9b1e6897e3dcf48993cbf466347d83e5feb3e540a1e87118505efe",
+      "bytes": 39139,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v080/core/negotiation.mjs": {
+      "sha256": "2ba7a7afdb9bfe1211061790becffa930847ad76402c9b0ea004692358e77a0e",
+      "bytes": 12469,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v080/core/polls.mjs": {
+      "sha256": "02e32ea19014d6f30ccc84899d936f3106f911c1438e97e529e8b80977604b7c",
+      "bytes": 11563,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v080/core/scenario.mjs": {
+      "sha256": "f0c7944d30700789417290394c70bef0850ea1254bfcfd429e134351ecf1ba45",
+      "bytes": 18094,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v080/core/topic-effects.mjs": {
+      "sha256": "a8820995e24f7910465ba375e03cf303613a595583a11961e6d956cc9b837e3f",
+      "bytes": 858,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v080/core/utils.mjs": {
+      "sha256": "36ba294752d5d22e4788defe04f769109f23b0d80096c86d3bb346c5e43c62e9",
+      "bytes": 3095,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v081/ai/rivals.mjs": {
+      "sha256": "24d4c4129d9633a037bb95b2b15c3e76580efc2cb9211300dff9ec5fbfecf61e",
+      "bytes": 7925,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v081/bundle.mjs": {
+      "sha256": "f039056bcc13de5dc2888d68030c90b097e535a3ca0d22536776b10e32da1da8",
+      "bytes": 106009,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v081/core/actions.mjs": {
+      "sha256": "5cbbb610cf73bd4ff086917553539b3e34ba37d8ff3d3f849e5acb85d6171159",
+      "bytes": 4204,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v081/core/bundles.mjs": {
+      "sha256": "74c6a1cd5b4359b44da5d8cd9b31eaf788529dad99b4084037f683bb333b985b",
+      "bytes": 2094,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v081/core/campaign.mjs": {
+      "sha256": "9f9b7df552f57640db863dae76011257025427eb6017c50f61b0fafb32d7d8f8",
+      "bytes": 8857,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v081/core/electoral.mjs": {
+      "sha256": "194b5728b32de139a8ac213c84f2971068e84620862f4189a2bbd2ee944f18d7",
+      "bytes": 7645,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v081/core/engine.mjs": {
+      "sha256": "99bc30cc0df722b1ddb1e185cd08ba9cf01c7a404be46b089aa039d60def1097",
+      "bytes": 39478,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v081/core/negotiation.mjs": {
+      "sha256": "2ba7a7afdb9bfe1211061790becffa930847ad76402c9b0ea004692358e77a0e",
+      "bytes": 12469,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v081/core/polls.mjs": {
+      "sha256": "02e32ea19014d6f30ccc84899d936f3106f911c1438e97e529e8b80977604b7c",
+      "bytes": 11563,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v081/core/scenario.mjs": {
+      "sha256": "a2b8299278203a832353a70aebd9ec0f99b0fc0c11e42971c1c165c99e5d3af5",
+      "bytes": 19490,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v081/core/topic-effects.mjs": {
+      "sha256": "79cba1b39dfa38fc5cbd130db4ad7241c51e3cc1769d985bf02c3f933d7b8bda",
+      "bytes": 904,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v081/core/utils.mjs": {
+      "sha256": "36ba294752d5d22e4788defe04f769109f23b0d80096c86d3bb346c5e43c62e9",
+      "bytes": 3095,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v082/ai/rivals.mjs": {
+      "sha256": "33a86d313e4c1ba77c0eb28a51bac6931e127fe17f74589b564d78ec4f4c1566",
+      "bytes": 8042,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v082/bundle.mjs": {
+      "sha256": "36d8371336893a7768db7b4eed4aa9bdf86a5c1639d8089533a318ab51677846",
+      "bytes": 106314,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v082/core/actions.mjs": {
+      "sha256": "e593f4b5bdeb63df8d548d3cac611bdcc94763ce9bdfa477fb60310d3ba6fd21",
+      "bytes": 4258,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v082/core/bundles.mjs": {
+      "sha256": "c488725d7da4e91833bbb0e893b5dcdc8da36e30cc1f5a99f2f92b65937fe3d6",
+      "bytes": 2428,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v082/core/campaign.mjs": {
+      "sha256": "88f8795f95c5847af5dd37b86625be82c7d28f8ee0d06288dd692ff93d0ba4b2",
+      "bytes": 8988,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v082/core/electoral.mjs": {
+      "sha256": "ae172e720d44f07a35823502cf0795a65cb36c87fb8d46e093f3e5638c87e9e3",
+      "bytes": 7831,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v082/core/engine.mjs": {
+      "sha256": "a76a125c6f805bb363ad7606c9be91a58fec6d429d8487647d73218e26861ead",
+      "bytes": 40404,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v082/core/negotiation.mjs": {
+      "sha256": "46eeeae32bb0a22a5499116935013d69757c727ded30762615631148d6bb718c",
+      "bytes": 12647,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v082/core/polls.mjs": {
+      "sha256": "f990f89a0ef540194218af58273954cf2c17e0c3e342e2e071e5081ae4383c37",
+      "bytes": 11762,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v082/core/scenario.mjs": {
+      "sha256": "c462a81743e643a3d78131e5c0500e162f43753a8fd36ed714ab35ec3368762e",
+      "bytes": 20512,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v082/core/topic-effects.mjs": {
+      "sha256": "383ac0c696a801b753815eb534ab0646b0e4428565e4d9dcbf23d333d4236eab",
+      "bytes": 936,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v082/core/utils.mjs": {
+      "sha256": "7582618962e47c596eb85c98da32a891e70be3bb330aed9072a4ad2a63ab2963",
+      "bytes": 3166,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v083/ai/rivals.mjs": {
+      "sha256": "529e18786b7a42ff6c18ffbcc78ce79dca0389b8bd7c4bf0408d8d3f418bce2a",
+      "bytes": 8041,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v083/bundle.mjs": {
+      "sha256": "fb37f449478aafaaadce989f00443261bc2ce640b6b829e3ed8e8e89d0f02f26",
+      "bytes": 107241,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v083/core/actions.mjs": {
+      "sha256": "e593f4b5bdeb63df8d548d3cac611bdcc94763ce9bdfa477fb60310d3ba6fd21",
+      "bytes": 4258,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v083/core/bundles.mjs": {
+      "sha256": "eba03ea2b32ed028c187942017190b271fefe575fb65e1c60509b2adc3e2f758",
+      "bytes": 2739,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v083/core/campaign.mjs": {
+      "sha256": "88f8795f95c5847af5dd37b86625be82c7d28f8ee0d06288dd692ff93d0ba4b2",
+      "bytes": 8988,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v083/core/debate-bet.mjs": {
+      "sha256": "880f325bc8958d4584317487367657f8718d7566fe0dbce566f8f4f60110e560",
+      "bytes": 1633,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v083/core/electoral.mjs": {
+      "sha256": "ae172e720d44f07a35823502cf0795a65cb36c87fb8d46e093f3e5638c87e9e3",
+      "bytes": 7831,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v083/core/engine.mjs": {
+      "sha256": "3ca79bfd12b1655ff8d31705e7feee3ea9b0bdf30aef4e4d0dd82879a3e1d27b",
+      "bytes": 40885,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v083/core/negotiation.mjs": {
+      "sha256": "46eeeae32bb0a22a5499116935013d69757c727ded30762615631148d6bb718c",
+      "bytes": 12647,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v083/core/polls.mjs": {
+      "sha256": "f990f89a0ef540194218af58273954cf2c17e0c3e342e2e071e5081ae4383c37",
+      "bytes": 11762,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v083/core/scenario.mjs": {
+      "sha256": "964543e154d52d6b41e04a0a201b0fae9b52c4e72edfdf8cb3e9fea6b988cf2a",
+      "bytes": 21001,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v083/core/topic-effects.mjs": {
+      "sha256": "17911f2c681c8ac76811307d1f38a12f47e5181ec7749fa07a1a527180c93f0b",
+      "bytes": 952,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v083/core/utils.mjs": {
+      "sha256": "7582618962e47c596eb85c98da32a891e70be3bb330aed9072a4ad2a63ab2963",
+      "bytes": 3166,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v084/ai/rivals.mjs": {
+      "sha256": "38161e3668153ba28841d2757f4302ed3ad32b150db004f1c64cdeb54d651a59",
+      "bytes": 8539,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v084/bundle.mjs": {
+      "sha256": "1f0226bc2a1fe2a9f7a9f7861022e4aa6085706683712e1acd017b725f1c7ec7",
+      "bytes": 107954,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v084/core/action-yield.mjs": {
+      "sha256": "2c5026dda1c9be4902356540cb1804952ac9c93a0a04ba513db1e22fdadd7843",
+      "bytes": 782,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v084/core/actions.mjs": {
+      "sha256": "e593f4b5bdeb63df8d548d3cac611bdcc94763ce9bdfa477fb60310d3ba6fd21",
+      "bytes": 4258,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v084/core/bundles.mjs": {
+      "sha256": "0f8d77d948a8e55246945df0dc8dd0a8a5196f783a7eef151c34aff69f206f89",
+      "bytes": 3061,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v084/core/campaign.mjs": {
+      "sha256": "88f8795f95c5847af5dd37b86625be82c7d28f8ee0d06288dd692ff93d0ba4b2",
+      "bytes": 8988,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v084/core/debate-bet.mjs": {
+      "sha256": "02c63b614f8b8de624d84de8155ca87849eaa8b8c2a05e17338c7185c59138bd",
+      "bytes": 1671,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v084/core/electoral.mjs": {
+      "sha256": "ae172e720d44f07a35823502cf0795a65cb36c87fb8d46e093f3e5638c87e9e3",
+      "bytes": 7831,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v084/core/engine.mjs": {
+      "sha256": "4c76838775b5389f3012a20829370546e9ce75c213fd2b12e7111a36f8515aeb",
+      "bytes": 41600,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v084/core/negotiation.mjs": {
+      "sha256": "46eeeae32bb0a22a5499116935013d69757c727ded30762615631148d6bb718c",
+      "bytes": 12647,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v084/core/polls.mjs": {
+      "sha256": "c21491dd9c5bb1b7230a14ac29fb8eea37cfbbe33f640744499325c000209e80",
+      "bytes": 12000,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v084/core/scenario.mjs": {
+      "sha256": "e292e58a52be10d94ac9c1a26bdd5c57d8f9d4a6df5b1529039abeecec095aec",
+      "bytes": 22447,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v084/core/topic-effects.mjs": {
+      "sha256": "5db2c333ada327ff4cc7b867ae17e62915f10d73122b59e0bd387c769e5ddfad",
+      "bytes": 968,
+      "origin": "canonical-source"
+    },
+    "app/js/core/legacy/v084/core/utils.mjs": {
+      "sha256": "7582618962e47c596eb85c98da32a891e70be3bb330aed9072a4ad2a63ab2963",
+      "bytes": 3166,
+      "origin": "canonical-source"
+    },
+    "app/js/core/negotiation.mjs": {
+      "sha256": "46eeeae32bb0a22a5499116935013d69757c727ded30762615631148d6bb718c",
+      "bytes": 12647,
+      "origin": "canonical-source"
+    },
+    "app/js/core/polls.mjs": {
+      "sha256": "6added332e034de091196e3f76be98358c1ceccc5fb55a2c19a9e3a5576ea1db",
+      "bytes": 12018,
+      "origin": "canonical-source"
+    },
+    "app/js/core/scenario.mjs": {
+      "sha256": "a5765387f88f5a06b42560d263fce1bee103b74e8ba97a9ad7a65a7365941ace",
+      "bytes": 23066,
+      "origin": "canonical-source"
+    },
+    "app/js/core/topic-effects.mjs": {
+      "sha256": "895d235bc50fe5a62f613e545113f38049285837a45d906db1acd4dbcde7d716",
+      "bytes": 984,
+      "origin": "canonical-source"
+    },
+    "app/js/core/utils.mjs": {
+      "sha256": "7582618962e47c596eb85c98da32a891e70be3bb330aed9072a4ad2a63ab2963",
+      "bytes": 3166,
+      "origin": "canonical-source"
+    },
+    "app/js/storage/history.mjs": {
+      "sha256": "8c39bd3a313c91e186a84ea2aeade655f346b8f16e730873114a7f1347c2de12",
+      "bytes": 5550,
+      "origin": "canonical-source"
+    },
+    "app/js/storage/save.mjs": {
+      "sha256": "3aad5afe522783918f626c6f17ba72ef41eb4ab3aa8c89abe56bbbea8fad15ac",
+      "bytes": 5456,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/ballot-choices.mjs": {
+      "sha256": "e7d316ea8336992c4073e7ab7f445b7f1bb86a217431c16a6ac8a68c0bcfead1",
+      "bytes": 2231,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/briefing-scene.mjs": {
+      "sha256": "3641498f113025dee158c864e50e93df19aa86e45ad8a196ccd75a19b92fd7f0",
+      "bytes": 3721,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/campaign-recap.mjs": {
+      "sha256": "695a0daec35cc42aba22dba2af6b79e44c49e5d2c19372b82973a7e124e0f5f4",
+      "bytes": 6890,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/campaign-tactic.mjs": {
+      "sha256": "5dc9874ea5a557c15fec851af0f2236a8353a37e0be6d285f84a7f916023f677",
+      "bytes": 1684,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/campaign-team-scenes.mjs": {
+      "sha256": "606de79c68d0b1175755babd3eb8596b76cc58faf9e8604e9e512eea411745bc",
+      "bytes": 6113,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/closing-scene.mjs": {
+      "sha256": "b79d2b444d2ef55a2a2516b0791043bd32e3b0f0b749cfbc87d7f60d54cf6f62",
+      "bytes": 3321,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/debate-bet.mjs": {
+      "sha256": "ab3641573a04ef6da79dcadcf01bebf85747038029b2482f254ee9317739748b",
+      "bytes": 7677,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/debate-preparation.mjs": {
+      "sha256": "077c861788960090af0dafd07cda09f6ee5b084e9ea387022f4875556b7726e0",
+      "bytes": 2830,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/debate.mjs": {
+      "sha256": "6e364d6a883cfa1b4f700cbadf3e81214c1d76876918d5bbc21cf5f3ddb8e978",
+      "bytes": 13720,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/economic-dilemma.mjs": {
+      "sha256": "9bdbfcce9a700af0418ab52f4d9c4a28b9f76cd8148f890c1e8fe0a841d110c3",
+      "bytes": 9570,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/ending-route.mjs": {
+      "sha256": "9a19495093b5513ce1366855fbe118ebd11c28264eb9bc63852d0eb67da38c7f",
+      "bytes": 6430,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/ending.mjs": {
+      "sha256": "95cc1a02ba7f988d3ac162d655ff1879b2b9748277a795481a56b9427f0bc7db",
+      "bytes": 9305,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/event-limits.mjs": {
+      "sha256": "9c6e42ea220e25e6afc7393388ba2ab91e4776fbf7c38703968c11623d8c444a",
+      "bytes": 8178,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/experience.mjs": {
+      "sha256": "cf9e53e6885173c877598acb51e437e98862632f3c51f949785faffb8ae6646a",
+      "bytes": 7743,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/field-scenes.mjs": {
+      "sha256": "75cadf6e39a72172c7c6725759b9b33460083b644a6099ee0cbfba9257f11ab6",
+      "bytes": 19062,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/geography.mjs": {
+      "sha256": "ccc0ed3f09d8a2cf480a7ef11aa96ce753c5f99252c84b4eef2ebe7af288a088",
+      "bytes": 568140,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/issue-cases.mjs": {
+      "sha256": "e957c7ace1ed6c547bbd8588512659c4b09dcc8a19a884edde993837b274b79a",
+      "bytes": 19139,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/launch-story.mjs": {
+      "sha256": "6999a862cf553212a54e957c0cf2c772ac8d31a218cabdbbc1f2c0078cfcd6f1",
+      "bytes": 3121,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/local-reception.mjs": {
+      "sha256": "17a8e40cf80a58c251c63a64e58993f0904db3247644ba2da695343c06c963ac",
+      "bytes": 2888,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/main.mjs": {
+      "sha256": "c1eb1e000b32b67d0b3c7e7228ccb087a913524daf83738c056a5b862ccc891c",
+      "bytes": 192877,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/meeting-agenda.mjs": {
+      "sha256": "d3e9df72c9d9254f07c93d943d0afc5537f029e4f8537c744b417979f1753490",
+      "bytes": 2667,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/memory.mjs": {
+      "sha256": "faed1904014ea3a192b252f5153e25225e2e4669a1748d98c73732e15ac22fc3",
+      "bytes": 11991,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/neighbour-questions.mjs": {
+      "sha256": "f2709650b5daecdf45c1805c0d217b9e42e7db4e7cb3b773cc2d823142ac3989",
+      "bytes": 6843,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/news-reaction.mjs": {
+      "sha256": "cd2483780071c6e0a6567cbc3c0cb6ae9b7da8ccbe26dea73c5aa812180e05fe",
+      "bytes": 30876,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/news.mjs": {
+      "sha256": "13bcf41362b8c4122e35169f42a2646152f7f201fa4e0f4b68fe62a82aaacf48",
+      "bytes": 4378,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/pact-decision.mjs": {
+      "sha256": "c0b0735e3b22aa52b76a47c39ee4c41f11a438485bd96f29677344786dfc9e05",
+      "bytes": 10156,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/pacts.mjs": {
+      "sha256": "1f8a22301597a40137f564df43e4f42bd19891f0fbbd2c277a8bec2118e5d66b",
+      "bytes": 5805,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/party-call-story.mjs": {
+      "sha256": "00fcd8d8f0b7fab6a8f09f5210b180e3825a2e5ee7305944d2420b77230c1005",
+      "bytes": 6180,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/party-discipline.mjs": {
+      "sha256": "edacb83e4e6a40dcd1bf77675190a4c6600d684ceef6e270f6e04a0a45f0091e",
+      "bytes": 9608,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/play.mjs": {
+      "sha256": "f7a3433fde4176c2b9b776ffdbc626a865549e1150eb67c5d7c2228d88f1f881",
+      "bytes": 26651,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/political-contradiction.mjs": {
+      "sha256": "784003ff5252cde002dc6e588f2cf326ece9003471fdc1efe2a12da08f9c3dce",
+      "bytes": 3744,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/political-recap.mjs": {
+      "sha256": "a99bea6abc66db0d14b54941c2fc16697cbe23ed03c9c0a8c835af3a2f0bfcf7",
+      "bytes": 7837,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/political-scenes.mjs": {
+      "sha256": "4efbc51546d358f0af448b47d4b77dc20e9c50a6dfe553368ca27ba754888665",
+      "bytes": 24155,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/poll-journey.mjs": {
+      "sha256": "d76c4d2c7162607a27ff3dcb8a7cc900f7feeb67fa669d6025120affb08da49e",
+      "bytes": 2936,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/press-scenes.mjs": {
+      "sha256": "ddcdeb8a2db48689ec58a1050542ca2114cb4adaae1251c111497d74d5d55386",
+      "bytes": 32036,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/preview.mjs": {
+      "sha256": "8fef36ef6e8a65aa623f011477d0eea202877444f659818d6ec67e49525862b2",
+      "bytes": 8477,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/promises.mjs": {
+      "sha256": "dd12d2ff4ae0aa2fb163486ad7a988a63705440658a7f4a3e90a420fe612488e",
+      "bytes": 7082,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/province-contest.mjs": {
+      "sha256": "1f2a4ef78845ca1308feb5311a6f8e9fd389037b567365f2901c379c44301e84",
+      "bytes": 3375,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/public-encounters.mjs": {
+      "sha256": "87bf2d0d7b9857b03e335117bae3200b2ed86a6d01f44d1c048422b81ab48e9e",
+      "bytes": 8155,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/rival-contest.mjs": {
+      "sha256": "b9efb53ec30211443ec762ca157489d4af177baf2160454fd7b01b944711905b",
+      "bytes": 2126,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/rival-story.mjs": {
+      "sha256": "79b09a2936ad89919e22a6cebc245a816f67fbde9ae0a8b174702e8e6efd6435",
+      "bytes": 11548,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/setup.mjs": {
+      "sha256": "24da43cc8e1e91029f73a6e0bbd1185bd90b9e2a36a390bd9faf8313ced3e6ec",
+      "bytes": 1919,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/stories.mjs": {
+      "sha256": "ecd9c46487dda65f3e14b0e9d017e4387a25404367de24e765568fc1fbdeccdf",
+      "bytes": 15096,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/strategy.mjs": {
+      "sha256": "be0185f7b90c59a7019803ba05bc90fa975d29fb49fba60864c0cf64c4626fb5",
+      "bytes": 3403,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/team-intent.mjs": {
+      "sha256": "e6ed15c1a7f598f1b9097e1226b7af30642851e468c5c34c521bdb3a40cd89fc",
+      "bytes": 13151,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/team-practice.mjs": {
+      "sha256": "7aebb6934246a603b3e550efea3e1e99e23fc459af186123900f5aef245461f5",
+      "bytes": 2159,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/team.mjs": {
+      "sha256": "c3a3bf04d1f1b3a30bd8d13cb118bb920d68d7bfbba5573b695c497554c18b23",
+      "bytes": 4715,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/turn-pulse.mjs": {
+      "sha256": "ac4b3663c783d11a93e4ffb93b7ddaabfc10ebc33e835bcfa640d51a97816ffd",
+      "bytes": 2314,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/tutorial.mjs": {
+      "sha256": "59a1b0af1429e9002c62d3bc0ec1830afab1275e8548985e4443e91832e4f87d",
+      "bytes": 10806,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/usability.mjs": {
+      "sha256": "1d136e8729db76e34a722cec3e2afa6879bf8d270e0b0f3784d89d056e92d38c",
+      "bytes": 6744,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/visuals.mjs": {
+      "sha256": "36976e50b519348338fbd64f35166a58ea436e0082c0ac5cfc5a3ceeb968b9b2",
+      "bytes": 14869,
+      "origin": "canonical-source"
+    },
+    "app/js/ui/vote-recap.mjs": {
+      "sha256": "2cedd28b10dc1f6d5d07920c4bff420ec2565d91dc84da7b46236eb38198305c",
+      "bytes": 2938,
+      "origin": "canonical-source"
+    },
+    "app/styles/game.css": {
+      "sha256": "4d1db88b37f2df75da4faefbe7593de4e01539335d863e4336181925cb37ffbd",
+      "bytes": 153700,
+      "origin": "canonical-source"
+    },
+    "data/electoral_fixtures.json": {
+      "sha256": "1afc6050079ed4ee0f6fc16e0de86d6af696799491c7fccf6246042cbe5e150e",
+      "bytes": 8472,
+      "origin": "canonical-source"
+    },
+    "data/events.json": {
+      "sha256": "a358f1b064735fc12e772f28e03dde1e39a60b2758e447a52fd214970bec732e",
+      "bytes": 134003,
+      "origin": "canonical-source"
+    },
+    "data/game_config.json": {
+      "sha256": "c268e25500d073d7b5eac39e3551a577bad80c56238f58af1b5601838ce20dd2",
+      "bytes": 28873,
+      "origin": "canonical-source"
+    },
+    "data/legacy/v061/events.json": {
+      "sha256": "ddb8ab04ec7466a52276d519f30ab36062fae2cb18e86aa42549f99f7466265a",
+      "bytes": 129040,
+      "origin": "canonical-source"
+    },
+    "data/legacy/v061/game_config.json": {
+      "sha256": "8595558e6ef3abc757d3d5f4f8aa2b55ce7d3f744f2b8aedff323de0adfe05bb",
+      "bytes": 28566,
+      "origin": "canonical-source"
+    },
+    "data/legacy/v061/provinces_2023.json": {
+      "sha256": "47207b4e3864222fae31bd9958e46c3fa85a0230294353217361f4a6e9808b1d",
+      "bytes": 5621,
+      "origin": "canonical-source"
+    },
+    "data/legacy/v070/events.json": {
+      "sha256": "e9cff6b2943514c9e570ab76586ffc7d09f3fbcdf4264829fe97d0d52bb8b694",
+      "bytes": 131653,
+      "origin": "canonical-source"
+    },
+    "data/legacy/v070/game_config.json": {
+      "sha256": "445f5778017830b130c184631a63d5468738764a8f0eee4033c1e5fabe7f45b4",
+      "bytes": 28601,
+      "origin": "canonical-source"
+    },
+    "data/legacy/v070/provinces_2023.json": {
+      "sha256": "47207b4e3864222fae31bd9958e46c3fa85a0230294353217361f4a6e9808b1d",
+      "bytes": 5621,
+      "origin": "canonical-source"
+    },
+    "data/legacy/v071/events.json": {
+      "sha256": "6a606ca812787cca7426d754561c010613df6d8d69e0955153d3550c9007b56a",
+      "bytes": 131628,
+      "origin": "canonical-source"
+    },
+    "data/legacy/v071/game_config.json": {
+      "sha256": "445f5778017830b130c184631a63d5468738764a8f0eee4033c1e5fabe7f45b4",
+      "bytes": 28601,
+      "origin": "canonical-source"
+    },
+    "data/legacy/v071/provinces_2023.json": {
+      "sha256": "47207b4e3864222fae31bd9958e46c3fa85a0230294353217361f4a6e9808b1d",
+      "bytes": 5621,
+      "origin": "canonical-source"
+    },
+    "data/legacy/v080/events.json": {
+      "sha256": "b2fa6d16f7a427b10a72e2e359dfc7bac2c0c53e88c593c8855fb7a60c9562cc",
+      "bytes": 131519,
+      "origin": "canonical-source"
+    },
+    "data/legacy/v080/game_config.json": {
+      "sha256": "a59e990d619dcc634a2291d236f3f6d747e6d8771aa27fef27cec7de3c613152",
+      "bytes": 28601,
+      "origin": "canonical-source"
+    },
+    "data/legacy/v080/provinces_2023.json": {
+      "sha256": "47207b4e3864222fae31bd9958e46c3fa85a0230294353217361f4a6e9808b1d",
+      "bytes": 5621,
+      "origin": "canonical-source"
+    },
+    "data/legacy/v081/events.json": {
+      "sha256": "b2535e9cc416a63107673298c7e44dc94729bd4aa2cad330e18ea43e62708d5c",
+      "bytes": 131596,
+      "origin": "canonical-source"
+    },
+    "data/legacy/v081/game_config.json": {
+      "sha256": "a1e69a8a4ae650e8a365c7a5ddc704462b65438f25335c2419c73ddc66caa455",
+      "bytes": 28601,
+      "origin": "canonical-source"
+    },
+    "data/legacy/v081/provinces_2023.json": {
+      "sha256": "47207b4e3864222fae31bd9958e46c3fa85a0230294353217361f4a6e9808b1d",
+      "bytes": 5621,
+      "origin": "canonical-source"
+    },
+    "data/legacy/v082/events.json": {
+      "sha256": "11c7805523900ab5c95c4eb4867ce4083970af16da48aba30eaf698090e3b8a0",
+      "bytes": 132101,
+      "origin": "canonical-source"
+    },
+    "data/legacy/v082/game_config.json": {
+      "sha256": "9db0bc7d53f963fa7c7ad013cf60076fac8cf1b9884e9da5a51862fd9fd19265",
+      "bytes": 28601,
+      "origin": "canonical-source"
+    },
+    "data/legacy/v082/provinces_2023.json": {
+      "sha256": "47207b4e3864222fae31bd9958e46c3fa85a0230294353217361f4a6e9808b1d",
+      "bytes": 5621,
+      "origin": "canonical-source"
+    },
+    "data/legacy/v083/events.json": {
+      "sha256": "3c81be20f664b78ecef5c896536d7bec080a5b5093e1a16e98e0fa91bbc64cbf",
+      "bytes": 133129,
+      "origin": "canonical-source"
+    },
+    "data/legacy/v083/game_config.json": {
+      "sha256": "7526fb589a57d65e7ade8aa3b5485fe4b858f8c121b808662c5602694d244b6b",
+      "bytes": 28601,
+      "origin": "canonical-source"
+    },
+    "data/legacy/v083/provinces_2023.json": {
+      "sha256": "47207b4e3864222fae31bd9958e46c3fa85a0230294353217361f4a6e9808b1d",
+      "bytes": 5621,
+      "origin": "canonical-source"
+    },
+    "data/legacy/v084/events.json": {
+      "sha256": "afa4820c3a2b9b1c8052952f4887dd73af62480bc17c000fad83f1aa8ebab258",
+      "bytes": 134003,
+      "origin": "canonical-source"
+    },
+    "data/legacy/v084/game_config.json": {
+      "sha256": "a59182d11e104ea198702195b864b55b0e97f7cbe0349a66fceaa49e06a4e2e8",
+      "bytes": 28818,
+      "origin": "canonical-source"
+    },
+    "data/legacy/v084/provinces_2023.json": {
+      "sha256": "47207b4e3864222fae31bd9958e46c3fa85a0230294353217361f4a6e9808b1d",
+      "bytes": 5621,
+      "origin": "canonical-source"
+    },
+    "data/provinces_2023.json": {
+      "sha256": "47207b4e3864222fae31bd9958e46c3fa85a0230294353217361f4a6e9808b1d",
+      "bytes": 5621,
+      "origin": "canonical-source"
+    },
+    "docs/PRIMERA_PRUEBA.md": {
+      "sha256": "f0a800afe1acff70402bfd219b66dd0f7aea2883779f6f4cfe2d253ef7c23629",
+      "bytes": 1217,
+      "origin": "release-generated"
+    },
+    "scripts/serve.py": {
+      "sha256": "0a4d27c5ded3c6f39b859530a0d7c72b945fd1b69192830805a4b17c7ee093ee",
+      "bytes": 1946,
+      "origin": "canonical-source"
+    },
+    "scripts/verify_release.py": {
+      "sha256": "3721b2cb8045ee22317ec2927e76325ebef600ab8d23a359133a56a0ef584fbd",
+      "bytes": 4000,
+      "origin": "release-generated"
+    },
+    "tests/campaign.test.mjs": {
+      "sha256": "685c672fdf14bb9e98160673e776a66f946fafe088442d1579f43a5e182f21ad",
+      "bytes": 17316,
+      "origin": "canonical-source"
+    },
+    "tests/current-event-fixture.mjs": {
+      "sha256": "6b5de8828bbf0c7dca41567b8f3aeda3195fc25a5ec2acbc9f6a40d90555cd54",
+      "bytes": 633,
+      "origin": "canonical-source"
+    },
+    "tests/debate-preparation.test.mjs": {
+      "sha256": "56a6a478190f24255b9322f0b0d14ad55d69f6b72782e8421875903035a784cb",
+      "bytes": 6501,
+      "origin": "canonical-source"
+    },
+    "tests/electoral.test.mjs": {
+      "sha256": "8fb6f2d8ee04ac54bfa0597fe8acec995403853161fa6a3566fb2c7f09450694",
+      "bytes": 9017,
+      "origin": "canonical-source"
+    },
+    "tests/event-limits.test.mjs": {
+      "sha256": "a57879a66b93f84f24eb6714917d2bffe9c4eb6504ede73f2b7ac35988e6cc90",
+      "bytes": 11946,
+      "origin": "canonical-source"
+    },
+    "tests/helpers.mjs": {
+      "sha256": "7d2a3b62f20ba8cf140d4078fae1170e8dd35b09464daffd0053c3d8a101fc10",
+      "bytes": 2180,
+      "origin": "canonical-source"
+    },
+    "tests/media-repetition-v084.test.mjs": {
+      "sha256": "0daf6e0d8e11c5115d09c4d563233b366b0cf1b22cfa4b5c99cb0e9c286ef5f8",
+      "bytes": 2498,
+      "origin": "canonical-source"
+    },
+    "tests/narrative-fixtures.mjs": {
+      "sha256": "2a335dcd04354f4859d20f94c560dde5c83656e251ab9fa2cee6d2be401e5712",
+      "bytes": 1412,
+      "origin": "canonical-source"
+    },
+    "tests/prepared-news-v085.test.mjs": {
+      "sha256": "ec0684f95c05547f4e2458a9578a54eb44b2a3952d8e4ceeedc24a6b20980f0a",
+      "bytes": 11328,
+      "origin": "canonical-source"
+    },
+    "tests/setup.test.mjs": {
+      "sha256": "31d25e1c5bdb0a1161ae208fca30b490e5599292fca096d9af734afbdd729e46",
+      "bytes": 3989,
+      "origin": "canonical-source"
+    },
+    "tests/storage.test.mjs": {
+      "sha256": "46ff67105b8267ae31bdb3740e4f438b1fcd22ea47c549e3913d483e744fc889",
+      "bytes": 4523,
+      "origin": "canonical-source"
+    }
+  }
+}

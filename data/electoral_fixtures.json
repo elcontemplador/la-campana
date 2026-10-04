@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "1.0.0",
+  "status": "specified_not_executed_against_game",
+  "reviewedDate": "2026-10-02",
+  "notes": [
+    "All vote counts are synthetic test data except the numeric example attributed to LOREG article 163.",
+    "tieOrders injects the initial lottery result. The seat allocator does not consume random numbers.",
+    "For equal-vote groups, subsequent equal-quotient blocks rotate the initial order left once per block. With two lists this alternates.",
+    "Multiway and single-member ties use explicit game conventions; no claim of verified legal completeness is made.",
+    "Expected records list required assertions, not the complete mandatory runtime result schema.",
+    "The full scenario uses the historical 2023 seat map; no real electorate or voting-intention data is included."
+  ],
+  "sources": [
+    "https://www.boe.es/buscar/act.php?id=BOE-A-1985-11672#acientosesentaytres",
+    "https://www.boe.es/buscar/doc.php?id=BOE-A-2023-12663",
+    "https://www.boe.es/buscar/act.php?id=BOE-A-1978-31229#a99",
+    "https://constitucion.congreso.es/detalle-articulo?numero=79"
+  ],
+  "allocationCases": [
+    {
+      "name": "E01_loreg_numeric_example",
+      "input": {"method": "dhondt", "seats": 8, "partyVotes": {"A": 168000, "B": 104000, "C": 72000, "D": 64000, "E": 40000, "F": 32000}, "blankVotes": 0, "invalidVotes": 0, "tieOrders": {}},
+      "expected": {"validVotes": 480000, "seatsByParty": {"A": 4, "B": 2, "C": 1, "D": 1, "E": 0, "F": 0}, "seatOrder": ["A", "B", "A", "C", "D", "A", "B", "A"]},
+      "notes": "Numeric reference from the official article 163 example; no quotient table is copied."
+    },
+    {
+      "name": "E02_exact_three_percent_is_eligible",
+      "input": {"method": "dhondt", "seats": 37, "partyVotes": {"A": 97000, "B": 3000}, "blankVotes": 0, "invalidVotes": 0, "tieOrders": {}},
+      "expected": {"validVotes": 100000, "eligible": ["A", "B"], "seatsByParty": {"A": 36, "B": 1}}
+    },
+    {
+      "name": "E03_one_blank_changes_threshold",
+      "input": {"method": "dhondt", "seats": 37, "partyVotes": {"A": 97000, "B": 3000}, "blankVotes": 1, "invalidVotes": 0, "tieOrders": {}},
+      "expected": {"validVotes": 100001, "eligible": ["A"], "seatsByParty": {"A": 37, "B": 0}}
+    },
+    {
+      "name": "E04_invalid_ballots_do_not_raise_threshold",
+      "input": {"method": "dhondt", "seats": 37, "partyVotes": {"A": 97000, "B": 3000}, "blankVotes": 0, "invalidVotes": 10000, "tieOrders": {}},
+      "expected": {"validVotes": 100000, "castVotes": 110000, "eligible": ["A", "B"], "seatsByParty": {"A": 36, "B": 1}}
+    },
+    {
+      "name": "E05_equal_quotient_prefers_larger_vote_total",
+      "input": {"method": "dhondt", "seats": 2, "partyVotes": {"A": 100, "B": 50}, "blankVotes": 0, "invalidVotes": 0, "tieOrders": {}},
+      "expected": {"validVotes": 150, "seatsByParty": {"A": 2, "B": 0}, "seatOrder": ["A", "A"]}
+    },
+    {
+      "name": "E06_equal_votes_alternate_three_seats",
+      "input": {"method": "dhondt", "seats": 3, "partyVotes": {"A": 100, "B": 100}, "blankVotes": 0, "invalidVotes": 0, "tieOrders": {"100": ["A", "B"]}},
+      "expected": {"seatsByParty": {"A": 1, "B": 2}, "seatOrder": ["A", "B", "B"]}
+    },
+    {
+      "name": "E07_equal_votes_alternate_five_seats",
+      "input": {"method": "dhondt", "seats": 5, "partyVotes": {"A": 100, "B": 100}, "blankVotes": 0, "invalidVotes": 0, "tieOrders": {"100": ["A", "B"]}},
+      "expected": {"seatsByParty": {"A": 3, "B": 2}, "seatOrder": ["A", "B", "B", "A", "A"]}
+    },
+    {
+      "name": "E08_reversed_initial_lottery",
+      "input": {"method": "dhondt", "seats": 3, "partyVotes": {"A": 100, "B": 100}, "blankVotes": 0, "invalidVotes": 0, "tieOrders": {"100": ["B", "A"]}},
+      "expected": {"seatsByParty": {"A": 2, "B": 1}, "seatOrder": ["B", "A", "A"]}
+    },
+    {
+      "name": "E09_input_order_does_not_break_ties",
+      "input": {"method": "dhondt", "seats": 3, "partyVotes": {"B": 100, "A": 100}, "blankVotes": 0, "invalidVotes": 0, "tieOrders": {"100": ["A", "B"]}},
+      "expected": {"seatsByParty": {"A": 1, "B": 2}, "seatOrder": ["A", "B", "B"]}
+    },
+    {
+      "name": "E10_three_way_game_convention",
+      "input": {"method": "dhondt", "seats": 4, "partyVotes": {"A": 100, "B": 100, "C": 100}, "blankVotes": 0, "invalidVotes": 0, "tieOrders": {"100": ["A", "B", "C"]}},
+      "expected": {"seatsByParty": {"A": 1, "B": 2, "C": 1}, "seatOrder": ["A", "B", "C", "B"], "conventions": ["MULTIWAY_TIE_CONVENTION"]},
+      "notes": "Declared simulation convention, not a verified legal interpretation of a three-way tie."
+    },
+    {
+      "name": "E11_ceuta_uses_plurality_not_provincial_threshold",
+      "input": {"method": "single_member", "districtId": "ceuta", "seats": 1, "partyVotes": {"A": 20, "B": 10}, "blankVotes": 970, "invalidVotes": 0, "tieOrders": {}},
+      "expected": {"validVotes": 1000, "seatsByParty": {"A": 1, "B": 0}, "seatOrder": ["A"]}
+    },
+    {
+      "name": "E12_melilla_one_seat",
+      "input": {"method": "single_member", "districtId": "melilla", "seats": 1, "partyVotes": {"A": 25, "B": 35}, "blankVotes": 40, "invalidVotes": 7, "tieOrders": {}},
+      "expected": {"validVotes": 100, "castVotes": 107, "seatsByParty": {"A": 0, "B": 1}, "seatOrder": ["B"]}
+    },
+    {
+      "name": "E13_single_member_tie_game_convention",
+      "input": {"method": "single_member", "districtId": "ceuta", "seats": 1, "partyVotes": {"A": 100, "B": 100}, "blankVotes": 0, "invalidVotes": 0, "tieOrders": {"100": ["B", "A"]}},
+      "expected": {"seatsByParty": {"A": 0, "B": 1}, "seatOrder": ["B"], "conventions": ["SINGLE_MEMBER_TIE_CONVENTION"]},
+      "notes": "Declared simulation convention; the consulted single-member provision does not specify this tie algorithm."
+    },
+    {
+      "name": "E14_provincial_zero_candidate_votes_rejected",
+      "input": {"method": "dhondt", "seats": 3, "partyVotes": {"A": 0, "B": 0}, "blankVotes": 100, "invalidVotes": 0, "tieOrders": {}},
+      "expected": {"error": "NO_ELIGIBLE_LISTS"}
+    },
+    {
+      "name": "E15_no_valid_votes_rejected",
+      "input": {"method": "dhondt", "seats": 3, "partyVotes": {"A": 0, "B": 0}, "blankVotes": 0, "invalidVotes": 100, "tieOrders": {}},
+      "expected": {"error": "NO_VALID_VOTES"}
+    },
+    {
+      "name": "E16_negative_votes_rejected",
+      "input": {"method": "dhondt", "seats": 3, "partyVotes": {"A": -1, "B": 100}, "blankVotes": 0, "invalidVotes": 0, "tieOrders": {}},
+      "expected": {"error": "INVALID_VOTE_COUNT"}
+    },
+    {
+      "name": "E17_missing_lottery_rejected",
+      "input": {"method": "dhondt", "seats": 3, "partyVotes": {"A": 100, "B": 100}, "blankVotes": 0, "invalidVotes": 0, "tieOrders": {}},
+      "expected": {"error": "TIE_DRAW_REQUIRED"}
+    },
+    {
+      "name": "E18_invalid_lottery_order_rejected",
+      "input": {"method": "dhondt", "seats": 3, "partyVotes": {"A": 100, "B": 100}, "blankVotes": 0, "invalidVotes": 0, "tieOrders": {"100": ["A", "A"]}},
+      "expected": {"error": "INVALID_TIE_ORDER"}
+    }
+  ],
+  "investitureCases": [
+    {"name": "I01_absolute_majority", "input": {"round": 1, "yes": 176, "no": 174, "abstain": 0, "firstRoundFailed": false}, "expected": {"invested": true}},
+    {"name": "I02_simple_majority_insufficient_in_round_one", "input": {"round": 1, "yes": 175, "no": 150, "abstain": 25, "firstRoundFailed": false}, "expected": {"invested": false}},
+    {"name": "I03_same_votes_succeed_in_round_two", "input": {"round": 2, "yes": 175, "no": 150, "abstain": 25, "firstRoundFailed": true}, "expected": {"invested": true}},
+    {"name": "I04_abstentions_allow_small_simple_majority", "input": {"round": 2, "yes": 170, "no": 169, "abstain": 11, "firstRoundFailed": true}, "expected": {"invested": true}},
+    {"name": "I05_tie_fails", "input": {"round": 2, "yes": 170, "no": 170, "abstain": 10, "firstRoundFailed": true}, "expected": {"invested": false}},
+    {"name": "I06_half_is_not_absolute_majority", "input": {"round": 1, "yes": 175, "no": 175, "abstain": 0, "firstRoundFailed": false}, "expected": {"invested": false}},
+    {"name": "I07_351_votes_rejected", "input": {"round": 1, "yes": 176, "no": 174, "abstain": 1, "firstRoundFailed": false}, "expected": {"error": "INVALID_INVESTITURE_TOTAL"}},
+    {"name": "I08_second_round_without_first_failure_rejected", "input": {"round": 2, "yes": 175, "no": 150, "abstain": 25, "firstRoundFailed": false}, "expected": {"error": "INVALID_INVESTITURE_TRANSITION"}}
+  ]
+}

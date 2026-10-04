@@ -1,0 +1,1190 @@
+{
+  "schemaVersion": "0.1.0",
+  "rulesVersion": "0.7.0",
+  "scenarioId": "ESPANA_FICCION_2023_A",
+  "title": "La campaña",
+  "subtitle": "España en juego",
+  "status": "prototype",
+  "fictionNotice": "Partidos, personajes, electores y efectos ficticios. Reparto provincial de escaños de 2023. No es una predicción electoral.",
+  "turns": 10,
+  "playerParty": "P1",
+  "initialFocus": "09",
+  "resources": {
+    "budget": {
+      "initial": 60,
+      "min": 0,
+      "max": 160
+    },
+    "energy": {
+      "initial": 70,
+      "min": 0,
+      "max": 100,
+      "recovery": 8
+    },
+    "cohesion": {
+      "initial": 60,
+      "min": 0,
+      "max": 100
+    },
+    "reputation": {
+      "initial": 50,
+      "min": 0,
+      "max": 100
+    },
+    "readiness": {
+      "initial": 0,
+      "min": 0,
+      "max": 6
+    },
+    "rapport": {
+      "initial": 0,
+      "min": -5,
+      "max": 5
+    },
+    "relation": {
+      "initial": 0,
+      "min": -5,
+      "max": 5
+    },
+    "organization": {
+      "initial": 0,
+      "min": 0,
+      "max": 5
+    }
+  },
+  "initialFlags": {
+    "agendaPosted": true
+  },
+  "slots": {
+    "candidate": 1,
+    "staff": 2
+  },
+  "staffSelection": 2,
+  "candidateProfiles": [
+    {
+      "id": "preparacion",
+      "label": "Preparación",
+      "bonus": {
+        "action": "prepare",
+        "stat": "readiness",
+        "delta": 1
+      },
+      "drawback": {
+        "action": "visit",
+        "resource": "energy",
+        "extra": 2
+      }
+    },
+    {
+      "id": "conexion",
+      "label": "Conexión",
+      "bonus": {
+        "effect": "rapport_positive",
+        "extra": 1,
+        "maxPerTurn": 1
+      },
+      "drawback": {
+        "action": "research",
+        "resource": "budget",
+        "extra": 1
+      }
+    },
+    {
+      "id": "coordinacion",
+      "label": "Coordinación",
+      "bonus": {
+        "effect": "staff_reserved_by_event",
+        "stat": "cohesion",
+        "delta": 1,
+        "maxPerTurn": 1
+      },
+      "drawback": {
+        "action": "interview",
+        "resource": "energy",
+        "extra": 2
+      }
+    }
+  ],
+  "staff": [
+    {
+      "id": "S1",
+      "name": "Inés Vela",
+      "specialty": "analysis",
+      "bonus": {
+        "action": "research",
+        "discountBudget": 1
+      }
+    },
+    {
+      "id": "S2",
+      "name": "Bruno Castaño",
+      "specialty": "organization",
+      "bonus": {
+        "action": "organize",
+        "discountBudget": 1
+      }
+    },
+    {
+      "id": "S3",
+      "name": "Ada Llera",
+      "specialty": "communication",
+      "bonus": {
+        "action": "prepare",
+        "extraReadiness": 1
+      }
+    },
+    {
+      "id": "S4",
+      "name": "Saúl Ferrer",
+      "specialty": "relations",
+      "bonus": {
+        "action": "outreach",
+        "extraRapport": 1
+      }
+    }
+  ],
+  "civilActors": [
+    {
+      "id": "C1",
+      "name": "Mesa Abierta"
+    },
+    {
+      "id": "C2",
+      "name": "Taller Cívico"
+    }
+  ],
+  "parties": [
+    {
+      "id": "P1",
+      "name": "Partido Azul",
+      "eligibility": "all",
+      "baseWeight": 2800,
+      "policyIdeal": [
+        1,
+        2,
+        2,
+        1
+      ],
+      "positions": {
+        "T1": 1,
+        "T2": 1,
+        "T3": 1,
+        "T4": -1
+      },
+      "archetype": "jugador",
+      "short": "AZ",
+      "color": "#2563B8",
+      "ideology": "Conservador",
+      "summary": "Continuidad institucional, colaboración público-privada y contención del gasto.",
+      "keys": [
+        "Continuidad institucional",
+        "Colaboración mixta",
+        "Contención del gasto"
+      ],
+      "defaultCommitments": [
+        "T2",
+        "T3"
+      ],
+      "playHint": "Azul encuentra puntos de partida con Naranja y Amarillo. Conseguir una mayoría puede exigir abrir otra conversación.",
+      "identityId": "azul"
+    },
+    {
+      "id": "P2",
+      "name": "Partido Rojo",
+      "eligibility": "all",
+      "baseWeight": 2800,
+      "policyIdeal": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "positions": {
+        "T1": -1,
+        "T2": -1,
+        "T3": -1,
+        "T4": -1
+      },
+      "archetype": "prudente",
+      "short": "RO",
+      "color": "#C33B48",
+      "ideology": "Socialista moderado",
+      "summary": "Servicios públicos, regulación de la vivienda y una transición apoyada por la inversión pública.",
+      "keys": [
+        "Servicios públicos",
+        "Regulación de la vivienda",
+        "Coordinación central"
+      ],
+      "defaultCommitments": [
+        "T1",
+        "T2"
+      ],
+      "playHint": "Rojo puede construir acuerdos con Morado y Verde. Mantener vivienda y servicios limita cuánto puedes ceder en otras prioridades.",
+      "identityId": "rojo"
+    },
+    {
+      "id": "P3",
+      "name": "Partido Naranja",
+      "eligibility": "all",
+      "baseWeight": 1300,
+      "policyIdeal": [
+        2,
+        1,
+        3,
+        0
+      ],
+      "positions": {
+        "T1": 1,
+        "T2": 1,
+        "T3": 1,
+        "T4": 1
+      },
+      "archetype": "prudente",
+      "short": "NA",
+      "color": "#D97314",
+      "ideology": "Liberal",
+      "summary": "Más oferta de vivienda, colaboración mixta, menores cargas y autonomía territorial.",
+      "keys": [
+        "Oferta de vivienda",
+        "Menores cargas económicas",
+        "Autonomía territorial"
+      ],
+      "defaultCommitments": [
+        "T1",
+        "T3"
+      ],
+      "playHint": "Naranja parte de una relación cercana con Azul. Su autonomía territorial lo distancia de Amarillo y obliga a negociar.",
+      "identityId": "naranja"
+    },
+    {
+      "id": "P4",
+      "name": "Partido Amarillo",
+      "eligibility": "all",
+      "baseWeight": 900,
+      "policyIdeal": [
+        2,
+        0,
+        1,
+        3
+      ],
+      "positions": {
+        "T1": 1,
+        "T2": 1,
+        "T3": 1,
+        "T4": -1
+      },
+      "archetype": "agresivo",
+      "short": "AM",
+      "color": "#E3BC20",
+      "ideology": "Derecha nacional",
+      "summary": "Una derecha más marcada que prioriza coordinación central, vivienda de mercado y contención del gasto.",
+      "keys": [
+        "Coordinación central fuerte",
+        "Oferta de vivienda",
+        "Contención del gasto"
+      ],
+      "defaultCommitments": [
+        "T1",
+        "T4"
+      ],
+      "playHint": "Amarillo coincide con Azul en sus posturas, pero exige más prioridad para territorio. Ese énfasis dificulta ciertos pactos.",
+      "identityId": "amarillo"
+    },
+    {
+      "id": "R1",
+      "name": "Partido Morado",
+      "eligibility": "all",
+      "baseWeight": 1300,
+      "policyIdeal": [
+        3,
+        2,
+        1,
+        0
+      ],
+      "positions": {
+        "T1": -1,
+        "T2": -1,
+        "T3": -1,
+        "T4": 1
+      },
+      "archetype": "agresivo",
+      "short": "MO",
+      "color": "#8541AA",
+      "ideology": "Izquierda transformadora",
+      "summary": "Más intervención en vivienda, gestión pública y autonomía territorial.",
+      "keys": [
+        "Intervención en vivienda",
+        "Gestión pública",
+        "Autonomía territorial"
+      ],
+      "defaultCommitments": [
+        "T1",
+        "T2"
+      ],
+      "playHint": "Morado exige más prioridad para vivienda que Rojo. Disputarle votos puede enfriar al socio que después necesitas.",
+      "identityId": "morado"
+    },
+    {
+      "id": "R2",
+      "name": "Partido Verde",
+      "eligibility": "all",
+      "baseWeight": 900,
+      "policyIdeal": [
+        1,
+        0,
+        3,
+        2
+      ],
+      "positions": {
+        "T1": -1,
+        "T2": -1,
+        "T3": -1,
+        "T4": 1
+      },
+      "archetype": "territorial",
+      "short": "VE",
+      "color": "#287D49",
+      "ideology": "Ecologista",
+      "summary": "La transición ecológica es la prioridad del programa, junto a la cooperación desde los territorios.",
+      "keys": [
+        "Transición ecológica",
+        "Inversión pública",
+        "Autonomía territorial"
+      ],
+      "defaultCommitments": [
+        "T3",
+        "T4"
+      ],
+      "playHint": "Verde comparte varias posturas con Rojo y Morado, pero dar prioridad a transición y territorio hace más exigente el acuerdo.",
+      "identityId": "verde"
+    }
+  ],
+  "topics": [
+    {
+      "id": "T1",
+      "name": "Vivienda",
+      "poles": [
+        {
+          "id": -1,
+          "label": "Regular el mercado"
+        },
+        {
+          "id": 1,
+          "label": "Facilitar la oferta"
+        }
+      ]
+    },
+    {
+      "id": "T2",
+      "name": "Servicios",
+      "poles": [
+        {
+          "id": -1,
+          "label": "Gestión pública"
+        },
+        {
+          "id": 1,
+          "label": "Colaboración mixta"
+        }
+      ]
+    },
+    {
+      "id": "T3",
+      "name": "Economía y transición",
+      "poles": [
+        {
+          "id": -1,
+          "label": "Inversión y transición"
+        },
+        {
+          "id": 1,
+          "label": "Menos gasto y cargas"
+        }
+      ]
+    },
+    {
+      "id": "T4",
+      "name": "Territorio",
+      "poles": [
+        {
+          "id": -1,
+          "label": "Coordinación central"
+        },
+        {
+          "id": 1,
+          "label": "Autonomía territorial"
+        }
+      ]
+    }
+  ],
+  "candidateActions": [
+    {
+      "id": "visit",
+      "label": "Visita",
+      "target": "province",
+      "cost": {
+        "budget": 6,
+        "energy": 12
+      },
+      "effect": {
+        "localSupport": 450
+      }
+    },
+    {
+      "id": "interview",
+      "label": "Entrevista",
+      "target": "national",
+      "cost": {
+        "budget": 4,
+        "energy": 10
+      },
+      "effect": {
+        "nationalSupport": 65,
+        "consumeReadinessUpTo": 1,
+        "perReadinessBonus": 35
+      }
+    },
+    {
+      "id": "rehearse",
+      "label": "Ensayar",
+      "target": "none",
+      "cost": {
+        "budget": 2,
+        "energy": 6
+      },
+      "effect": {
+        "readiness": 2
+      }
+    },
+    {
+      "id": "rest",
+      "label": "Reservar tiempo",
+      "target": "none",
+      "cost": {
+        "budget": 0,
+        "energy": 0
+      },
+      "effect": {
+        "energy": 20
+      }
+    },
+    {
+      "id": "fundraise",
+      "label": "Recaudar fondos",
+      "target": "none",
+      "cost": {
+        "budget": 0,
+        "energy": 16
+      },
+      "effect": {
+        "budget": 22,
+        "lateBudget": 16,
+        "abuseAfter": 2,
+        "abuseReputation": -4
+      }
+    },
+    {
+      "id": "contrast",
+      "label": "Contrastar con un rival",
+      "target": "rival_party",
+      "cost": {
+        "budget": 4,
+        "energy": 10
+      },
+      "effect": {
+        "nationalSupport": 75,
+        "rivalSupport": -75,
+        "relation": -2,
+        "boomerangSupport": -55,
+        "boomerangReputation": -3,
+        "riskUnpreparedPercent": 35,
+        "riskPreparedPercent": 15,
+        "consumeReadinessUpTo": 1
+      }
+    }
+  ],
+  "staffActions": [
+    {
+      "id": "organize",
+      "label": "Organizar presencia",
+      "target": "province",
+      "cost": {
+        "budget": 3,
+        "energy": 0
+      },
+      "effect": {
+        "organization": 1
+      }
+    },
+    {
+      "id": "research",
+      "label": "Contrastar información",
+      "target": "province",
+      "cost": {
+        "budget": 4,
+        "energy": 0
+      },
+      "effect": {
+        "pollPrecisionTurns": 2
+      }
+    },
+    {
+      "id": "outreach",
+      "label": "Dar seguimiento",
+      "target": "civil_actor",
+      "cost": {
+        "budget": 2,
+        "energy": 0
+      },
+      "effect": {
+        "rapport": 1
+      }
+    },
+    {
+      "id": "prepare",
+      "label": "Preparar entrevista",
+      "target": "none",
+      "cost": {
+        "budget": 2,
+        "energy": 0
+      },
+      "effect": {
+        "readiness": 1
+      }
+    },
+    {
+      "id": "mediate",
+      "label": "Mantener interlocución",
+      "target": "rival_party",
+      "cost": {
+        "budget": 2,
+        "energy": 0
+      },
+      "effect": {
+        "relation": 1
+      }
+    },
+    {
+      "id": "wait",
+      "label": "Mantener disponibilidad",
+      "target": "none",
+      "cost": {
+        "budget": 0,
+        "energy": 0
+      },
+      "effect": {}
+    },
+    {
+      "id": "advertise",
+      "label": "Lanzar publicidad",
+      "target": "province_or_national",
+      "cost": {
+        "budget": 8,
+        "energy": 0
+      },
+      "nationalCost": {
+        "budget": 14,
+        "energy": 0
+      },
+      "effect": {
+        "localSupport": 380,
+        "nationalSupport": 55
+      }
+    }
+  ],
+  "support": {
+    "minWeight": 100,
+    "baseJitter": 180,
+    "campaignDeltaMin": -2200,
+    "campaignDeltaMax": 2400,
+    "organizationWeight": 70,
+    "reputationWeight": 2,
+    "repeatPercent": [
+      100,
+      80,
+      60
+    ],
+    "energyLowBelow": 25,
+    "energyLowPercent": 75,
+    "cohesionLowBelow": 35,
+    "cohesionLowPercent": 75,
+    "eventLocalMaxAbs": 150,
+    "eventNationalMaxAbs": 25,
+    "debateNationalTotalMaxAbs": 180,
+    "organizationYieldPerTurn": 35,
+    "affinityWeight": 70
+  },
+  "electorate": {
+    "perSeat": 100000,
+    "turnoutPermille": 700,
+    "blankPermilleOfCast": 10,
+    "invalidPermilleOfCast": 10
+  },
+  "polls": {
+    "defaultNoiseBp": 150,
+    "researchNoiseBp": 60,
+    "projectionSamples": 25,
+    "displayPrecision": "whole_percent",
+    "researchExpiresAfterTurns": 2
+  },
+  "negotiation": {
+    "rounds": 3,
+    "topicsUnits": 6,
+    "maxUnitsPerTopic": 3,
+    "commitmentsChosen": 2,
+    "commitmentMinUnits": 2,
+    "distanceMultiplier": 1,
+    "baseAcceptance": 6,
+    "rivalryCostNational": 3,
+    "rivalryCostTerritorial": 1,
+    "leaderSeatDeficitDivisor": 40,
+    "leaderSeatDeficitMaxPenalty": 3,
+    "yesThreshold": 1,
+    "abstainThreshold": -1,
+    "territorialMinimum": 2,
+    "brokenCommitmentReputationCost": 4,
+    "seatTieOrder": [
+      "P1",
+      "P2",
+      "P3",
+      "P4",
+      "R1",
+      "R2"
+    ],
+    "playerFirstProposal": false,
+    "minRelationForAutomaticSupport": 2,
+    "rivalMediationTurn": 5,
+    "rivalMediationTurns": [
+      5,
+      9
+    ],
+    "stanceDisagreementPenalty": 2,
+    "rivalStancePriorityWeight": 3,
+    "broadDisagreementThreshold": 3,
+    "broadDisagreementPenalty": 1,
+    "rivalCommitmentMinUnits": 2,
+    "counterofferBudgetCost": 3,
+    "counterofferRelationBonus": 1,
+    "dialogueBridge": {
+      "minPlayerRelation": 4,
+      "minDirectRelation": -1,
+      "relationDiscount": 1
+    },
+    "secondBallotRevisionCost": 2
+  },
+  "runtime": {
+    "offline": true,
+    "externalAI": false,
+    "accounts": false,
+    "analytics": false,
+    "maxImportBytes": 1048576,
+    "maxCommands": 5000,
+    "autosaveSlots": 2
+  },
+  "rapportEnergyDiscount": {
+    "threshold": 3,
+    "amount": 2,
+    "maxApplicationsPerOption": 1,
+    "eventActors": {
+      "E02": [
+        "C1"
+      ],
+      "E03": [
+        "C1"
+      ],
+      "E04": [
+        "C2"
+      ],
+      "E10": [
+        "C2"
+      ],
+      "E11": [
+        "C1",
+        "C2"
+      ]
+    }
+  },
+  "deck": {
+    "eventCount": 38,
+    "urgentPriority": 30,
+    "rivalContrastTurns": [
+      3,
+      7
+    ],
+    "rivalContrastDisagreementBp": 300
+  },
+  "partyColors": {
+    "P1": "#2563B8",
+    "P2": "#C33B48",
+    "P3": "#D97314",
+    "P4": "#E3BC20",
+    "R1": "#8541AA",
+    "R2": "#287D49"
+  },
+  "defaultCampaignScenario": "abierta",
+  "defaultDifficulty": "normal",
+  "campaignScenarios": [
+    {
+      "initialProvince": "09",
+      "defaultCommitments": [
+        "T2",
+        "T3"
+      ],
+      "playerResources": {},
+      "partyOverrides": [],
+      "initialRelations": [],
+      "initialOrganization": [],
+      "id": "abierta",
+      "label": "Campaña abierta",
+      "tagline": "La primera propuesta se disputa en las urnas.",
+      "description": "Dos fuerzas parten cerca. Puedes buscar el liderazgo, preparar aliados o sacrificar presencia para conseguir recursos. En Disputada y Exigente, la primera propuesta sigue el orden de escaños; Iniciación te reserva esa primera oportunidad.",
+      "objective": {
+        "kind": "government",
+        "title": "Llegar al Gobierno",
+        "description": "Encabeza una investidura. Obtener más votos y preparar acuerdos son tareas distintas."
+      }
+    },
+    {
+      "initialProvince": "09",
+      "defaultCommitments": [
+        "T2",
+        "T3"
+      ],
+      "playerResources": {
+        "budget": 52,
+        "energy": 75,
+        "reputation": 45
+      },
+      "partyOverrides": [
+        {
+          "id": "P1",
+          "baseWeight": 1900
+        }
+      ],
+      "initialRelations": [],
+      "initialOrganization": [],
+      "id": "aspirante",
+      "label": "El aspirante",
+      "tagline": "Tienes que hacerte un sitio.",
+      "description": "Partes con menos apoyo y una caja más ajustada. Tu objetivo es alcanzar 80 escaños; después decidirás cómo usar tu nueva fuerza parlamentaria.",
+      "objective": {
+        "kind": "seats",
+        "title": "Abrir camino",
+        "description": "Alcanza 80 escaños. La entrada en un Gobierno será una segunda historia.",
+        "seatTarget": 80
+      }
+    },
+    {
+      "initialProvince": "09",
+      "defaultCommitments": [
+        "T2",
+        "T3"
+      ],
+      "playerResources": {
+        "budget": 72,
+        "energy": 62,
+        "readiness": 1,
+        "reputation": 52
+      },
+      "partyOverrides": [
+        {
+          "id": "P1",
+          "baseWeight": 3150
+        }
+      ],
+      "initialRelations": [
+        {
+          "a": "P1",
+          "b": "P2",
+          "value": -1
+        },
+        {
+          "a": "P1",
+          "b": "P3",
+          "value": -1
+        },
+        {
+          "a": "P1",
+          "b": "P4",
+          "value": -1
+        }
+      ],
+      "initialOrganization": [
+        {
+          "partyId": "P1",
+          "provinces": [
+            "09",
+            "28",
+            "41",
+            "46"
+          ],
+          "level": 1
+        }
+      ],
+      "id": "gobierno",
+      "label": "Defender el Gobierno",
+      "tagline": "La ventaja pesa, y también desgasta.",
+      "description": "Empiezas con más presencia y recursos, pero con menos energía y relaciones frías. Revalidar el Gobierno exige conservar tus dos prioridades y preparar una mayoría.",
+      "objective": {
+        "kind": "government",
+        "title": "Revalidar con prioridades",
+        "description": "Encabeza el Gobierno manteniendo al menos dos unidades para cada una de tus prioridades.",
+        "requireCommitments": true
+      }
+    },
+    {
+      "initialProvince": "15",
+      "defaultCommitments": [
+        "T2",
+        "T4"
+      ],
+      "playerResources": {
+        "budget": 46,
+        "energy": 78
+      },
+      "partyOverrides": [
+        {
+          "id": "P1",
+          "eligibility": [
+            "15",
+            "27",
+            "32",
+            "36"
+          ],
+          "baseWeight": 6500
+        },
+        {
+          "id": "P2",
+          "baseWeight": 2300
+        },
+        {
+          "id": "P3",
+          "baseWeight": 2300
+        },
+        {
+          "id": "P4",
+          "baseWeight": 4800
+        }
+      ],
+      "initialRelations": [
+        {
+          "a": "P2",
+          "b": "P3",
+          "value": -1
+        },
+        {
+          "a": "P2",
+          "b": "P4",
+          "value": -1
+        },
+        {
+          "a": "P3",
+          "b": "P4",
+          "value": -1
+        }
+      ],
+      "initialOrganization": [],
+      "id": "bisagra",
+      "label": "La llave territorial",
+      "tagline": "Tu mapa es pequeño. Tu acuerdo puede ser grande.",
+      "description": "Tu candidatura se concentra en Galicia. Consigue ocho escaños y participa en un acuerdo que mantenga tus prioridades y la autonomía territorial.",
+      "objective": {
+        "kind": "territorial",
+        "title": "Entrar en el acuerdo",
+        "description": "Obtén ocho escaños y apoya un Gobierno que reserve dos unidades a Territorio y mantenga tus prioridades.",
+        "seatTarget": 8,
+        "topicId": "T4",
+        "minUnits": 2,
+        "requireCommitments": true
+      },
+      "priorityOverrides": [
+        {
+          "partyIdentity": "verde",
+          "commitments": [
+            "T1",
+            "T4"
+          ],
+          "description": "La candidatura territorial prioriza vivienda y autonomía; mantiene su programa ecologista."
+        }
+      ]
+    }
+  ],
+  "difficulties": [
+    {
+      "id": "iniciacion",
+      "label": "Iniciación",
+      "description": "Doce unidades extra de presupuesto, diez de energía y primera propuesta para tu candidatura. Sirve para descubrir el juego. Rivales con rutas sencillas.",
+      "playerFirstProposal": true,
+      "playerResourceBonus": {
+        "budget": 12,
+        "energy": 10
+      },
+      "rivalResources": {}
+    },
+    {
+      "id": "normal",
+      "label": "Disputada",
+      "description": "La primera propuesta sigue el orden de escaños. Los rivales parten con los recursos ordinarios. Los rivales disputan escaños marginales y responden a tu última visita.",
+      "playerFirstProposal": false,
+      "playerResourceBonus": {},
+      "rivalResources": {}
+    },
+    {
+      "id": "exigente",
+      "label": "Exigente",
+      "description": "Orden por escaños. Los rivales empiezan con 78 de presupuesto y una unidad de preparación; pagan los mismos costes y usan sondeos. Los rivales priorizan defensa, respuesta territorial y socios viables.",
+      "playerFirstProposal": false,
+      "playerResourceBonus": {},
+      "rivalResources": {
+        "budget": 78,
+        "readiness": 1
+      }
+    }
+  ],
+  "defaultPartyIdentity": "azul",
+  "partyIdentities": [
+    {
+      "id": "azul",
+      "name": "Partido Azul",
+      "short": "AZ",
+      "color": "#2563B8",
+      "ideology": "Conservador",
+      "summary": "Continuidad institucional, colaboración público-privada y contención del gasto.",
+      "keys": [
+        "Continuidad institucional",
+        "Colaboración mixta",
+        "Contención del gasto"
+      ],
+      "positions": {
+        "T1": 1,
+        "T2": 1,
+        "T3": 1,
+        "T4": -1
+      },
+      "policyIdeal": [
+        1,
+        2,
+        2,
+        1
+      ],
+      "defaultCommitments": [
+        "T2",
+        "T3"
+      ],
+      "archetype": "prudente",
+      "playHint": "Azul encuentra puntos de partida con Naranja y Amarillo. Conseguir una mayoría puede exigir abrir otra conversación."
+    },
+    {
+      "id": "rojo",
+      "name": "Partido Rojo",
+      "short": "RO",
+      "color": "#C33B48",
+      "ideology": "Socialista moderado",
+      "summary": "Servicios públicos, regulación de la vivienda y una transición apoyada por la inversión pública.",
+      "keys": [
+        "Servicios públicos",
+        "Regulación de la vivienda",
+        "Coordinación central"
+      ],
+      "positions": {
+        "T1": -1,
+        "T2": -1,
+        "T3": -1,
+        "T4": -1
+      },
+      "policyIdeal": [
+        2,
+        2,
+        1,
+        1
+      ],
+      "defaultCommitments": [
+        "T1",
+        "T2"
+      ],
+      "archetype": "prudente",
+      "playHint": "Rojo puede construir acuerdos con Morado y Verde. Mantener vivienda y servicios limita cuánto puedes ceder en otras prioridades."
+    },
+    {
+      "id": "morado",
+      "name": "Partido Morado",
+      "short": "MO",
+      "color": "#8541AA",
+      "ideology": "Izquierda transformadora",
+      "summary": "Más intervención en vivienda, gestión pública y autonomía territorial.",
+      "keys": [
+        "Intervención en vivienda",
+        "Gestión pública",
+        "Autonomía territorial"
+      ],
+      "positions": {
+        "T1": -1,
+        "T2": -1,
+        "T3": -1,
+        "T4": 1
+      },
+      "policyIdeal": [
+        3,
+        2,
+        1,
+        0
+      ],
+      "defaultCommitments": [
+        "T1",
+        "T2"
+      ],
+      "archetype": "agresivo",
+      "playHint": "Morado exige más prioridad para vivienda que Rojo. Disputarle votos puede enfriar al socio que después necesitas."
+    },
+    {
+      "id": "verde",
+      "name": "Partido Verde",
+      "short": "VE",
+      "color": "#287D49",
+      "ideology": "Ecologista",
+      "summary": "La transición ecológica es la prioridad del programa, junto a la cooperación desde los territorios.",
+      "keys": [
+        "Transición ecológica",
+        "Inversión pública",
+        "Autonomía territorial"
+      ],
+      "positions": {
+        "T1": -1,
+        "T2": -1,
+        "T3": -1,
+        "T4": 1
+      },
+      "policyIdeal": [
+        1,
+        0,
+        3,
+        2
+      ],
+      "defaultCommitments": [
+        "T3",
+        "T4"
+      ],
+      "archetype": "territorial",
+      "playHint": "Verde comparte varias posturas con Rojo y Morado, pero dar prioridad a transición y territorio hace más exigente el acuerdo."
+    },
+    {
+      "id": "naranja",
+      "name": "Partido Naranja",
+      "short": "NA",
+      "color": "#D97314",
+      "ideology": "Liberal",
+      "summary": "Más oferta de vivienda, colaboración mixta, menores cargas y autonomía territorial.",
+      "keys": [
+        "Oferta de vivienda",
+        "Menores cargas económicas",
+        "Autonomía territorial"
+      ],
+      "positions": {
+        "T1": 1,
+        "T2": 1,
+        "T3": 1,
+        "T4": 1
+      },
+      "policyIdeal": [
+        2,
+        1,
+        3,
+        0
+      ],
+      "defaultCommitments": [
+        "T1",
+        "T3"
+      ],
+      "archetype": "prudente",
+      "playHint": "Naranja parte de una relación cercana con Azul. Su autonomía territorial lo distancia de Amarillo y obliga a negociar."
+    },
+    {
+      "id": "amarillo",
+      "name": "Partido Amarillo",
+      "short": "AM",
+      "color": "#E3BC20",
+      "ideology": "Derecha nacional",
+      "summary": "Una derecha más marcada que prioriza coordinación central, vivienda de mercado y contención del gasto.",
+      "keys": [
+        "Coordinación central fuerte",
+        "Oferta de vivienda",
+        "Contención del gasto"
+      ],
+      "positions": {
+        "T1": 1,
+        "T2": 1,
+        "T3": 1,
+        "T4": -1
+      },
+      "policyIdeal": [
+        2,
+        0,
+        1,
+        3
+      ],
+      "defaultCommitments": [
+        "T1",
+        "T4"
+      ],
+      "archetype": "agresivo",
+      "playHint": "Amarillo coincide con Azul en sus posturas, pero exige más prioridad para territorio. Ese énfasis dificulta ciertos pactos."
+    }
+  ],
+  "partyRelations": [
+    {
+      "a": "azul",
+      "b": "naranja",
+      "value": 1
+    },
+    {
+      "a": "azul",
+      "b": "amarillo",
+      "value": 1
+    },
+    {
+      "a": "rojo",
+      "b": "morado",
+      "value": 1
+    },
+    {
+      "a": "rojo",
+      "b": "verde",
+      "value": 1
+    },
+    {
+      "a": "morado",
+      "b": "verde",
+      "value": 1
+    },
+    {
+      "a": "morado",
+      "b": "azul",
+      "value": -1
+    },
+    {
+      "a": "morado",
+      "b": "naranja",
+      "value": -1
+    },
+    {
+      "a": "morado",
+      "b": "amarillo",
+      "value": -1
+    },
+    {
+      "a": "rojo",
+      "b": "amarillo",
+      "value": -1
+    },
+    {
+      "a": "verde",
+      "b": "amarillo",
+      "value": -1
+    },
+    {
+      "a": "naranja",
+      "b": "amarillo",
+      "value": 1
+    }
+  ]
+}
