@@ -743,8 +743,8 @@
       "origin": "canonical-source"
     },
     "app/js/ui/main.mjs": {
-      "sha256": "f18bf6c5d879ed7e246eeece464dbe3ade8ada5f91a58d7742e86c246eeae88c",
-      "bytes": 201092,
+      "sha256": "6dd6b1d292093d704f8eb78ffe8a94e7cf9c8631c4856c92bb81bf143c0105cf",
+      "bytes": 201151,
       "origin": "canonical-source"
     },
     "app/js/ui/meeting-agenda.mjs": {
