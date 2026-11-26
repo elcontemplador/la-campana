@@ -19,7 +19,9 @@
     "election-night.test.mjs",
     "campaign-edition.test.mjs",
     "economic-dilemma-mechanics.test.mjs",
-    "economic-dilemma-text.test.mjs"
+    "economic-dilemma-text.test.mjs",
+    "pact-decision.test.mjs",
+    "usability.test.mjs"
   ],
   "sourceStable": true,
   "publication": "not-performed",
@@ -36,8 +38,8 @@
       "origin": "release-generated"
     },
     "README.md": {
-      "sha256": "122d060c30a477a08afbf735beece178b0e76c2c373a55596507e5f35a13ac43",
-      "bytes": 5436,
+      "sha256": "ea955711b179b0e98ee690d77753d4b4cf0ca5096bf4b1aea6a1bfafe25dbd69",
+      "bytes": 5757,
       "origin": "release-generated"
     },
     "app/.nojekyll": {
@@ -116,8 +118,8 @@
       "origin": "canonical-source"
     },
     "app/index.html": {
-      "sha256": "6d3b61230f0ddd7e5cdd59e7bbbca3a9439be151b0833e20f835d3eb58a63745",
-      "bytes": 1859,
+      "sha256": "0fdc5ffb60d673f9a3c40e97d8f76cfc1d90db24a6de33dde3a5973a2b41ec28",
+      "bytes": 2031,
       "origin": "canonical-source"
     },
     "app/js/ai/rivals.mjs": {
@@ -741,8 +743,8 @@
       "origin": "canonical-source"
     },
     "app/js/ui/main.mjs": {
-      "sha256": "fd13e89bad7278caaf4d0de4f51d3d4e7eac465f3c852f4f2beb266da40745cc",
-      "bytes": 197646,
+      "sha256": "f18bf6c5d879ed7e246eeece464dbe3ade8ada5f91a58d7742e86c246eeae88c",
+      "bytes": 201092,
       "origin": "canonical-source"
     },
     "app/js/ui/meeting-agenda.mjs": {
@@ -776,8 +778,8 @@
       "origin": "canonical-source"
     },
     "app/js/ui/pact-decision.mjs": {
-      "sha256": "c0b0735e3b22aa52b76a47c39ee4c41f11a438485bd96f29677344786dfc9e05",
-      "bytes": 10156,
+      "sha256": "263a850191afae45e19f2bfcc1e5d48c72dbf248467196fbdc38bb58bfa8fb96",
+      "bytes": 10608,
       "origin": "canonical-source"
     },
     "app/js/ui/pact-rematch.mjs": {
@@ -925,6 +927,11 @@
       "bytes": 6817,
       "origin": "canonical-source"
     },
+    "app/styles/entry-ux.css": {
+      "sha256": "be9e4be9d8a3da1f559b58c9e1d31cef5a9de9b6776c7984b17c5ce23e572fde",
+      "bytes": 796,
+      "origin": "canonical-source"
+    },
     "app/styles/game.css": {
       "sha256": "94defdfdfb06b5a73218e53be34459c41a717781331819735129f7e38293b463",
       "bytes": 156554,
@@ -933,6 +940,16 @@
     "app/styles/news-desk.css": {
       "sha256": "2889ae9d1b20fb499db00a5cc0bdb61f2b75eb3226e4e68d2b691d1c6b57037c",
       "bytes": 2821,
+      "origin": "canonical-source"
+    },
+    "app/styles/turn-plan.css": {
+      "sha256": "9004e22fbe41148ba1405f7e1151e636c7ba258efe083c569cdd8c7ac7bfbefb",
+      "bytes": 663,
+      "origin": "canonical-source"
+    },
+    "app/styles/turn-result.css": {
+      "sha256": "b1f8d745441c912ae8414070ca27825cafff299536f5b9e7fa90f1a827d23e5e",
+      "bytes": 1540,
       "origin": "canonical-source"
     },
     "data/electoral_fixtures.json": {
@@ -1160,6 +1177,11 @@
       "bytes": 1412,
       "origin": "canonical-source"
     },
+    "tests/pact-decision.test.mjs": {
+      "sha256": "2ba7b2e2d5dbb49ad7f466c854cab7c647b0d2c8dcd29c94e5295dc705aa2b26",
+      "bytes": 6220,
+      "origin": "canonical-source"
+    },
     "tests/political-recap-fixture.mjs": {
       "sha256": "6be3ac8a17f867e41cf28e1246b6f086710bd90a0d1204ed28794ffbb4a3eedb",
       "bytes": 1275,
@@ -1193,6 +1215,11 @@
     "tests/tutorial_chapters.test.mjs": {
       "sha256": "a79d6b6927c1ce4256ce50ee9ec5a516faa5de87b2a81a6b2ca778b646d80681",
       "bytes": 2793,
+      "origin": "canonical-source"
+    },
+    "tests/usability.test.mjs": {
+      "sha256": "0480650ea5caf6c2b95c05e3f97e8a1207d8b7ec70deb265be7b9ef4deb25f18",
+      "bytes": 6795,
       "origin": "canonical-source"
     }
   }

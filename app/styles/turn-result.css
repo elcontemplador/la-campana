@@ -1,0 +1,39 @@
+.turn-result-layout .protagonist h1 {
+  font: 500 clamp(1.3rem, 2vw, 1.8rem)/1.12 Georgia, serif;
+  letter-spacing: -.025em;
+  margin: .2rem 0;
+}
+.turn-result-layout .protagonist small { color: var(--muted); }
+.turn-result-layout .protagonist-scene { width: 96px; flex-basis: 96px; min-height: 54px; }
+.turn-result-layout .turn-direct-result {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: .2rem .6rem;
+  margin-block: .6rem;
+  padding: .65rem .85rem;
+}
+.turn-result-layout .turn-direct-result strong { font-size: 1.65rem; }
+.turn-result-layout .turn-direct-result.neutral { background: #f1f0e9; color: #414c44; }
+.turn-result-layout .turn-direct-result small { flex-basis: 100%; font-size: .78rem; }
+.turn-result-layout .rival-move-context summary {
+  cursor: pointer;
+  padding-block: .5rem;
+  font-size: .78rem;
+}
+.turn-result-layout .rival-move-context p { font-size: .8rem; }
+.turn-result-layout .turn-team-report summary small {
+  display: block;
+  color: var(--muted);
+  font-weight: 400;
+  margin-top: .15rem;
+}
+@media (min-width: 761px) {
+  .turn-result-layout > .debrief-agenda { grid-column: 2; grid-row: 1; }
+  .turn-result-layout > .territory-card { grid-column: 1; grid-row: 1; }
+}
+@media (max-width: 760px) {
+  .turn-result-layout .turn-poll-reward.compact { display: flex; flex-wrap: wrap; align-items: baseline; gap: .2rem .65rem; }
+  .turn-result-layout .turn-poll-reward.compact > div > strong { font-size: 1.3rem; }
+  .turn-result-layout .turn-poll-reward.compact > p { width: 100%; margin: 0; }
+}

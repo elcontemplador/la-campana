@@ -1,0 +1,26 @@
+.home .resume-campaign {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: .75rem 1rem;
+  padding: 1rem;
+  margin-block: 1rem;
+  border: 1px solid var(--line);
+  border-inline-start: .25rem solid var(--accent);
+  border-radius: .65rem;
+  background: var(--paper, #fcfaf4);
+}
+.resume-campaign > div { display: grid; gap: .2rem; min-width: 0; }
+.resume-campaign strong { overflow-wrap: anywhere; }
+.resume-campaign small, .resume-campaign span { font-size: .85rem; }
+.setup .setup-summary {
+  position: static;
+  margin-block: 1rem;
+  box-shadow: none;
+}
+@media (max-width: 760px) {
+  .setup .setup-title { margin-bottom: .75rem; }
+  .setup .setup-guide { padding: .75rem; margin-bottom: .75rem; }
+  .resume-campaign button { min-height: 44px; }
+}

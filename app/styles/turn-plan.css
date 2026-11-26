@@ -1,0 +1,11 @@
+.team-preview summary { cursor: pointer; padding-block: .35rem; min-height: 44px; }
+.team-preview summary span { display: block; margin-top: .15rem; line-height: 1.4; }
+.team-preview[open] summary { border-bottom: 1px solid var(--line); }
+.map-mission .text-button { display: block; min-height: 44px; }
+.phase-planning .map-mission { display: flex; }
+.phase-planning > .campaign-objective { margin-top: 1.5rem; }
+@media (max-width: 760px) {
+  .phase-planning .planning-briefline { display: block; margin: .4rem 0; }
+  .phase-planning .play-agenda .protagonist { margin-bottom: .45rem; }
+  .phase-planning .play-agenda .direct-actions { margin-bottom: .45rem; }
+}

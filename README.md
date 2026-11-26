@@ -11,7 +11,9 @@ Iniciación**. Elige tu partido, candidato y equipo; la guía se puede saltar.
 **Visitar, Medios, Recaudar y Descansar** preparan una jugada; **Jugar** la ejecuta
 junto con las tareas del equipo. Las noticias y el debate tienen decisiones propias.
 
-## Qué se juega en esta edición
+Al volver al juego, la portada muestra tu turno y la decisión pendiente. Puedes consultar provincias mientras preparas otra jugada, revisar las tareas del equipo y pulsar **Jugar el turno** cuando estés listo. El parte recoge tu acción y la respuesta rival. En la investidura de otro partido eliges tu voto y después lo confirmas.
+
+## Noche electoral
 
 En las noticias, cada respuesta muestra lo que harás y cuánto cuesta. Al acabar la campaña, el escrutinio vuelve a una provincia de tu recorrido, sigue la disputa por el último escaño y contrasta el sondeo con los votos. Puedes avanzar a tu ritmo o ir directamente al Congreso.
 
