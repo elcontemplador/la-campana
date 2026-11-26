@@ -118,6 +118,7 @@ export function newsReaction(state, sourceBundle) {
         if (confirmed.issue) {
           result.issueId = confirmed.issue.id;
           result.topicId = confirmed.topicId;
+          result.deskLine = `Tu anuncio defendía ${confirmed.issue.brief}.`;
           const selected = launch.choices.find(option => option.optionId === choice);
           set(`Tu primer titular: ${selected.subject}`, `Defendiste ${confirmed.issue.brief}.`,
             ...effects('support'), 'Ahora eliges tu jugada en el mapa.');
@@ -230,6 +231,10 @@ export function newsReaction(state, sourceBundle) {
     case 'E04':
       if(['0.8.1','0.8.2', '0.8.3','0.8.4','0.8.5'].includes(state.contentVersion)&&story.economicDecision){
         const subject={autonomos:'el taller de Marta','primer-empleo':'el primer empleo de Dani',energia:'la luz de la fábrica'}[story.economicDecision.caseId];
+        const deadline = outcome.obligations.find(item => item.status === 'open')?.dueTurn;
+        if (deadline) result.deskLine = `Le has dado tu palabra a ${civil('C2')} para el turno ${deadline}.`;
+        else if (choice === 'announce_now' || choice === 'postpone_answer')
+          result.deskLine = `La pregunta quedó sin contestar. «${story.economicDecision.question}»`;
         if(choice==='announce_now')set(`Defendiste tu propuesta sobre ${subject}`,
           ...effects('support'),'No abriste una promesa ni respondiste todavía a la pregunta del coste o los controles.');
         else if(choice==='costed_commitment')set(`Prometiste una explicación sobre ${subject}`,

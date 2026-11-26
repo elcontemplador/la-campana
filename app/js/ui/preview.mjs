@@ -72,25 +72,7 @@ export function campaignOpportunities(poll,bundle,{limit=2}={}) {
   return selected.slice(0,count);
 }
 
-// Three editorial stops through the already frozen result, not a new count.
-export function electionRevealSteps(state,originalBundle,{limit=3}={}) {
-  const result=state.electionResult||state.election||state.result;
-  if(!result?.districts)return [];
-  const bundle=resolveCampaignBundle(originalBundle,state),poll=state.publishedPolls?.P1;
-  const leader=(values,key)=>Object.entries(values||{}).sort((a,b)=>Number(key?b[1]?.[key]:b[1]||0)-Number(key?a[1]?.[key]:a[1]||0)||a[0].localeCompare(b[0]))[0]?.[0]||null;
-  return bundle.provinces.districts.filter(d=>canCampaignHere(bundle,d.id)&&result.districts[d.id]).map(d=>{
-    const actual=result.districts[d.id],published=poll?.districts?.[d.id];
-    const playerSeats=Number(actual.seatsByParty?.P1||0),projectedPlayerSeats=Number(published?.opportunity?.seats||0);
-    const finalLeader=leader(actual.partyVotes),previousLeader=leader(published?.values,'center');
-    const marginVotes=Number(actual.lastSeat?.votesNeeded||0);
-    const total=Object.values(actual.partyVotes||{}).reduce((sum,v)=>sum+Number(v||0),0);
-    return {provinceId:d.id,provinceName:d.name,seats:d.seats,playerSeats,projectedPlayerSeats,
-      change:playerSeats-projectedPlayerSeats,leader:finalLeader,previousLeader,
-      leaderChanged:!!previousLeader&&previousLeader!==finalLeader,lastSeatHolder:actual.lastSeat?.holder||null,
-      marginVotes,score:Math.abs(playerSeats-projectedPlayerSeats)*100+((previousLeader&&previousLeader!==finalLeader)?20:0)+d.seats/(1+marginVotes/Math.max(1,total)*100)};
-  }).sort((a,b)=>b.score-a.score||a.provinceId.localeCompare(b.provinceId))
-    .slice(0,clamp(Math.trunc(Number(limit)||0),0,3)).map(({score,...item})=>item);
-}
+export {electionRevealSteps} from './election-night.mjs';
 
 export function featuredRival(state,originalBundle,provinceId) {
   const bundle=resolveCampaignBundle(originalBundle,state),opportunity=state.publishedPolls?.P1?.districts?.[provinceId]?.opportunity;

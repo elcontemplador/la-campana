@@ -59,8 +59,13 @@ export function politicalRecap(state,sourceBundle){
    :'Aplazaste la respuesta y conservaste recursos. Ese día no prometiste una entrega.';
   const endings={fulfilled:'Entregaste la explicación comprometida.',reduced:'Entregaste una versión más breve de la explicación.',missed:'Llegaste a las urnas sin entregar esa explicación.',open:'La explicación quedó pendiente.'};
   const followup=thread?`${thread.openedTurn!==economyEntry.turn?`Turno ${thread.openedTurn}: después sí prometiste una explicación. `:''}${endings[thread.status]}`:null;
+  const posterLine = {
+   announce_now: `Defendiste ante la prensa tu propuesta sobre ${d.request}.`,
+   costed_commitment: `Prometiste volver con los detalles sobre ${d.request}.`,
+   postpone_answer: `Aplazaste la respuesta sobre ${d.request}.`,
+  }[choice];
   const item=make(economyEntry,'economic-question',({announce_now:'Defendiste la propuesta; la pregunta siguió abierta',costed_commitment:'Prometiste explicar cómo hacerlo',postpone_answer:'Aplazaste la respuesta económica'})[choice],'economy',thread?115:85,summary,
-   {context:economy.title,question:d.question,messages:[{label:'Tu propuesta',text:d.proposal}],followup});
+   {context:economy.title,question:d.question,messages:[{label:'Tu propuesta',text:d.proposal}],posterLine,followup});
   if(thread&&thread.entryId!==economyEntry.id)item.references.push({entryId:thread.entryId,label:`Ver la promesa · turno ${thread.openedTurn}`});
   if(thread?.closedTurn){const closing=entries.find(e=>e.turn===thread.closedTurn&&(e.changes||[]).some(c=>c.stat==='promise'&&c.target===thread.id));
    if(closing)item.references.push({entryId:closing.id,label:`Ver el cierre · turno ${closing.turn}`});}

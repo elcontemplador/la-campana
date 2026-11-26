@@ -98,9 +98,9 @@ export function tutorialStep(state, progress) {
     canAdvance = state.phase === 'ending' || (state.phase === 'negotiation' && (state.negotiation?.history?.length || 0) > 0);
     if (state.phase === 'election') {
       body = 'Ya se han repartido los escaños. Mira qué candidaturas pueden proponer un Gobierno y abre los acuerdos. Puedes buscar apoyos para tu propuesta o apoyar la de otro partido. Primera votación: 176 síes; segunda: más síes que noes.';
-      targetSelector = '[data-command="BEGIN_NEGOTIATION"]';
+      targetSelector = '[data-act="next-reveal"], [data-command="BEGIN_NEGOTIATION"]';
     } else if (state.phase === 'ending') {
-      body = 'Revisa el acuerdo y tus prioridades. Puedes repetir la misma campaña y cambiar una decisión; terminar el tutorial no cambia este resultado.';
+      body = 'Puedes volver a negociar con tus escaños, repetir la campaña entera o llevarte el cartel de esta partida.';
       targetSelector = '#phase-heading';
     }
   }

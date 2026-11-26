@@ -1,0 +1,60 @@
+.campaign-edition {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(250px, .85fr);
+  align-items: start;
+  gap: clamp(1.25rem, 4.2vw, 5rem);
+  max-width: 1090px;
+  margin: clamp(1rem, 3vw, 2.6rem) auto 2rem;
+}
+.edition-lead { padding-top: .65rem; min-width: 0; }
+.edition-byline {
+  display: flex; gap: .55rem; align-items: center; margin: 0;
+  color: var(--party-readable); font-size: .91rem; font-weight: 750; overflow-wrap: anywhere;
+}
+.campaign-edition .ending-headline {
+  margin: .85rem 0 1.1rem; max-width: 22ch;
+  font-size: clamp(2.15rem, 3.65vw, 3.5rem); line-height: 1.05; text-wrap: balance;
+}
+.edition-score {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .7rem 1.4rem;
+  padding: .9rem 0; border-block: 1px solid var(--line);
+}
+.edition-score p { margin: 0; font-size: 1rem; }
+.edition-score strong { font: 600 clamp(2.8rem, 5vw, 4.2rem)/1 Georgia, serif; }
+.edition-score div { border-inline-start: 3px solid var(--party); padding-inline-start: .9rem; }
+.edition-score small, .edition-memory small { display: block; font-size: .78rem; font-weight: 700; color: var(--muted); }
+.edition-score b { display: block; font-size: 1rem; }
+.edition-ballot { margin: 1rem 0; line-height: 1.55; }
+.edition-memory { margin: 1.15rem 0; }
+.edition-memory p { margin: .18rem 0; font: 1.2rem/1.35 Georgia, serif; }
+.edition-memory button { min-height: 2.75rem; padding-inline: 0; }
+.edition-lead .ending-controls { margin-block: .6rem; }
+.edition-lead .replay-note { max-width: 55ch; }
+.edition-print { margin: 0 auto; width: 100%; max-width: 372px; }
+.edition-print img:not([hidden]) { display: block; width: 100%; height: auto; border: 1px solid #bcb7ab; box-shadow: 0 8px 22px #27373c16; }
+.edition-print figcaption { text-align: center; margin-top: .55rem; }
+.edition-print a:not([hidden]) {
+  display: inline-flex; align-items: center; gap: .65rem; min-height: 44px;
+  padding: .45rem .9rem; font-weight: 720; text-decoration: underline; text-underline-offset: .2em;
+}
+.edition-print a small { color: var(--muted); font-size: .7em; text-decoration: none; }
+.edition-reports, .edition-other { max-width: 1090px; margin-inline: auto; }
+.edition-reports { border-block-end: 1px solid var(--line); }
+.edition-reports > details { border-block-start: 1px solid var(--line); padding: .55rem 0; }
+.edition-reports > details > summary { padding-block: .7rem; min-height: 44px; cursor: pointer; font-weight: 740; }
+.edition-reports > details > .hemicycle { max-width: 37rem; }
+.edition-reports > details > p { max-width: 76ch; }
+.edition-other { display: flex; flex-wrap: wrap; gap: .5rem 1.1rem; padding-block: .8rem; }
+.pact-trial {
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .7rem;
+  background: #e5ece6; border-inline-start: 4px solid #3d675f; padding: .8rem 1rem; margin-block: .5rem 1rem;
+}
+.pact-trial p { margin: .2rem 0 0; font-size: .88rem; }
+@media (max-width: 720px) {
+  .campaign-edition { grid-template-columns: minmax(0, 1fr); margin-block: .4rem 1.2rem; }
+  .edition-score { gap: .6rem 1rem; }
+  .edition-print { max-width: 310px; }
+}
+@media (max-width: 375px) {
+  .edition-score div { border: 0; padding: 0; }
+}

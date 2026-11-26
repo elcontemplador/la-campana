@@ -15,11 +15,11 @@ export function guidedLesson(view,state,level='basic'){
   result.body=state.activeEvent==='E07'
    ?'Elige qué contestas. Cada respuesta aplica su coste y efecto al pulsarla. Hay tres intervenciones; después eliges tu jugada del turno.'
    :state.activeEvent==='E31'&&['0.8.3','0.8.4','0.8.5'].includes(state.contentVersion)
-    ?'Elige qué quieres preparar para el debate. Pulsar Responder guarda tu elección al momento, sin gastar recursos. Después puedes poner al equipo a ensayar. En el debate podrás cambiar de respuesta.'
-    :'Lee qué ocurre y qué ganas o pierdes con cada respuesta. Pulsar Responder aplica esa decisión al momento. Después elegirás tu jugada en el mapa.';
+    ?'Elige qué quieres preparar para el debate. Responder guarda tu elección al momento, sin gastar recursos. Ante las cámaras podrás cambiar de respuesta.'
+    :'Mira qué harías y cuánto cuesta. Responder a la noticia aplica tu decisión al momento. Después elegirás tu jugada en el mapa.';
   result.more=['Las fichas de preparación se gastan al usarlas. Algunas respuestas las necesitan: mira el coste de cada tarjeta.','Si encargas la respuesta a alguien del equipo, esa persona puede quedar ocupada y no hacer otra tarea ese turno.'];
  }else if(view.id==='recount'){
-  result.body='Mira cómo se reparten los escaños. Puedes avanzar por provincias o ver el Congreso completo; saltar la animación no cambia el resultado.';
+  result.body='Sigue los tres avances del escrutinio o salta al resultado completo. Cuando llegue el último recuento provincial, podrás abrir la mesa de pactos.';
  }else if(view.id==='province'){
   result.body='Elige una provincia del mapa. Ganar señala dónde puedes quitarle un escaño a un rival; Defender, dónde puedes perder uno tuyo. Puedes cambiar de destino antes de Jugar.';
   result.more=['Las cifras del sondeo son estimaciones. Los votos que faltan para un escaño no son los que dará una visita.','Organizar voluntarios deja un equipo que suma apoyo al terminar cada turno. Visitar busca apoyo con una sola salida del candidato.'];
@@ -33,7 +33,7 @@ export function guidedLesson(view,state,level='basic'){
   result.body='Tus rivales también han jugado. Mira dónde avanzaron y decide si quieres responderles en el siguiente turno o seguir con tu plan.';
   result.more=['Puedes competir por una provincia y, a la vez, necesitar a ese partido para formar Gobierno.','Cuando aparece una réplica en Medios, comparar propuestas puede enfriar la relación y salir mal.'];
  }else if(view.id==='pact'){
-  result.body=state.phase==='ending'?'Este es tu resultado. Revisa qué pasó y qué cambiarías. Repetir conserva la candidatura y la clave; tú puedes tomar otras decisiones.':'Ahora importan los apoyos: necesitas 176 síes en la primera votación, o más síes que noes en la segunda. Mira la previsión antes de proponer y votar.';
+  result.body=state.phase==='ending'?'Con Probar otro pacto vuelves a negociar con los mismos escaños. Tu primer final queda guardado. También puedes guardar tu cartel o repetir la campaña entera.':'Mira quién votaría a favor antes de proponer el acuerdo. Necesitas 176 síes en la primera votación. En la segunda basta con más síes que noes.';
   result.more=['Una buena relación ayuda, pero el programa ofrecido y las prioridades de cada partido también cuentan.','Compara qué consigues y qué cedes. Tus prioridades iniciales aparecen junto al acuerdo.'];
  }
  if(result.level==='basic')result.more=[];

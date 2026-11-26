@@ -2,7 +2,7 @@
 
 [**Jugar a La campaña**](https://elcontemplador.github.io/la-campana/)
 
-**Reglas 0.8.5 · presentación guía2 · demo para probar con personas.** Crea tu candidatura,
+**Reglas 0.8.5 · edición Noche electoral · demo para probar con personas.** Crea tu candidatura,
 disputa provincias durante diez turnos y convierte tus escaños en una investidura.
 Partidos y personajes ficticios; 52 circunscripciones y 350 escaños.
 
@@ -10,6 +10,12 @@ Para tu primera partida, elige **Partida personalizada → Campaña abierta →
 Iniciación**. Elige tu partido, candidato y equipo; la guía se puede saltar.
 **Visitar, Medios, Recaudar y Descansar** preparan una jugada; **Jugar** la ejecuta
 junto con las tareas del equipo. Las noticias y el debate tienen decisiones propias.
+
+## Qué se juega en esta edición
+
+En las noticias, cada respuesta muestra lo que harás y cuánto cuesta. Al acabar la campaña, el escrutinio vuelve a una provincia de tu recorrido, sigue la disputa por el último escaño y contrasta el sondeo con los votos. Puedes avanzar a tu ritmo o ir directamente al Congreso.
+
+Desde el final puedes guardar tu cartel como imagen y **Probar otro pacto**. Vuelves a la primera propuesta con los escaños, la caja y las relaciones que tenías esa noche. Tu primer final queda guardado en el navegador.
 
 ## Ayuda en dos niveles
 

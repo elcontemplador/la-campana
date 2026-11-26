@@ -1,0 +1,5 @@
+import {bundle,newGame,command,finishEvent,freePlan} from './helpers.mjs';
+export function atTurn(seed,turn=4,setup={}){let s=newGame(seed,{difficulty:'iniciacion',staff:['S1','S4'],...setup});while(s.turn<turn){if(s.phase==='event')s=finishEvent(s);else if(s.phase==='planning')s=command(s,'CONFIRM_PLAN',{plan:freePlan(s)});else s=command(s,'CONTINUE');}return s;}
+export function to7(s){while(s.turn<7){if(s.phase==='event')s=finishEvent(s);else if(s.phase==='planning'){const plan=freePlan(s);if(s.turn===5){const actor=Object.keys(plan.staff)[0];if(actor)plan.staff[actor]={id:'prepare',target:null};}s=command(s,'CONFIRM_PLAN',{plan});}else s=command(s,'CONTINUE');}return s;}
+let follow;
+export function followRoute(){if(follow)return follow;for(let i=0;i<100;i++){const s=atTurn('discipline-follow-'+i);if(s.activeEvent!=='E05')continue;const after=command(s,'CHOOSE_OPTION',{optionId:'prepare_clarification'}),later=to7(after);if(later.activeEvent==='E34'){follow=s;return s;}}throw Error('Sin ruta legal E05→E34');}

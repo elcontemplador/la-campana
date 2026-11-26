@@ -54,7 +54,7 @@ test('el recorrido usa controles reales y solo avanza después de la acción, re
   assert.equal(tutorialStep(state, progress).targetSelector, '[data-command="CONTINUE"]');
 
   state.phase = 'election';
-  assert.equal(tutorialStep(state, progress).targetSelector, '[data-command="BEGIN_NEGOTIATION"]');
+  assert.equal(tutorialStep(state, progress).targetSelector, '[data-act="next-reveal"], [data-command="BEGIN_NEGOTIATION"]');
   state.phase = 'negotiation';
   assert.equal(tutorialStep(state, progress).canAdvance, false);
   state.negotiation.history.push({ballot: 1, invested: false});

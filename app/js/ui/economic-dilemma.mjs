@@ -6,6 +6,8 @@ const explanations = {
   autonomos: {
     '-1': {
       question: '¿Cómo financiarías las ayudas y evitarías que llegasen tarde?',
+      announcement: 'Pides ayudas para abrir el taller de Marta. Hoy dejas sin fecha el primer pago.',
+      followUp: 'Prometes explicar en el turno 10 de dónde saldría el dinero y cuándo podría cobrar Marta.',
       commitment: 'Antes de las urnas explicaré cómo financiaría las ayudas y evitaría que llegasen tarde.',
       postponement: 'Mantengo mi propuesta. Hoy aplazo la explicación de la financiación y los plazos de las ayudas.',
       request: 'las ayudas para abrir el taller de Marta',
@@ -14,6 +16,8 @@ const explanations = {
     },
     '1': {
       question: '¿Cómo pagarías la protección de los autónomos si cobras menos al empezar?',
+      announcement: 'Quieres que Marta pague menos al abrir. Hoy queda por decir quién cubriría la diferencia.',
+      followUp: 'Prometes explicar en el turno 10 cómo pagarías la protección de Marta si recaudas menos.',
       commitment: 'Antes de las urnas explicaré cómo financiaría la protección de los autónomos al cobrar menos al empezar.',
       postponement: 'Mantengo mi propuesta. Hoy no voy a explicar cómo pagaría la protección de los autónomos.',
       request: 'los pagos al abrir el taller de Marta',
@@ -24,6 +28,8 @@ const explanations = {
   'primer-empleo': {
     '-1': {
       question: '¿Cómo comprobarías que las ayudas crean empleo y no sustituyen puestos normales?',
+      announcement: 'Ofreces formación y empleo estable a jóvenes como Dani. Hoy queda por explicar quién vigilaría los contratos.',
+      followUp: 'Prometes explicar en el turno 10 cómo comprobarías que la empresa de verdad crea un puesto.',
       commitment: 'Antes de las urnas explicaré cómo comprobaría que las ayudas crean empleo y que la formación no sustituye puestos normales.',
       postponement: 'Mantengo mi propuesta. Hoy aplazo la explicación de los controles de las ayudas y la formación.',
       request: 'las ayudas para el primer empleo de Dani',
@@ -32,6 +38,8 @@ const explanations = {
     },
     '1': {
       question: '¿Cómo evitarías que las empresas encadenasen contratos baratos?',
+      announcement: 'Quieres que contratar a Dani cueste menos. Dejas para otro día la pregunta sobre los abusos.',
+      followUp: 'Prometes explicar en el turno 10 cómo impedirías que una empresa encadene contratos para pagar menos.',
       commitment: 'Antes de las urnas explicaré qué controles propondría para evitar que se encadenasen contratos baratos.',
       postponement: 'Mantengo mi propuesta. Hoy aplazo la explicación de los controles contra los contratos baratos.',
       request: 'la rebaja del coste de la primera contratación',
@@ -42,6 +50,8 @@ const explanations = {
   energia: {
     '-1': {
       question: '¿Quién pagaría las ayudas y cuándo ahorraría la fábrica?',
+      announcement: 'Ofreces ayudas para que la fábrica ahorre luz. Hoy dejas sin fecha la bajada de la factura.',
+      followUp: 'Prometes explicar en el turno 10 quién pagaría las obras y cuándo podrían ahorrar en luz.',
       commitment: 'Antes de las urnas explicaré cómo pagaría las ayudas y de qué dependería que bajasen los gastos de la fábrica.',
       postponement: 'Mantengo mi propuesta. Hoy aplazo la explicación de quién pagaría las ayudas y cuándo podrían reducir los gastos.',
       request: 'las ayudas para ahorrar energía en la fábrica',
@@ -50,6 +60,8 @@ const explanations = {
     },
     '1': {
       question: 'Si bajas los impuestos a la luz, ¿de dónde sale el dinero para los servicios?',
+      announcement: 'Pides bajar los impuestos de la luz. Hoy dejas sin explicar de dónde saldría ese dinero.',
+      followUp: 'Prometes explicar en el turno 10 qué gasto recortarías y cuándo podrían funcionar las nuevas instalaciones.',
       commitment: 'Antes de las urnas diré qué gastos recortaría para bajar los impuestos a la luz y cuándo podrían funcionar las nuevas instalaciones.',
       postponement: 'Mantengo mi propuesta. Hoy no voy a decir qué gastos recortaría ni cuándo habría nuevas instalaciones.',
       request: 'la rebaja de impuestos a la luz y los permisos',
@@ -99,6 +111,12 @@ export function economicDilemma(state, sourceBundle, {turn = state?.turn} = {}) 
       costed_commitment: 'Prometer una respuesta antes de las urnas',
       postpone_answer: 'Aplazar la respuesta',
     },
+    newsLines: {
+      announce_now: explanation.announcement,
+      costed_commitment: explanation.followUp,
+      postpone_answer: `Sigues de ruta. No pones fecha para contestar a ${actor.name}.`,
+    },
+    newsVerbs: {announce_now: 'Anunciar', costed_commitment: 'Comprometerme', postpone_answer: 'Aplazar'},
     optionSpeeches: {
       announce_now: issue.reply,
       costed_commitment: explanation.commitment,

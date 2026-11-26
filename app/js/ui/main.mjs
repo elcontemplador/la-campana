@@ -13,8 +13,10 @@ import { portrait, campaignIllustration, hemicycle, actionScene, actionIcon, boa
 import { suggestCampaignPlan, suggestPactOffers, turnSummary, dialoguePreparation, publicProposalOrder } from './play.mjs';
 import { PROVINCE_PATHS, PROVINCE_ANCHORS, MAP_CALLOUTS } from './geography.mjs';
 import { actionPreview, campaignOpportunities, electionRevealSteps, featuredRival } from './preview.mjs';
+import {electionBulletin, electionPlaceName, congressBulletin} from './election-night.mjs';
 import { newsOutcome } from './news.mjs';
 import { newsReaction } from './news-reaction.mjs';
+import {newsDecisionCard} from './news-desk.mjs';
 import { rivalStory } from './rival-story.mjs';
 import {rivalContest} from './rival-contest.mjs';
 import {provinceContest} from './province-contest.mjs';
@@ -23,6 +25,9 @@ import {eventLocalReception} from './local-reception.mjs';
 import {promiseThreads} from './promises.mjs';
 import { finalStory } from './ending.mjs';
 import { campaignRecap } from './campaign-recap.mjs';
+import {campaignCover} from './campaign-cover.mjs';
+import {mountCampaignPoster} from './campaign-poster.mjs';
+import {firstPactTable} from './pact-rematch.mjs';
 import { randomQuickSetup } from './setup.mjs';
 import { setupIssues, guidedSetupIssues, counterofferAssessment, loadSetupDraft, saveSetupDraft } from './usability.mjs';
 import { staffObservations, debateOutcome } from './experience.mjs';
@@ -49,6 +54,7 @@ const toast=document.getElementById('toast');
 const nf=new Intl.NumberFormat('es-ES');
 const RESERVE_STORAGE_KEY='la-campana-v061-reserve';
 let sourceBundle, bundle, state=null, resumeState=null, commandCounter=0, toastTimer, dialogReturnFocus;
+let pactTrial=null, endingEdition=null;
 let ui={guideLevel:loadGuideLevel(),reserveForPacts:true,screen:'home',province:'09',table:false,search:'',sort:'name',plan:null,offer:null,vote:'no',saved:false,storageNotice:'',setup:{name:'',portrait:'portrait-1',profile:'preparacion',staff:['S1','S2'],commitments:['T1','T2'],positions:{},province:'09',seed:'primera-campana',campaignScenario:null,difficulty:null,partyIdentity:null}};
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt=v=>nf.format(Number.isFinite(Number(v))?Number(v):0);
@@ -91,7 +97,11 @@ function partyBadge(id,short=false,withIdeology=false){
 }
 function brand(){return `<div class="brand"><svg viewBox="0 0 36 36" fill="none" aria-hidden="true"><rect x="2" y="2" width="32" height="32" rx="8" fill="#315b70"/><path d="M10 25V15L18 10L26 15V25M9 25H27M13 25V17H23V25M18 17V25" stroke="#fcfaf4" stroke-width="2" stroke-linecap="round"/></svg><div>La campaña<small>España en juego</small></div></div>`;}
 function header(game=false){const wide=!matchMedia('(max-width:760px)').matches;return `<header class="site-header ${game?'game-header':''}">${brand()}<nav class="header-nav" aria-label="Herramientas de campaña">${game?`<details class="tools-menu" ${wide?'open':''} data-wide="${wide}"><summary>Campaña ▾</summary><div class="header-tools"><button type="button" class="text-button" data-act="history">Historial</button><button type="button" class="text-button" data-act="rivals">Rivales</button><button type="button" class="text-button" data-act="team">Equipo</button><button type="button" class="text-button" data-act="export" aria-label="Guardar archivo de partida">Guardar</button></div></details>`:'<span class="edition">Demo · guía en dos niveles</span>'}<button type="button" class="text-button" data-act="help">Cómo jugar</button>${game?'<button type="button" class="text-button" data-act="tutorial-resume">Guía</button>':''}${game?'<button type="button" class="text-button" data-act="home">Inicio</button>':''}</nav></header>`;}
-function footer(){return `<footer class="site-footer"><p>Una campaña ficticia en la España de 350 escaños. ${state?ui.saved?'Partida guardada en este navegador.':'Exporta la partida para conservarla.':'Sin cuentas. Tu partida permanece en este navegador.'}</p><a href="./credits.html" target="_blank" rel="noopener noreferrer">Créditos y fuentes ↗</a></footer>`;}
+function footer(){
+  const saveNote=pactTrial?'Puedes descargar una copia de esta investidura con Guardar.'
+    :state?(ui.saved?'Partida guardada en este navegador.':'Exporta la partida para conservarla.'):'Sin cuentas. Tu partida permanece en este navegador.';
+  return `<footer class="site-footer"><p>Una campaña ficticia en la España de 350 escaños. ${saveNote}</p><a href="./credits.html" target="_blank" rel="noopener noreferrer">Créditos y fuentes ↗</a></footer>`;
+}
 function costLine(cost={},reserved=false,compact=false){return `<div class="cost-line"><span class="cost-chip">${compact?`${fmt(cost.budget||0)} caja`:Number(cost.budget||0)===0?'Sin gasto':`${fmt(cost.budget)} caja`}</span><span class="cost-chip">${compact?`${fmt(cost.energy||0)} energía`:Number(cost.energy||0)===0?'Sin desgaste':`${fmt(cost.energy)} energía`}</span>${reserved?`<span class="cost-chip">${typeof reserved==='string'?esc(reserved):compact?'Ocupa una tarea del equipo':'Ocupa una acción de equipo'}</span>`:''}</div>`;}
 function resourceHeader(){const p=state.parties.P1;return `<div class="resource-header"><div class="campaign-person"><div class="mini-portrait">${partyPortrait('P1')}</div><div><strong>${esc(state.candidate.name)}</strong><small>${esc(party('P1')?.name)} · ${esc(bundle.config.candidateProfiles.find(x=>x.id===state.candidate.profile)?.label||'')}</small></div></div><div class="resources" aria-label="Recursos de la campaña">${['budget','energy','cohesion','reputation','readiness'].map(k=>{const max=bundle.config.resources[k].max, val=Number(p[k]||0);return `<div class="resource"${k==='cohesion'&&['0.8.4','0.8.5'].includes(state.rulesVersion)?' title="La coordinación mejora o reduce el alcance de Visitar y Medios; 60 es el nivel habitual."':''}><button type="button" class="resource-label resource-help" data-act="help-resource" data-resource="${k}" aria-label="Qué es ${resourceLabels[k]}">${resourceLabels[k]} <span aria-hidden="true">?</span></button><strong>${fmt(val)}<small>/${fmt(max)}</small></strong><div class="meter" aria-hidden="true" style="--fill:${Math.max(0,Math.min(100,val/max*100))}%"><span></span></div></div>`;}).join('')}</div></div>`;}
 function steps(){const campaign=['event','planning','debrief'].includes(state.phase);return `<div class="steps" aria-label="${campaign?`Turno ${state.turn} de ${bundle.config.turns}`:'Campaña terminada'}">${Array.from({length:bundle.config.turns},(_,i)=>`<span aria-hidden="true" class="step ${i+1<state.turn||!campaign?'passed':i+1===state.turn?'current':''}"></span>`).join('')}<span>${campaign?`Turno ${state.turn} / ${bundle.config.turns}`:state.phase==='election'?'Noche electoral':state.phase==='negotiation'?'Investidura':'Balance de campaña'}</span></div>`;}
@@ -100,7 +110,19 @@ function mountToast(){const host=document.querySelector('#panel-dialog[open]')||
 function toastMessage(message,error=false){clearTimeout(toastTimer);mountToast();toast.textContent=message;toast.setAttribute('role',error?'alert':'status');toast.hidden=false;if(error)toast.scrollIntoView({block:'nearest',behavior:'instant'});toastTimer=setTimeout(()=>{toast.hidden=true;},error?8500:4800);}
 function announce(message){announcement.textContent='';queueMicrotask(()=>{announcement.textContent=message;});}
 function focusHeading(){document.querySelector('#phase-heading, #main h1')?.focus({preventScroll:true});}
-function render(focus=false){if(sourceBundle)bundle=resolveCampaignBundle(sourceBundle,ui.screen==='setup'?ui.setup:state||ui.setup);document.title=state&&ui.screen==='game'?`Turno ${state.turn} · La campaña`:'La campaña · España en juego';if(ui.screen==='home')app.innerHTML=homeView();else if(ui.screen==='setup')app.innerHTML=setupView();else app.innerHTML=gameView();mountToast();if(ui.screen==='setup'){rememberSetup();applySetupStep();}if(focus)focusHeading();}
+function render(focus=false){
+  if(sourceBundle) bundle=resolveCampaignBundle(sourceBundle,ui.screen==='setup'?ui.setup:state||ui.setup);
+  document.title=ui.screen==='game'&&state
+    ? (state.phase==='ending'?'Tu resultado':`Turno ${state.turn}`)+' · La campaña' : 'La campaña · España en juego';
+  if(ui.screen==='home') app.innerHTML=homeView();
+  else if(ui.screen==='setup') app.innerHTML=setupView();
+  else app.innerHTML=gameView();
+  mountToast();
+  if(ui.screen==='setup'){rememberSetup();applySetupStep();}
+  const poster=app.querySelector('[data-campaign-poster]');
+  if(poster) void mountCampaignPoster(poster,endingEdition.cover,Boolean(pactTrial));
+  if(focus) focusHeading();
+}
 
 function partyShort(id){
   const current=party(id);
@@ -122,7 +144,7 @@ function objectiveView(){
   const complete=state.phase==='ending',compact=state.phase==='planning'||state.phase==='event';
   return `<section class="campaign-objective ${journey?'has-poll-journey':''} ${complete?'objective-final':''} ${complete&&objective.achieved?'achieved':''}" aria-labelledby="campaign-objective-title">
     <div>${compact?'':`<p class="eyebrow">${esc(scenarioLabel())} · ${esc(difficultyLabel())}</p>`}<h2 id="campaign-objective-title">${esc(objective.title)}</h2><p class="objective-progress">${esc(objective.progress)}</p>${complete&&journey?`<p class="poll-journey-final">${esc(journey.label)}</p>`:''}</div>
-    <div class="objective-context"><span class="badge">${complete?objective.achieved?'Objetivo conseguido':'Objetivo pendiente':'Tu reto'}</span><details><summary>${complete?'Ver el balance del objetivo':'Qué necesitas conseguir'}</summary>${compact?`<p class="objective-context-label">${esc(scenarioLabel())} · ${esc(difficultyLabel())}</p>`:''}<p>${esc(objective.description)}</p>${journey?`<p class="poll-journey-note">${esc(journey.note)}</p>`:''}${objective.details.length?`<ul>${objective.details.map(detail=>`<li>${esc(detail)}</li>`).join('')}</ul>`:''}</details></div>
+    <div class="objective-context"><span class="badge">${complete?objective.achieved?'Objetivo conseguido':'Objetivo sin alcanzar':'Tu reto'}</span><details><summary>${complete?'Ver el balance del objetivo':'Qué necesitas conseguir'}</summary>${compact?`<p class="objective-context-label">${esc(scenarioLabel())} · ${esc(difficultyLabel())}</p>`:''}<p>${esc(objective.description)}</p>${journey?`<p class="poll-journey-note">${esc(journey.note)}</p>`:''}${objective.details.length?`<ul>${objective.details.map(detail=>`<li>${esc(detail)}</li>`).join('')}</ul>`:''}</details></div>
   </section>`;
 }
 function partyPicker(){
@@ -196,7 +218,21 @@ function defaultPositions(){return Object.fromEntries(bundle.config.topics.map(t
 function setupView(){const s=ui.setup;const valid=setupIssues(s).length===0;return `${header()}<main id="main" tabindex="-1" class="setup"><div class="setup-title"><div><p class="eyebrow">Tu candidatura · ${esc(party('P1')?.name)}</p><h1 tabindex="-1">Dale identidad a tu campaña.</h1><p class="muted">Elige tu partido. Crea tu candidato. Decide con quién vas a ganar.</p></div><div class="setup-preview">${portrait(s.portrait,'candidate','confident',partyColor('P1'),partyShort('P1'))}</div></div>${setupGuide()}<form id="campaign-setup" novalidate><div class="setup-summary"><div id="setup-readiness" aria-live="polite">${setupReadinessView()}</div><div class="button-row"><button type="button" class="secondary" data-act="home">Volver</button><button type="button" class="primary" data-act="setup-next">Siguiente →</button><button type="submit" class="primary" data-act="start" aria-describedby="setup-readiness" ${valid?'':'disabled'}>Abrir la sala de campaña →</button></div></div>${partyPicker()}<div class="setup-grid"><section class="paper-card" aria-labelledby="candidate-title"><h2 id="candidate-title">Dale identidad al candidato</h2><div class="field"><label for="candidate-name">Nombre</label><input id="candidate-name" data-setup="name" value="${esc(s.name)}" maxlength="40" autocomplete="off" placeholder="¿Cómo te llamas?" aria-describedby="setup-readiness" aria-invalid="${!valid&&setupIssues(s).some(i=>i.target==='#candidate-name')}" required><p class="hint">Nombre y retrato dan identidad; el perfil decide tus ventajas.</p></div><fieldset class="field"><legend>Retrato</legend><div class="portraits">${Array.from({length:6},(_,i)=>`<button type="button" class="portrait-choice" data-portrait="portrait-${i+1}" aria-label="Retrato ${i+1}" aria-pressed="${s.portrait===`portrait-${i+1}`}">${portrait(`portrait-${i+1}`,'candidate','confident',partyColor('P1'),partyShort('P1'))}</button>`).join('')}</div></fieldset><fieldset class="field"><legend>Tu forma de trabajar</legend>${bundle.config.candidateProfiles.map(p=>`<label class="choice-card"><input type="radio" name="profile" value="${esc(p.id)}" data-setup="profile" ${s.profile===p.id?'checked':''}><span><strong>${esc(p.label)}</strong><small>${esc(profileText[p.id]?.bonus||'')}<br>${esc(profileText[p.id]?.drawback||'')}</small></span></label>`).join('')}</fieldset><div class="grid-two"><div class="field"><label for="starting-province">Punto de partida</label><select id="starting-province" data-setup="province">${provinceOptions(s.province,true)}</select></div><div class="field"><label for="campaign-seed">Clave de campaña</label><div class="campaign-key-controls"><input id="campaign-seed" data-setup="seed" value="${esc(s.seed)}" maxlength="64" spellcheck="false" aria-describedby="campaign-key-hint setup-readiness"><button type="button" class="secondary" data-act="new-story-key">Generar otra clave</button></div><p id="campaign-key-hint" class="hint">Misma clave y candidatura para comparar estrategias. Otra clave cambia el punto de partida; conserva tu candidato y programa.</p></div></div></section><div><section class="paper-card" aria-labelledby="staff-title"><h2 id="staff-title" tabindex="-1">Elige tu equipo <span class="selection-counter">${s.staff.length} / 2</span></h2><p class="hint">Elige dos. Para cambiar a alguien, desmarca una selección primero.</p><div class="staff-select">${bundle.config.staff.map(p=>`<label class="choice-card staff-choice"><input type="checkbox" data-staff="${esc(p.id)}" ${s.staff.includes(p.id)?'checked':''}><div class="staff-avatar">${portrait(p.id,'staff')}</div><span><strong>${esc(p.name)}</strong><small>${esc(staffLabels[p.specialty]||p.specialty)}</small><small>${esc(staffVoices[p.id]||'')}</small><small>${esc(staffBonus(p))}</small></span></label>`).join('')}</div></section><section class="paper-card section-gap" aria-labelledby="topics-title"><h2 id="topics-title" tabindex="-1">Lo que vas a defender</h2>${bundle.config.topics.some(t=>t.poles)?`<div class="positions">${bundle.config.topics.map(t=>`<fieldset class="position-group"><legend>${esc(t.name)}</legend><div class="position-poles">${(t.poles||[]).map(p=>`<label class="pole-choice"><input type="radio" name="position-${esc(t.id)}" data-position="${esc(t.id)}" value="${esc(p.id)}" ${Number(s.positions[t.id])===Number(p.id)?'checked':''}><span>${esc(p.label)}</span></label>`).join('')}</div></fieldset>`).join('')}</div>`:''}<fieldset><legend>Dos prioridades irrenunciables <span class="selection-counter">${s.commitments.length} / 2</span></legend><p class="hint">Marca dos prioridades. Desmarca una para sustituirla.</p><div class="topic-grid">${bundle.config.topics.map(t=>`<label class="choice-card"><input type="checkbox" data-commitment="${esc(t.id)}" ${s.commitments.includes(t.id)?'checked':''}><span><strong>${esc(t.name)}</strong></span></label>`).join('')}</div><p class="hint small muted section-gap">En la investidura podrás mantenerlas o revisar su alcance. Esa decisión tendrá consecuencias.</p></fieldset></section></div></div>${scenarioPicker()}</form></main>${footer()}`;}
 function staffBonus(p){if(p.bonus?.discountBudget)return `${p.bonus.discountBudget} menos de gasto en ${p.bonus.action==='research'?'Afinar sondeo':'Organizar voluntarios'}.`;if(p.bonus?.extraReadiness)return `Ensayar intervención suma ${p.bonus.extraReadiness} ficha extra.`;if(p.bonus?.extraRapport)return `Reunirse con una asociación mejora ${p.bonus.extraRapport} punto extra la relación.`;return '';}
 function provinceOptions(selected,onlyCampaign=true){return (onlyCampaign?campaignDestinations(bundle):[...bundle.provinces.districts].sort((a,b)=>a.name.localeCompare(b.name,'es'))).map(p=>`<option value="${p.id}" ${p.id===selected?'selected':''}>${esc(p.name)} · ${p.seats} ${p.seats===1?'escaño':'escaños'}</option>`).join('');}
-function gameView(){let content;try{content=state.phase==='event'?eventView():state.phase==='planning'?planningView():state.phase==='debrief'?debriefView():state.phase==='election'?electionView():state.phase==='negotiation'?negotiationView():state.phase==='ending'?endingView():`<div class="note error">No se reconoce esta fase. Exporta la partida para conservarla.</div>`;}catch(error){console.error('Interfaz de campaña:',error);content='<div class="note error" role="alert">No se ha podido mostrar esta pantalla. Puedes guardar el archivo de partida y regresar al inicio.</div>';}return `${header(true)}<main id="main" tabindex="-1" class="game-shell phase-${esc(state.phase)} ${state.phase==='event'&&state.activeEvent==='E07'?'debate-live':''}">${storageNoticeView()}${legacyNoticeView()}${resourceHeader()}${['planning','debrief'].includes(state.phase)?`<div class="planning-briefline">${steps()}${objectiveView()}</div>`:`${steps()}${objectiveView()}`}${state.phase==='planning'?'':newsOutcomeView()}${content}${!['planning','debrief'].includes(state.phase)?tutorialView():''}</main>${footer()}`;}
+function gameView(){
+  let content;
+  try {
+    const views={event:eventView,planning:planningView,debrief:debriefView,election:electionView,negotiation:negotiationView,ending:endingView};
+    content=views[state.phase] ? views[state.phase]() : '<div class="note error">No se reconoce esta fase. Exporta la partida para conservarla.</div>';
+  } catch(error){
+    console.error('Interfaz de campaña:',error);
+    content='<div class="note error" role="alert">No se ha podido mostrar esta pantalla. Puedes guardar el archivo de partida y regresar al inicio.</div>';
+  }
+  const planning=['planning','debrief'].includes(state.phase);
+  const newsFirst=state.phase==='event'&&state.activeEvent!=='E07';
+  const context=state.phase==='ending'?'':resourceHeader()+(planning?`<div class="planning-briefline">${steps()}${objectiveView()}</div>`:steps()+(newsFirst?'':objectiveView()));
+  const reaction=state.phase==='planning'||state.phase==='ending'?'':newsOutcomeView();
+  return `${header(true)}<main id="main" tabindex="-1" class="game-shell phase-${esc(state.phase)} ${state.phase==='event'&&state.activeEvent==='E07'?'debate-live':''}">${storageNoticeView()}${legacyNoticeView()}${trialBanner()}${context}${reaction}${content}${planning?'':tutorialView()}${newsFirst?objectiveView():''}</main>${footer()}`;
+}
 function effectsText(effects=[]){return effects.map(e=>{if(typeof e==='string')return e;if(e.type==='stat')return `${resourceLabels[e.stat]||e.stat} ${signed(e.delta)}`;if(e.type==='rapport')return `${civil(e.target)?.name||e.target} ${signed(e.delta)} relación`;if(e.type==='relation')return `${party(e.target)?.name||e.target} ${signed(e.delta)} relación`;if(e.type==='organization')return 'Organización local +1';if(e.type==='support')return `${e.delta>0?'Más':'Menos'} alcance ${e.target==='national'?'nacional':`en ${district(e.target)?.name||'tu provincia'}`}`;if(e.type==='promise_open')return 'Queda una respuesta pendiente';if(e.type==='promise_close')return e.status==='fulfilled'?'Resuelves las respuestas pendientes':e.status==='reduced'?'Renegocias su alcance':'Cierras la respuesta sin entregarla';return null;}).filter(Boolean).join(' · ');}
 function debatePreparationView(){
   const amount=Number(state.parties.P1.readiness||0),max=bundle.config.resources.readiness.max;
@@ -219,11 +255,14 @@ function contradictionMessagesView(story){
 }
 function eventView(){
   const view=getEventView(state,sourceBundle),story=eventStory(state,sourceBundle);if(story){Object.assign(story.stage&&view.stage?view.stage:view.event,{title:story.title,shortBody:story.shortBody,body:story.body});for(const o of view.options){if(story.optionLabels[o.id])o.shortLabel=story.optionLabels[o.id];if(story.optionDetails?.[o.id])o.label=story.optionDetails[o.id];}}const ev=view.event,scene=view.stage||ev,stages=ev.stages||[],debate=stages.length?debateScene(state,sourceBundle):null,antecedent=debate?.antecedent??story?.antecedent;
-  return `${stages.length?'<div class="debate-heading">':''}${phaseHeading(stages.length?`Debate · momento ${view.index+1} de ${stages.length}`:'Algo ha pasado',scene.title||ev.title,'',`<span class="badge">${esc(stages.length?'Debate nacional':district(state.focusProvince)?.name||'Tu campaña')}</span>`)}${stages.length?`<div class="debate-stages" aria-label="Etapas del debate">${stages.map((s,i)=>`<span class="debate-stage ${i===view.index?'active':i<view.index?'done':''}" ${i===view.index?'aria-current="step"':''}>${i+1}. ${esc(debate?.stageTitles[i]||s.title)}${i<view.index?' ✓':''}</span>`).join('')}</div>`:''}${stages.length?'</div>':''}<div class="event-layout compact-event ${stages.length?'debate-event':'choice-event'}"><section class="event-scene ${story?'story-'+story.format:''}${story?.promiseRequests?.length?' has-promises':''}${story?.neighbourDecision||story?.encounter?' has-public-questions':''}" aria-label="Situación">${story?`<div class="story-format"><span aria-hidden="true">${actionIcon(story.icon)}</span>${stages.length?'Debate en directo':esc(({territory:'Territorio',team:'Tu organización',closing:'Recta final',radio:'En antena',politics:'Decisión política'})[story.format])}</div>`:''}<div class="scene-signal">${stages.length?'En directo':'En tu campaña'}</div>${stages.length?debateCastView(view):story?.speaker?eventSpeakerView(story):`<div class="event-portrait-row">${partyPortrait('P1')}<div><strong>${esc(state.candidate.name)}</strong><small>${esc(party('P1')?.name)}</small></div></div>`}<p class="event-short-body">${esc(debate?.moderatorQuestion||(scene.shortBody||ev.shortBody||scene.body||ev.body))}</p>${contradictionMessagesView(story)}${debate?.bet?`<p class="news-context debate-bet-reminder"><strong>Tu apuesta:</strong> ${esc(debate.bet.text)} ${debate.bet.active?'Puedes aprovecharla en esta ronda.':debate.stage<debate.bet.stage?'Puedes seguirla o elegir otra respuesta.':'El momento de su refuerzo ya ha pasado.'}</p>`:''}${debate?`<blockquote class="debate-challenge" style="${partyStyle(debate.rivalId)}"><strong>${esc(debate.rivalName)}</strong><p>${esc(debate.rivalLine)}</p></blockquote>`:''}${story?.contextNote?`<p class="option-intent news-context"><strong>${esc(story.contextNote.label)}:</strong> ${esc(story.contextNote.text)}</p>`:''}${story?.publicProposal?`<blockquote class="debate-challenge news-public-proposal" style="${partyStyle(story.publicProposal.partyId)}"><strong>${esc(party(story.publicProposal.partyId)?.name)} propone</strong><p>${esc(story.publicProposal.request||story.publicProposal.proposal+'.')}</p><small>${story.publicProposal.agreement?'Coincidís en esta propuesta.':'Tu programa plantea otra vía.'}</small></blockquote>`:''}${story?.promiseRequests?.length?`<div class="promise-requests" aria-label="Lo que prometiste contestar">${story.promiseRequests.map(p=>`<p><strong>${esc(p.name)}: ${esc(p.request)}</strong><br>${esc(p.question)}<br><small>Tu propuesta: ${esc(p.proposal)}</small><br><small>Compromiso del turno ${p.openedTurn} · entrega en el turno ${p.dueTurn}</small></p>`).join('')}<p>La entrega se resuelve antes de tu última jugada. Reserva caja o una tarea del equipo.</p></div>`:''}<p class="scene-agenda-note">${stages.length?'Al terminar el debate elegirás tu jugada.':'Elige tu respuesta. Después jugarás en el mapa.'}</p>${antecedent?`<button type="button" class="story-antecedent" data-act="antecedent" data-entry="${esc(antecedent.entryId)}" aria-label="Ver antecedente: ${esc(antecedent.label)}">↶ ${esc(antecedent.label)}</button>`:''}<details class="play-details"><summary>Más detalles</summary><p>${esc(scene.body||ev.body)}</p></details></section><section class="options" aria-label="Decisiones disponibles" style="--option-count:${view.options.length}">${[...view.options].sort((a,b)=>Number(Boolean(b.availability?.available))-Number(Boolean(a.availability?.available))).map(o=>{
+  const sections={territory:'En la provincia',team:'Desde la sede',closing:'Recta final',radio:'En antena',politics:'Noticias de campaña'};
+  const newsSection=sections[story?.format] || 'Noticias de campaña';
+  return `${stages.length?'<div class="debate-heading">':''}${phaseHeading(stages.length?`Debate · momento ${view.index+1} de ${stages.length}`:newsSection,scene.title||ev.title,'',`<span class="badge">${esc(stages.length?'Debate nacional':district(state.focusProvince)?.name||'Tu campaña')}</span>`)}${stages.length?`<div class="debate-stages" aria-label="Etapas del debate">${stages.map((s,i)=>`<span class="debate-stage ${i===view.index?'active':i<view.index?'done':''}" ${i===view.index?'aria-current="step"':''}>${i+1}. ${esc(debate?.stageTitles[i]||s.title)}${i<view.index?' ✓':''}</span>`).join('')}</div>`:''}${stages.length?'</div>':''}<div class="event-layout compact-event ${stages.length?'debate-event':'choice-event news-desk'}"><section class="event-scene ${story?'story-'+story.format:''}${story?.promiseRequests?.length?' has-promises':''}${story?.neighbourDecision||story?.encounter?' has-public-questions':''}" aria-label="Situación">${stages.length&&story?`<div class="story-format"><span aria-hidden="true">${actionIcon(story.icon)}</span>${stages.length?'Debate en directo':esc(({territory:'Territorio',team:'Tu organización',closing:'Recta final',radio:'En antena',politics:'Decisión política'})[story.format])}</div>`:''}<div class="scene-signal">${stages.length?'En directo':''}</div>${stages.length?debateCastView(view):story?.speaker?eventSpeakerView(story):`<div class="event-portrait-row">${partyPortrait('P1')}<div><strong>${esc(state.candidate.name)}</strong><small>${esc(party('P1')?.name)}</small></div></div>`}<p class="event-short-body">${esc(debate?.moderatorQuestion||story?.newsIntro||(scene.shortBody||ev.shortBody||scene.body||ev.body))}</p>${contradictionMessagesView(story)}${debate?.bet?`<p class="news-context debate-bet-reminder"><strong>Tu apuesta:</strong> ${esc(debate.bet.text)} ${debate.bet.active?'Puedes aprovecharla en esta ronda.':debate.stage<debate.bet.stage?'Puedes seguirla o elegir otra respuesta.':'El momento de su refuerzo ya ha pasado.'}</p>`:''}${debate?`<blockquote class="debate-challenge" style="${partyStyle(debate.rivalId)}"><strong>${esc(debate.rivalName)}</strong><p>${esc(debate.rivalLine)}</p></blockquote>`:''}${story?.contextNote?`<p class="option-intent news-context"><strong>${esc(story.contextNote.label)}:</strong> ${esc(story.contextNote.text)}</p>`:''}${story?.publicProposal?`<blockquote class="debate-challenge news-public-proposal" style="${partyStyle(story.publicProposal.partyId)}"><strong>${esc(party(story.publicProposal.partyId)?.name)} propone</strong><p>${esc(story.publicProposal.request||story.publicProposal.proposal+'.')}</p><small>${story.publicProposal.agreement?'Coincidís en esta propuesta.':'Tu programa plantea otra vía.'}</small></blockquote>`:''}${story?.promiseRequests?.length?`<div class="promise-requests" aria-label="Lo que prometiste contestar">${story.promiseRequests.map(p=>`<p><strong>${esc(p.name)}: ${esc(p.request)}</strong><br>${esc(p.question)}<br><small>Tu propuesta: ${esc(p.proposal)}</small><br><small>Compromiso del turno ${p.openedTurn} · entrega en el turno ${p.dueTurn}</small></p>`).join('')}<p>La entrega se resuelve antes de tu última jugada. Reserva caja o una tarea del equipo.</p></div>`:''}<p class="scene-agenda-note">${stages.length?'Al terminar el debate elegirás tu jugada.':'Tu respuesta se aplica al momento.'}</p>${antecedent?`<button type="button" class="story-antecedent" data-act="antecedent" data-entry="${esc(antecedent.entryId)}" aria-label="Ver antecedente: ${esc(antecedent.label)}">↶ ${esc(antecedent.label)}</button>`:''}<details class="play-details"><summary>Más detalles</summary><p>${esc(scene.body||ev.body)}</p></details></section><section class="options" aria-label="Decisiones disponibles" style="--option-count:${view.options.length}">${[...view.options].sort((a,b)=>Number(Boolean(b.availability?.available))-Number(Boolean(a.availability?.available))).map(o=>{
+    if(!stages.length) return newsDecisionCard(o,story,state,sourceBundle,{esc,fmt,staff,icon:actionIcon,learningText});
     const a=o.availability||{available:false,reason:'Esta opción no está disponible.',cost:o.cost||{},staffChoices:[]};
     const choices=(a.staffChoices||[]).map(x=>typeof x==='string'?x:x.id).filter(Boolean);
     const reception=eventLocalReception(state,sourceBundle,o.id);
-    return `<article class="option-card ${a.available?'':'blocked'} ${debate?.bet?.active&&debate.bet.options.includes(o.id)?'has-debate-bet':''}"><div class="option-title"><span class="option-symbol" aria-hidden="true">${actionIcon(o.reserveStaff?'outreach':o.effects?.some(e=>e.type==='relation')?'mediate':o.effects?.some(e=>e.type==='organization')?'organize':o.effects?.some(e=>['support','topic_support'].includes(e.type))?'interview':o.effects?.some(e=>e.stat==='readiness')?'prepare':'rehearse')}</span><h3>${esc(o.shortLabel||o.label)}</h3></div>${(debate?.optionSpeeches?.[o.id]||story?.optionSpeeches?.[o.id])?`<blockquote class="debate-speech option-speech">«${esc(debate?.optionSpeeches?.[o.id]||story.optionSpeeches[o.id])}»</blockquote>`:story?.optionIntents?.[o.id]?`<p class="option-intent">${esc(story.optionIntents[o.id])}</p>`:''}${!debate&&story?.optionSpeeches?.[o.id]&&story?.optionIntents?.[o.id]?`<p class="option-intent news-choice-intent">${esc(story.optionIntents[o.id])}</p>`:''}${debate?.optionIntents?.[o.id]?`<p class="debate-choice-intent">${esc(debateChoiceIntent(o,state,sourceBundle,debate.optionIntents[o.id]))}</p>`:''}${costLine(a.cost,stages.length&&o.reserveStaff&&choices.length===1?`${staff(choices[0])?.name||choices[0]} · ocupa su tarea`:o.reserveStaff,Boolean(stages.length))}<p class="option-consequence"><span class="consequence-label">${story?.optionPlans?.[o.id]?'En el debate:':'Efectos previstos:'}</span> ${esc(story?.optionPlans?.[o.id]||eventConsequences(o,state,sourceBundle,{omitPreparation:Boolean(stages.length)}))}</p>${reception?`<p class="option-intent local-reception"><strong>${esc(reception.provinceName)} · </strong>${esc(reception.text)}</p>`:''}${stages.length?debateOptionPreparation(o):''}${!stages.length&&a.requiredReadiness?`<div class="cost-line"><span class="cost-chip">${fmt(a.requiredReadiness)} de preparación</span></div>`:''}${o.reserveStaff&&choices.length?(stages.length&&choices.length===1?`<input type="hidden" id="option-staff-${esc(o.id)}" value="${esc(choices[0])}">`:`<label class="sr-only" for="option-staff-${esc(o.id)}">Colaborador para ${esc(o.shortLabel||o.label)}</label><select id="option-staff-${esc(o.id)}" data-option-staff="${esc(o.id)}">${choices.map(id=>`<option value="${esc(id)}">${esc(staff(id)?.name||id)} · ocupa su tarea</option>`).join('')}</select>`):''}${!a.available?`<p class="block-reason">${esc(a.reason||'Faltan recursos o personal.')}</p>`:''}<button type="button" class="${a.available?'primary':''}" data-option="${esc(o.id)}" aria-label="Elegir ${esc(o.shortLabel||o.label)}" ${a.available?'':'disabled'}>Responder así →</button><details class="option-more"><summary>Más sobre esta decisión</summary><p>${esc(o.label)}</p>${!stages.length&&o.effects?.length?`<p>${esc(eventConsequences(o,state,sourceBundle))}</p>`:''}${o.learning?`<p>${esc(o.learning)}</p>`:''}</details></article>`;
+    return `<article class="option-card ${a.available?'':'blocked'} ${debate?.bet?.active&&debate.bet.options.includes(o.id)?'has-debate-bet':''}"><div class="option-title"><span class="option-symbol" aria-hidden="true">${actionIcon(o.reserveStaff?'outreach':o.effects?.some(e=>e.type==='relation')?'mediate':o.effects?.some(e=>e.type==='organization')?'organize':o.effects?.some(e=>['support','topic_support'].includes(e.type))?'interview':o.effects?.some(e=>e.stat==='readiness')?'prepare':'rehearse')}</span><h3>${esc(o.shortLabel||o.label)}</h3></div>${(debate?.optionSpeeches?.[o.id]||story?.optionSpeeches?.[o.id])?`<blockquote class="debate-speech option-speech">«${esc(debate?.optionSpeeches?.[o.id]||story.optionSpeeches[o.id])}»</blockquote>`:story?.optionIntents?.[o.id]?`<p class="option-intent">${esc(story.optionIntents[o.id])}</p>`:''}${debate?.optionIntents?.[o.id]?`<p class="debate-choice-intent">${esc(debateChoiceIntent(o,state,sourceBundle,debate.optionIntents[o.id]))}</p>`:''}${costLine(a.cost,o.reserveStaff&&choices.length===1?`${staff(choices[0])?.name||choices[0]} · ocupa su tarea`:o.reserveStaff,true)}<p class="option-consequence"><span class="consequence-label">${story?.optionPlans?.[o.id]?'En el debate:':'Efectos previstos:'}</span> ${esc(story?.optionPlans?.[o.id]||eventConsequences(o,state,sourceBundle,{omitPreparation:true}))}</p>${reception?`<p class="option-intent local-reception"><strong>${esc(reception.provinceName)} · </strong>${esc(reception.text)}</p>`:''}${debateOptionPreparation(o)}${o.reserveStaff&&choices.length?(choices.length===1?`<input type="hidden" id="option-staff-${esc(o.id)}" value="${esc(choices[0])}">`:`<label class="sr-only" for="option-staff-${esc(o.id)}">Colaborador para ${esc(o.shortLabel||o.label)}</label><select id="option-staff-${esc(o.id)}" data-option-staff="${esc(o.id)}">${choices.map(id=>`<option value="${esc(id)}">${esc(staff(id)?.name||id)} · ocupa su tarea</option>`).join('')}</select>`):''}${!a.available?`<p class="block-reason">${esc(a.reason||'Faltan recursos o personal.')}</p>`:''}<button type="button" class="${a.available?'primary':''}" data-option="${esc(o.id)}" aria-label="Elegir ${esc(o.shortLabel||o.label)}" ${a.available?'':'disabled'}>Responder así →</button><details class="option-more"><summary>Más sobre esta decisión</summary><p>${esc(o.label)}</p>${o.learning?`<p>${esc(o.learning)}</p>`:''}</details></article>`;
   }).join('')}</section></div>`;
 }
 function newsOutcomeView(compact=false){
@@ -237,7 +276,8 @@ function newsOutcomeView(compact=false){
   const groups=[['benefit',outcome.benefits],['tradeoff',outcome.tradeoffs],['obligation',outcome.obligations],['unchanged',outcome.unchanged]];
   const story=eventStory(state,sourceBundle);const choice=story?.optionLabels[outcome.optionId]||outcome.choice;
   const reaction=newsReaction(state,sourceBundle);
-  if(reaction)return `<section class="news-outcome news-reaction" aria-label="Resultado de tu decisión en la noticia" data-news-entry="${esc(reaction.entryId)}"><strong class="news-reaction-title">${esc(reaction.headline)}</strong>${compact?'':`<p class="news-reaction-summary">${esc(reaction.summary)}</p>`}<div class="news-outcome-effects">${groups.flatMap(([kind,items])=>items.map(item=>`<span class="news-chip ${kind}">${esc(item.text)}</span>`)).join('')||'<span class="news-chip unchanged">Conservaste los recursos para tu agenda</span>'}</div><details class="news-reaction-record"><summary>Tu respuesta y su registro</summary>${compact?`<p>${esc(reaction.summary)}</p>`:''}<p>${esc(choice)}</p><button type="button" class="text-button" data-act="antecedent" data-entry="${esc(reaction.entryId)}">Ver decisión y efectos</button>${reaction.antecedent?`<button type="button" class="text-button" data-act="antecedent" data-entry="${esc(reaction.antecedent.entryId)}">↶ ${esc(reaction.antecedent.label)}</button>`:''}</details></section>`;
+  const resultLine=compact?reaction?.deskLine:reaction?.summary;
+  if(reaction)return `<section class="news-outcome news-reaction" aria-label="Resultado de tu decisión en la noticia" data-news-entry="${esc(reaction.entryId)}"><strong class="news-reaction-title">${esc(reaction.headline)}</strong>${resultLine?`<p class="news-reaction-summary">${esc(resultLine)}</p>`:''}<div class="news-outcome-effects">${groups.flatMap(([kind,items])=>items.map(item=>`<span class="news-chip ${kind}">${esc(item.text)}</span>`)).join('')||'<span class="news-chip unchanged">Conservaste los recursos para tu agenda</span>'}</div><details class="news-reaction-record"><summary>Tu respuesta y su registro</summary>${compact?`<p>${esc(reaction.summary)}</p>`:''}<p>${esc(choice)}</p><button type="button" class="text-button" data-act="antecedent" data-entry="${esc(reaction.entryId)}">Ver decisión y efectos</button>${reaction.antecedent?`<button type="button" class="text-button" data-act="antecedent" data-entry="${esc(reaction.antecedent.entryId)}">↶ ${esc(reaction.antecedent.label)}</button>`:''}</details></section>`;
   if(!groups.some(([,items])=>items.length))return story?`<section class="news-outcome" aria-label="Resultado de tu decisión en la noticia"><strong>Tras la noticia · ${esc(choice)}</strong><span class="news-chip unchanged">Conservaste los recursos para tu agenda</span></section>`:'';
   return `<section class="news-outcome" aria-label="Resultado de tu decisión en la noticia" data-news-entry="${esc(outcome.entryId)}"><strong><span aria-hidden="true">${actionIcon('research')}</span>Tras la noticia · ${esc(choice)}</strong><div class="news-outcome-effects">${groups.flatMap(([kind,items])=>items.map(item=>`<span class="news-chip ${kind}">${esc(item.text)}</span>`)).join('')}</div></section>`;
 }
@@ -689,16 +729,120 @@ function promisesBody(){const promises=promiseThreads(state,sourceBundle);return
 function electionResult(){return state.election||state.result||state.electionResult||null;}
 function electionProvinceVisual(step){
   const path=PROVINCE_PATHS[step.provinceId]||'',numbers=(path.match(/-?\d+(?:\.\d+)?/g)||[]).map(Number),xs=numbers.filter((_,i)=>i%2===0),ys=numbers.filter((_,i)=>i%2===1);
+  if (!path) return '';
   const left=Math.min(...xs),top=Math.min(...ys),width=Math.max(...xs)-left,height=Math.max(...ys)-top,pad=Math.max(width,height)*.12+2;
-  return `<svg class="reveal-province" viewBox="${left-pad} ${top-pad} ${width+pad*2} ${height+pad*2}" aria-hidden="true" focusable="false"><path d="${path}" fill-rule="evenodd" fill="${partyColor(step.leader)}" stroke="#f7f0df" stroke-width="${Math.max(width,height)/85}"/></svg>`;
+  const fill = step.leaders.length === 1 ? partyColor(step.leader) : '#6b777c';
+  return `<svg class="reveal-province" viewBox="${left-pad} ${top-pad} ${width+pad*2} ${height+pad*2}" aria-hidden="true" focusable="false"><path d="${path}" fill-rule="evenodd" fill="${fill}" stroke="#ffffff" stroke-width="${Math.max(width,height)/85}"/></svg>`;
+}
+function electionPartialView(partial) {
+  const order = [...bundle.config.parties].sort((a, b) => partial.seatsByParty[b.id] - partial.seatsByParty[a.id]);
+  const meter = order.filter(p => partial.seatsByParty[p.id] > 0).map(p =>
+    `<span style="background:${partyColor(p.id)};width:${100 * partial.seatsByParty[p.id] / partial.totalSeats}%"></span>`).join('');
+  const parties = order.map(p =>
+    `<li${p.id === 'P1' ? ' class="night-player"' : ''}>${mark(p.id)}<span>${esc(p.name.replace(/^Partido /u, ''))}${p.id === 'P1' ? ' <small>· tú</small>' : ''}</span><b>${fmt(partial.seatsByParty[p.id])}</b></li>`).join('');
+  return `<section class="night-partial" aria-labelledby="night-partial-heading">
+    <div class="night-partial-heading"><h2 id="night-partial-heading">Escaños confirmados</h2>
+      <span>${fmt(partial.districts.length)} de ${fmt(partial.districtCount)} circunscripciones</span></div>
+    <div class="night-seat-meter" aria-hidden="true">${meter}</div>
+    <p class="night-counted">${fmt(partial.seats)} de ${fmt(partial.totalSeats)} escaños repartidos</p>
+    <ul class="night-standings" aria-label="Escaños de cada partido hasta este avance">${parties}</ul>
+  </section>`;
 }
 function electionView(){
-  const stages=electionRevealSteps(state,sourceBundle),index=Math.max(0,Number(ui.revealIndex||0));
-  if(index>=stages.length||!stages.length)return electionSummaryView();
-  const step=stages[index],result=electionResult().districts[step.provinceId];
-  return `${phaseHeading(`Noche electoral · ${index+1} / ${stages.length}`,step.provinceName,'Tres provincias para descubrir el desenlace. Puedes ver todo el resultado cuando quieras.')}<div class="election-reveal paper-card"><section><div class="reveal-art" style="${partyStyle(step.leader)}">${electionProvinceVisual(step)}<div>${partyPortrait(step.leader)}</div></div><p class="reveal-leader">${partyBadge(step.leader)} encabeza el recuento provincial.</p></section><section><p class="eyebrow">Tu candidatura</p><div class="reveal-own"><strong>${fmt(step.playerSeats)}</strong><span>de ${fmt(step.seats)} escaños<br>${esc(party('P1')?.name)}</span></div><p class="reveal-change ${step.change<0?'negative':step.change===0?'neutral':'positive'}">${step.change>0?`+${step.change} frente a la estimación del sondeo`:step.change<0?`${step.change} frente a la estimación del sondeo`:'Conservas la estimación de escaños del sondeo'}.</p>${step.leaderChanged?`<p class="reveal-change">El sondeo lo encabezaba ${esc(party(step.previousLeader)?.name)}.</p>`:''}<div class="last-seat-winner"><span>Último escaño</span>${step.lastSeatHolder?partyBadge(step.lastSeatHolder):'Reparto confirmado'}</div><div class="reveal-party-seats">${bundle.config.parties.filter(p=>Number(result.seatsByParty[p.id])>0).map(p=>`<span>${partyBadge(p.id,true)}<b>${fmt(result.seatsByParty[p.id])}</b></span>`).join('')}</div><div class="reveal-controls"><button type="button" class="primary" data-act="next-reveal">${index+1===stages.length?'Ver el Congreso':'Siguiente provincia'} →</button><button type="button" class="text-button" data-act="skip-reveal">Saltar al resultado completo</button></div><p class="small muted">Resultado ya cerrado. Avanzar, saltar o recargar conserva votos y escaños.</p></section></div>`;
+  const stages = electionRevealSteps(state, sourceBundle);
+  const index = Math.max(0, Number(ui.revealIndex || 0));
+  const step = stages[index];
+  if (!step) return electionSummaryView();
+  const last = index + 1 === stages.length;
+  const {title, story} = electionBulletin(step, bundle.config.parties);
+  const local = electionResult().districts[step.provinceId];
+  const leaders = step.leaders.map(id => partyBadge(id)).join(' y ');
+  const figureLabel = step.leaders.map(id => esc(party(id)?.name.replace(/^Partido /u, '') ?? id)).join(' y ');
+  const pollTone = step.change < 0 ? 'negative' : step.change > 0 ? 'positive' : 'neutral';
+  const byParty = bundle.config.parties.filter(p => (local.seatsByParty[p.id] ?? 0) > 0)
+    .map(p => `<span>${partyBadge(p.id)} <b>${fmt(local.seatsByParty[p.id])}</b></span>`).join('');
+  const pending = step.partial.lastPending;
+  const voice = step.beat === 'duel' ? state.selectedStaff?.map(staff).find(Boolean) : null;
+  const report = voice
+    ? `<div class="night-desk-voice"><span aria-hidden="true">${portrait(voice.id, 'staff', 'focused')}</span>
+        <div><small>${esc(voice.name)} · en tu sede</small><p>«${esc(story)}»</p></div></div>`
+    : story ? `<p class="night-story-lead">${esc(story)}</p>` : '';
+  return `<article class="election-reveal night-edition" aria-labelledby="phase-heading">
+    <header class="night-masthead"><strong>Noche electoral</strong><span>Avance ${index + 1} de ${stages.length}</span></header>
+    <div class="night-story">
+      <div class="night-story-text"><h1 id="phase-heading" tabindex="-1">${esc(title)}</h1>
+        ${report}
+        <dl class="night-local-count">
+          <div><dt>Tus escaños</dt><dd>${fmt(step.playerSeats)} <small>de ${fmt(step.seats)}</small></dd></div>
+          ${step.change !== null ? `<div><dt>Último sondeo</dt><dd>${fmt(step.projectedPlayerSeats)} <small class="reveal-change ${pollTone}">${step.change ? esc(signed(step.change)) + ' al contar' : '· coincide'}</small></dd></div>` : ''}
+        </dl>
+      </div>
+      <figure class="night-geography">${electionProvinceVisual(step)}${figureLabel ? `<figcaption>${step.leaders.length > 1 ? 'Empate en votos' : 'Más votos'}<b>${figureLabel}</b></figcaption>` : ''}</figure>
+    </div>
+    <details class="night-local-detail"><summary>El reparto en ${esc(step.provinceName)}</summary>
+      ${step.leaders.length ? `<p>${step.leaders.length > 1 ? 'Empate en votos' : 'Primero en votos'} · ${leaders}</p>` : ''}
+      ${step.lastSeatHolder ? `<p>Último escaño · ${partyBadge(step.lastSeatHolder)}</p>` : ''}
+      <div class="reveal-party-seats">${byParty}</div>
+    </details>
+    ${electionPartialView(step.partial)}
+    <div class="night-controls">
+      <button type="button" class="primary" data-act="next-reveal">${last ? 'Ver el Congreso' : 'Siguiente avance'} →</button>
+      ${last ? '' : '<button type="button" class="text-button" data-act="skip-reveal">Saltar al resultado completo</button>'}
+      ${pending ? `<p>Queda ${esc(electionPlaceName(pending.name))}, con ${fmt(pending.seats)} ${pending.seats === 1 ? 'escaño' : 'escaños'} por repartir.</p>` : ''}
+    </div>
+  </article>`;
 }
-function electionSummaryView(){const result=electionResult();if(!result)return `${phaseHeading('Noche electoral','Los resultados se están preparando.')}<p class="note error">No hay un recuento disponible. Guarda la partida para revisar la incidencia.</p>`;const national=result.national;const seats=national.seatsByParty;const votes=national.votesByParty;const allVotes=Object.values(votes).reduce((a,b)=>a+Number(b),0)+Number(national.blankVotes||0);const player=Number(seats.P1||0);const order=bundle.config.parties.map(p=>p.id).sort((a,b)=>Number(seats[b]||0)-Number(seats[a]||0));return `${phaseHeading('Noche electoral','La campaña ya tiene un resultado.','Los votos se convierten en escaños provincia a provincia. Ahora empieza la conversación parlamentaria.')}<div class="election-grid"><section class="paper-card result-summary"><h2>El Congreso</h2><p class="small muted">Recuento confirmado de esta partida</p>${hemicycle(seats,order,partyPalette())}<div class="majority-note"><span>350 escaños</span><span>Mayoría absoluta: 176</span></div><div class="table-wrap"><table class="data-table result-table"><caption>Resultado nacional. Porcentaje sobre votos válidos, incluido el blanco.</caption><thead><tr><th scope="col">Candidatura</th><th scope="col" class="numeric">Votos</th><th scope="col" class="numeric">%</th><th scope="col" class="numeric">Escaños</th></tr></thead><tbody>${order.map(id=>`<tr class="${id==='P1'?'player-row':''}"><td>${partyBadge(id)}</td><td class="numeric">${fmt(votes[id])}</td><td class="numeric">${allVotes?Math.round(Number(votes[id]||0)/allVotes*100):0} %</td><td class="numeric"><strong>${fmt(seats[id])}</strong></td></tr>`).join('')}</tbody></table></div></section><aside class="paper-card"><p class="eyebrow">${esc(party('P1')?.name)}</p><h2>Tu lugar en el Congreso.</h2><div class="winner-card"><strong>${player}</strong><p class="muted">${player===1?'escaño para tu candidatura':'escaños para tu candidatura'}</p><p>${player>=176?'Puedes alcanzar la primera mayoría con tus propios escaños.':`La mayoría absoluta está a ${176-player} escaños. En la segunda votación basta con más síes que noes.`}</p></div>${proposalOrderView()}<button type="button" class="primary" data-command="BEGIN_NEGOTIATION">Explorar acuerdos →</button><hr class="separator"><h3>El recuento completo</h3><div class="turn-counts"><div><strong>${fmt(national.castVotes)}</strong><small>votos emitidos</small></div><div><strong>${fmt(national.abstentions)}</strong><small>abstenciones</small></div><div><strong>${fmt(national.blankVotes)}</strong><small>votos en blanco</small></div><div><strong>${fmt(national.invalidVotes)}</strong><small>votos nulos</small></div></div><button type="button" class="text-button" data-act="calculation">Entender el reparto</button></aside></div><details class="paper-card election-detail"><summary>Ver votos y escaños por circunscripción</summary>${electionDistrictTable(result)}</details>`;}
+function electionAdvance(skip) {
+  const stages = electionRevealSteps(state, sourceBundle);
+  const index = skip ? stages.length : Math.min(stages.length, (ui.revealIndex || 0) + 1);
+  ui.revealIndex = index;
+  render(true);
+  document.getElementById('phase-heading')?.scrollIntoView({block: 'nearest', behavior: 'instant'});
+  const partial = stages[index]?.partial;
+  announce(partial ? `Avance ${index + 1}. ${partial.districts.length} circunscripciones contabilizadas.`
+    : `Recuento completo. Tu candidatura obtiene ${electionResult().national.seatsByParty.P1} escaños.`);
+}
+function electionSummaryView() {
+  const result = electionResult();
+  if (!result) return `${phaseHeading('Noche electoral', 'Los resultados se están preparando.')}<p class="note error">No hay un recuento disponible. Guarda la partida para revisar la incidencia.</p>`;
+  const national = result.national;
+  const seats = national.seatsByParty, votes = national.votesByParty;
+  const validVotes = Object.values(votes).reduce((sum, value) => sum + value, national.blankVotes ?? 0);
+  const player = seats.P1 ?? 0;
+  const parties = bundle.config.parties;
+  const order = parties.map(party => party.id).sort((a, b) => seats[b] - seats[a]);
+  const {title, story} = congressBulletin(seats, parties);
+  const enterPacts = '<button type="button" class="primary night-enter-pacts" data-command="BEGIN_NEGOTIATION">Explorar acuerdos →</button>';
+  const rows = order.map(id => {
+    const share = validVotes ? Math.round((votes[id] ?? 0) * 1000 / validVotes) / 10 : 0;
+    return `<tr class="${id === 'P1' ? 'player-row' : ''}"><td>${partyBadge(id)}</td>
+      <td class="numeric">${fmt(votes[id])}</td><td class="numeric">${fmt(share)} %</td>
+      <td class="numeric"><strong>${fmt(seats[id])}</strong></td></tr>`;
+  }).join('');
+  return `${phaseHeading('Noche electoral · Recuento completo', title, story, enterPacts)}
+    <div class="election-grid">
+      <section class="paper-card result-summary"><h2>El Congreso</h2>
+        ${hemicycle(seats, order, partyPalette())}
+        <div class="majority-note"><span>350 escaños</span><span>Mayoría absoluta · 176</span></div>
+        <div class="table-wrap"><table class="data-table result-table">
+          <caption>Resultado nacional. Porcentaje sobre votos válidos, incluido el blanco.</caption>
+          <thead><tr><th scope="col">Candidatura</th><th scope="col" class="numeric">Votos</th>
+          <th scope="col" class="numeric">%</th><th scope="col" class="numeric">Escaños</th></tr></thead>
+          <tbody>${rows}</tbody></table></div>
+      </section>
+      <aside class="paper-card"><p class="eyebrow">${esc(party('P1')?.name)}</p><h2>Tu lugar en el Congreso</h2>
+        <div class="winner-card"><strong>${fmt(player)}</strong><p class="muted">${player === 1 ? 'escaño para tu candidatura' : 'escaños para tu candidatura'}</p>
+          <p>${player >= 176 ? 'Puedes alcanzar la primera mayoría con tus propios escaños.' : `La mayoría absoluta está a ${176 - player} ${player === 175 ? 'escaño' : 'escaños'}. En la segunda votación basta con más síes que noes.`}</p></div>
+        ${proposalOrderView()}
+        <hr class="separator"><h3>El recuento completo</h3>
+        <div class="turn-counts"><div><strong>${fmt(national.castVotes)}</strong><small>votos emitidos</small></div>
+        <div><strong>${fmt(national.abstentions)}</strong><small>abstenciones</small></div>
+        <div><strong>${fmt(national.blankVotes)}</strong><small>votos en blanco</small></div>
+        <div><strong>${fmt(national.invalidVotes)}</strong><small>votos nulos</small></div></div>
+        <button type="button" class="text-button" data-act="calculation">Entender el reparto</button>
+      </aside>
+    </div><details class="paper-card election-detail"><summary>Ver votos y escaños por circunscripción</summary>${electionDistrictTable(result)}</details>`;
+}
 function electionDistrictTable(result){return `<div class="table-wrap"><table class="data-table"><caption>Votos de candidatura y escaños confirmados. Cada casilla indica votos · escaños.</caption><thead><tr><th scope="col">Circunscripción</th><th scope="col" class="numeric">Esc.</th>${bundle.config.parties.map(p=>`<th scope="col" class="numeric"><abbr title="${esc(p.name)}">${esc(partyShort(p.id))}</abbr></th>`).join('')}<th scope="col" class="numeric">Blanco</th><th scope="col" class="numeric">Nulos</th></tr></thead><tbody>${[...bundle.provinces.districts].sort((a,b)=>a.name.localeCompare(b.name,'es')).map(p=>{const r=result.districts[p.id];return `<tr><td>${esc(p.name)}</td><td class="numeric">${p.seats}</td>${bundle.config.parties.map(x=>`<td class="numeric">${r.partyVotes[x.id]===undefined?'—':`${fmt(r.partyVotes[x.id])} · <strong>${fmt(r.seatsByParty[x.id])}</strong>`}</td>`).join('')}<td class="numeric">${fmt(r.blankVotes)}</td><td class="numeric">${fmt(r.invalidVotes)}</td></tr>`;}).join('')}</tbody></table></div>`;}
 function defaultOffer(){return bundle.config.topics.map(t=>state.commitments.includes(t.id)?2:1);}
 function programmeView(offer,editing=false){
@@ -761,8 +905,8 @@ function agreementCopy(agreement){
 function endingMomentView(moment){
   return `<div class="moment-heading"><span aria-hidden="true">${actionIcon(moment.icon)}</span><div><small>${moment.coveredTurns?`Turnos ${moment.coveredTurns.join(" y ")}`:`Turno ${moment.turn}`}</small><h3>${esc(moment.title)}</h3></div></div>${moment.context?`<p class="moment-context">${esc(moment.context)}</p>`:''}${moment.messages?`<div class="moment-messages">${moment.messages.map(m=>`<p><strong>${esc(m.label)}:</strong> ${esc(m.text)}</p>`).join('')}</div>`:''}${moment.question?`<p class="moment-question"><strong>La pregunta:</strong> ${esc(moment.question)}</p>`:''}<p>${esc(moment.summary)}</p>${moment.effects?`<p class="moment-effects">${esc(moment.effects)}</p>`:''}${moment.followup?`<p class="moment-followup"><strong>Después:</strong> ${esc(moment.followup)}</p>`:''}<div class="moment-references">${moment.references.map(ref=>`<button type="button" class="text-button" data-act="antecedent" data-entry="${esc(ref.entryId)}">${esc(ref.label)}</button>`).join('')}</div>`;
 }
-function endingMomentsView(){
-  const moments=campaignRecap(state,sourceBundle);if(!moments.length)return '';
+function endingMomentsView(moments){
+  if(!moments.length)return '';
   const featured=moments.find(m=>m.featured),others=featured?moments.filter(m=>m!==featured):moments;
   const spotlight=featured?`<section class="ending-memory" aria-label="Una decisión que marcó tu campaña"><p class="eyebrow">Una decisión para recordar</p>${endingMomentView(featured)}</section>`:'';
   return spotlight+(others.length?`<details class="ending-moments"><summary>${featured?'Otras decisiones de tu campaña':moments.length===1?'Una decisión de tu campaña':`Tu campaña en ${moments.length} decisiones`}</summary><ol>${others.map(moment=>`<li>${endingMomentView(moment)}</li>`).join('')}</ol></details>`:'');
@@ -808,7 +952,78 @@ function closingCastView(vote){
   return `<div class="closing-cast" aria-label="El voto de cada partido">${bundle.config.parties.filter(p=>state.electionResult.national.seatsByParty[p.id]>0).map(p=>`<div class="closing-party" style="${partyStyle(p.id)}"><span class="closing-face">${partyPortrait(p.id)}</span><strong>${esc(p.short||p.name)}</strong><span class="closing-vote vote-${vote.votes[p.id]}">${esc(voteLabels[vote.votes[p.id]])}</span></div>`).join('')}</div>`;
 }
 function previewBody(p){const totals=p.totals;return `<div class="vote-totals"><div><strong>${fmt(totals.yes)}</strong><small>Síes</small></div><div><strong>${fmt(totals.no)}</strong><small>Noes</small></div><div><strong>${fmt(totals.abstain)}</strong><small>Abstenciones</small></div></div><div class="vote-bar" aria-hidden="true"><span class="yes" style="width:${Number(totals.yes)/350*100}%"></span><span class="no" style="width:${Number(totals.no)/350*100}%"></span><span class="abstain" style="width:${Number(totals.abstain)/350*100}%"></span></div><p class="note section-gap">${p.ballot===2?totals.yes>totals.no?'La propuesta reúne más síes que noes.':totals.yes===totals.no?'Hay empate. La segunda votación exige más síes que noes.':`Los noes superan a los síes en ${fmt(totals.no-totals.yes)}. Necesitas que cambie ese balance.`:totals.yes>=176?'La propuesta reúne mayoría absoluta.':`Faltan ${Math.max(0,176-totals.yes)} síes para alcanzar la mayoría absoluta.`}</p><div class="section-gap">${bundle.config.parties.map(x=>`<details class="vote-party"><summary>${partyBadge(x.id)}<span class="vote-chip">${voteLabels[p.votes[x.id]]||'—'} · ${fmt(electionResult()?.national.seatsByParty[x.id])}</span></summary><p>${esc(p.details?.[x.id]?.reason||'El voto depende de la propuesta y las relaciones de esta partida.')}</p></details>`).join('')}</div>`;}
-function endingView(){const o=state.outcome||{},objective=campaignObjective(state,sourceBundle),lastVote=o.votes||state.negotiation?.history?.at(-1);const result=electionResult();const story=finalStory(state,sourceBundle);const headline=story?.headline||(o.type==='government'?'Tu campaña llega al Gobierno.':o.type==='support'?objective.pivotal?'Tu apoyo decide el acuerdo.':'Tu campaña participa en el acuerdo.':o.type==='opposition'?'Tu campaña abre una oposición.':'El Congreso queda sin acuerdo.');const body=o.type==='government'?`La propuesta de ${party('P1')?.name} ha sido investida. Los compromisos que has construido ahora forman parte del resultado.`:o.type==='support'?`La propuesta de ${party(o.winner)?.name||'otra candidatura'} ha sido investida con tu apoyo.`:o.type==='opposition'?`La propuesta de ${party(o.winner)?.name||'otra candidatura'} ha sido investida. ${party('P1')?.name} conserva sus escaños desde la oposición.`:'Ninguna de las propuestas de este desenlace breve ha reunido la mayoría. La partida termina con el acuerdo pendiente.';return `<p class="eyebrow">El resultado de tu campaña</p><h1 class="ending-headline" id="phase-heading" tabindex="-1">${esc(headline)}</h1><div class="outcome-grid"><section><p class="lead">${esc(story?.lead||body)}</p>${story?.retryAdvice?`<div class="ending-retry-story"><strong>${esc(story.retryAdvice.title)}</strong><p>${esc(story.retryAdvice.text)}</p></div>`:""}<div class="ending-controls"><button type="button" class="primary" data-act="replay">Repetir esta campaña →</button><button type="button" data-act="export">Guardar archivo</button><button type="button" class="secondary" data-act="new" data-new-story="true">Nueva campaña personalizada</button></div><p class="replay-note">Al repetir conservas escenario, dificultad, clave, candidato y equipo. Tus nuevas decisiones pueden cambiar el recorrido.</p>${influenceView()}<div class="ending-decisions"><h2>Las claves del desenlace</h2>${story?.details.length?story.details.map(text=>`<p>${esc(text)}</p>`).join(''):'<p class="empty-text">Consulta el historial para recorrer la campaña.</p>'}<button type="button" class="text-button" data-act="history">Abrir el historial completo</button></div><div class="ending-result"><strong>${fmt(result?.national.seatsByParty.P1)}</strong><span>escaños de ${esc(party('P1')?.name)}</span></div>${campaignComparisonView(story)}${endingMomentsView()}</section><aside class="paper-card">${lastVote?.totals?`<h2>${o.type==='deadlock'?'La última votación registrada':'La votación que cerró el acuerdo'}</h2><p class="small">Propuesta de ${esc(party(lastVote.proponent||o.winner)?.name||'otra candidatura')}</p>${closingCastView(lastVote)}${voteHemicycleView(lastVote,{actual:true})}<div class="vote-totals"><div><strong>${fmt(lastVote.totals.yes)}</strong><small>Síes</small></div><div><strong>${fmt(lastVote.totals.no)}</strong><small>Noes</small></div><div><strong>${fmt(lastVote.totals.abstain)}</strong><small>Abstenciones</small></div></div>`:''}<h2>Lo que te llevas.</h2><h3>Tus prioridades iniciales</h3>${state.commitments.map(id=>{const revised=(o.reviewedCommitments||[]).some(x=>(typeof x==='string'?x:x.id)===id);const fulfilled=lastVote?.offer?.[bundle.config.topics.findIndex(t=>t.id===id)]>=bundle.config.negotiation.commitmentMinUnits;return `<div class="relationship-row"><span>${esc(topic(id)?.name||id)}</span><span class="badge">${lastVote&&['government','support'].includes(o.type)?fulfilled?'En el acuerdo':'Reducida':revised?'Alcance revisado':'Registrada'}</span></div>`;}).join('')}${promisesBody()}<hr class="separator">${relationshipsBody(false)}<details class="turn-review"><summary>Repasar la campaña con perspectiva</summary><p>¿Qué decisión cambió tu recorrido? ¿En qué provincia invertiste demasiado o demasiado poco? ¿Qué relación te abrió una posibilidad de acuerdo?</p><p>El historial permite seguir los efectos de cada decisión. Repetir con la misma clave te deja probar otra estrategia.</p></details></aside></div>`;}
+function trialBanner(){
+  if(!pactTrial) return '';
+  const original=pactTrial.cover;
+  return `<aside class="pact-trial" aria-label="Otra investidura"><div><strong>Otra investidura · ${fmt(original.seats)} escaños</strong><p>Tu primer final fue «${esc(original.result)}». ${esc(original.ballot)}</p></div><button type="button" data-act="original-ending">Volver a mi primer final</button></aside>`;
+}
+function leavePactTrial(){
+  if(!pactTrial) return;
+  state=pactTrial.original;
+  pactTrial=null;
+  resetCampaignView(state);
+}
+async function tryAnotherPact(button){
+  if(state?.phase!=='ending') return;
+  const clickedState=state;
+  const original=pactTrial?.original||state;
+  const cover=pactTrial?.cover||endingEdition.cover;
+  button.disabled=true;
+  button.textContent='Abriendo la mesa de pactos…';
+  // Allow the busy label to paint before reconstructing an imported campaign.
+  await new Promise(resolve=>requestAnimationFrame(()=>setTimeout(resolve,0)));
+  if(state!==clickedState||!button.isConnected) return;
+  try {
+    const opening=pactTrial?.opening||firstPactTable(original,sourceBundle);
+    pactTrial={original,opening,cover};
+    state=opening;
+    resetCampaignView(state);
+    render(true);
+    window.scrollTo({top:0,behavior:'instant'});
+    announce('Vuelves a la primera propuesta con los mismos escaños y recursos.');
+  } catch(error){
+    button.disabled=false;
+    button.textContent='Probar otro pacto';
+    toastMessage(error.message||'No se ha podido abrir la primera propuesta.',true);
+  }
+}
+function endingView(){
+  if(endingEdition?.state!==state){
+    const moments=campaignRecap(state,sourceBundle);
+    endingEdition={state,moments,cover:campaignCover(state,sourceBundle,moments),story:finalStory(state,sourceBundle)};
+  }
+  const {cover,story,moments}=endingEdition;
+  const lastVote=state.outcome.votes||state.negotiation?.history?.at(-1);
+  const memory=cover.memory;
+  const source=memory?.references?.[0];
+  const headline=story?.headline||cover.result;
+  const subject=lastVote ? party(lastVote.proponent)?.name : null;
+  return `<div class="campaign-edition" style="${partyStyle('P1')}">
+    <article class="edition-lead">
+      <p class="edition-byline">${mark('P1')} ${esc(cover.name)} · ${esc(cover.partyName)}</p>
+      <h1 class="ending-headline" id="phase-heading" tabindex="-1">${esc(headline)}</h1>
+      <div class="edition-score"><p><strong>${fmt(cover.seats)}</strong> ${cover.seats===1?'escaño':'escaños'}</p><div><small>${cover.objective.achieved?'Reto conseguido':'Reto sin alcanzar'}</small><b>${esc(cover.objective.title)}</b></div></div>
+      ${cover.ballot?`<p class="edition-ballot">${esc(cover.ballot)} ${esc(cover.backers)}</p>`:''}
+      ${memory?`<div class="edition-memory"><small>Turno ${fmt(memory.turn)}</small><p>${esc(cover.memoryText)}</p>${source?`<button type="button" class="text-button" data-act="antecedent" data-entry="${esc(source.entryId)}">Ver qué ocurrió</button>`:''}</div>`:''}
+      <div class="ending-controls"><button type="button" class="primary" data-act="try-pact">Probar otro pacto</button><button type="button" data-act="replay">Repetir la campaña</button></div>
+      <p class="replay-note">Probar otro pacto te lleva a la primera propuesta con estos mismos escaños. Puedes volver a tu primer final.</p>
+    </article>
+    <figure class="edition-print" data-campaign-poster>
+      <img hidden width="900" height="1125" alt="${esc(`Cartel de ${cover.name}, ${cover.partyName}. ${cover.seats} ${cover.seats===1?'escaño':'escaños'}. ${cover.result}. ${cover.memoryText||''}`)}">
+      <figcaption><span role="status">Preparando tu cartel…</span><a hidden data-download-poster>Guardar mi cartel <small>PNG ↓</small></a><button hidden type="button" data-act="retry-poster">Volver a preparar el cartel</button></figcaption>
+    </figure></div>
+    <div class="edition-reports">
+      <details><summary>Cómo se decidió la investidura</summary>${story?.lead?`<p>${esc(story.lead)}</p>`:''}
+        ${story?.details.map(text=>`<p>${esc(text)}</p>`).join('')||''}
+        ${lastVote?`<h3>${state.outcome.type==='deadlock'?'Última propuesta':'Propuesta investida'} · ${esc(subject)}</h3>${closingCastView(lastVote)}${voteHemicycleView(lastVote,{actual:true})}
+          <p>${fmt(lastVote.totals.yes)} síes · ${fmt(lastVote.totals.no)} noes · ${fmt(lastVote.totals.abstain)} abstenciones</p>`:''}
+        ${influenceView()}${cover.priorities.map(p=>`<div class="relationship-row"><span>${esc(p.name)}</span><span>${esc(p.status||'Prioridad inicial')}</span></div>`).join('')}
+      </details>
+      <details><summary>Las decisiones de tu campaña</summary>${endingMomentsView(moments)}${promisesBody()}${relationshipsBody(false)}<button type="button" class="text-button" data-act="history">Abrir el historial completo</button></details>
+      <details><summary>Tu objetivo y otra forma de jugar</summary>${objectiveView()}${story?.retryAdvice?`<h3>${esc(story.retryAdvice.title)}</h3><p>${esc(story.retryAdvice.text)}</p>`:''}${campaignComparisonView(story)}</details>
+    </div>
+    <div class="edition-other"><button type="button" class="text-button" data-act="export">Guardar archivo de partida</button><button type="button" class="text-button" data-act="new" data-new-story="true">Nueva campaña personalizada</button></div>`;
+}
 
 function openDialog(title,content){if(!dialog.open)dialogReturnFocus=document.activeElement;dialog.innerHTML=`<div class="dialog-heading"><h2 id="dialog-title">${esc(title)}</h2><button type="button" data-act="close-dialog" aria-label="Cerrar panel">×</button></div><div class="dialog-body">${content}</div>`;if(!dialog.open)dialog.showModal();dialog.querySelector('button')?.focus();}
 function closeDialog(){dialog.close();}
@@ -853,13 +1068,28 @@ function recordedPoliticalChoiceView(entry){
   return `${story?.briefingDecision?`<p><strong>El borrador:</strong> ${esc(story.briefingDecision.draft)}</p><p><strong>Lo que ocurre:</strong> ${esc(story.briefingDecision.fact)}</p>`:''}${story?.discipline?`<p><strong>El anuncio de Rafa:</strong> «${esc(story.discipline.announcement)}»</p><p><strong>Tu programa:</strong> «${esc(story.discipline.proposal)}»</p>`:''}${contradictionMessagesView(story)}${story?.economicDecision?`<p><strong>La pregunta:</strong> ${esc(story.economicDecision.question)}</p>`:''}${story?.call?`<p><strong>${esc(party(story.call.target)?.name)}:</strong> «${esc(story.call.request)}»</p>`:''}${speech?`<p><strong>Tu respuesta:</strong> «${esc(speech)}»</p>`:''}`;
 }
 function historyDialog(){openDialog('El recorrido de tu campaña.',`<ol class="history-list">${(state.timeline||[]).length?state.timeline.map(t=>`<li><small>Turno ${fmt(t.turn)} · ${esc(t.kind==='event'||t.kind==='choice'?'Decisión':t.kind==='rival'?'Movimiento rival':t.kind==='plan'?'Agenda':'Campaña')}</small><h3>${esc(t.title||'Movimiento de campaña')}</h3>${t.body?`<p>${esc(t.body)}</p>`:''}${recordedPoliticalChoiceView(t)}${changesList(t.changes||t.entries||[],10)}${t.learning?`<details><summary>La decisión con perspectiva</summary><p>${esc(learningText(t.learning))}</p></details>`:''}</li>`).join(''):'<li>No hay decisiones registradas todavía.</li>'}</ol><div class="button-row section-gap"><button type="button" data-act="export">Guardar archivo de partida</button></div>`);}
-function persist(){try{const result=saveGame(state,sourceBundle);ui.saved=!!result.ok;ui.storageNotice=result.ok?'':'No se pudo autoguardar. Guarda un archivo para conservar esta partida.';if(!result.ok)toastMessage('No se pudo guardar en el navegador. Usa «Guardar archivo» para conservar la partida.',true);}catch{ui.saved=false;ui.storageNotice='El guardado local no está disponible. Guarda un archivo para conservar esta partida.';toastMessage('Este navegador no permite guardar aquí. Puedes exportar la partida como archivo.',true);}if(state.phase==='ending')recordCampaign(state);resumeState=state;}
+function persist(){
+  if(pactTrial) return;
+  try{
+    const result=saveGame(state,sourceBundle);
+    ui.saved=!!result.ok;
+    ui.storageNotice=result.ok?'':'No se pudo autoguardar. Guarda un archivo para conservar esta partida.';
+    if(!result.ok) toastMessage('No se pudo guardar en el navegador. Usa «Guardar archivo» para conservar la partida.',true);
+  }catch{
+    ui.saved=false;ui.storageNotice='El guardado local no está disponible. Guarda un archivo para conservar la partida.';
+    toastMessage('Este navegador no permite guardar aquí. Puedes exportar la partida como archivo.',true);
+  }
+  if(state.phase==='ending') recordCampaign(state);
+  resumeState=state;
+}
 function send(command){
   if(!state)return {ok:false,error:{code:'NO_GAME',message:'No hay una partida abierta.'}};
   const oldPhase=state.phase,oldTurn=state.turn,oldProponent=state.negotiation?.proponent;
   const cmd={...command,id:command.id||`ui-${state.revision+1}-${++commandCounter}`,expectedRevision:command.expectedRevision??state.revision};
   let result;try{result=engineDispatch(state,cmd,sourceBundle);}catch(e){toastMessage(e.message||'No se pudo aplicar la decisión.',true);return {ok:false,error:{code:'UI_COMMAND_ERROR',message:e.message}};}
   if(!result.ok){toastMessage(result.error?.message||'Revisa esta decisión.',true);return result;}
+  clearTimeout(toastTimer);
+  toast.hidden=true;
   if(command.type==='CONFIRM_PLAN'&&ui.teamPractice)ui.teamPractice=submitTeamPractice(ui.teamPractice,state,command.plan,validatePlan(state,command.plan,sourceBundle));
   else if(oldPhase!==result.state.phase||oldTurn!==result.state.turn)ui.teamPractice=null;
   state=result.state;ui.screen='game';
@@ -883,7 +1113,7 @@ function quickStart(){
   bundle=resolveCampaignBundle(sourceBundle,ui.setup);
   startCampaign({quick:true});
 }
-function exportCurrent(){if(!state){toastMessage('Abre una partida para poder guardarla.',true);return;}try{const text=exportGame(state,sourceBundle);const blob=new Blob([text],{type:'application/json'});const url=URL.createObjectURL(blob);const link=document.createElement('a');link.href=url;link.download=`la-campana-turno-${state.turn}.json`;document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);toastMessage('El archivo de partida está listo para conservarlo o importarlo.');}catch(e){toastMessage(e.message||'No se pudo exportar la partida.',true);}}
+function exportCurrent(){if(!state){toastMessage('Abre una partida para poder guardarla.',true);return;}try{const text=exportGame(state,sourceBundle);const blob=new Blob([text],{type:'application/json'});const url=URL.createObjectURL(blob);const link=document.createElement('a');link.href=url;link.download=pactTrial?'la-campana-otra-investidura.json':`la-campana-turno-${state.turn}.json`;document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);toastMessage('El archivo de partida está listo para conservarlo o importarlo.');}catch(e){toastMessage(e.message||'No se pudo exportar la partida.',true);}}
 function refreshKeepingFocus(id){rememberFolds();const el=document.getElementById(id);const range=el&&typeof el.selectionStart==='number'?[el.selectionStart,el.selectionEnd]:null;render();const next=document.getElementById(id);if(next){next.focus({preventScroll:true});if(range&&typeof next.setSelectionRange==='function'){try{next.setSelectionRange(...range);}catch{}}}}
 
 function rememberFolds(){ui.folds??={};ui.staffPalette??={};document.querySelectorAll('details[data-ui-fold]').forEach(details=>{ui.folds[details.dataset.uiFold]=details.open;});document.querySelectorAll('details[data-staff-palette]').forEach(details=>{ui.staffPalette[details.dataset.staffPalette]=details.open;});}
@@ -923,8 +1153,8 @@ document.addEventListener('click',e=>{
   if(button.dataset.vote){ui.vote=button.dataset.vote;render();document.querySelector(`[data-vote="${ui.vote}"]`)?.focus({preventScroll:true});return;}
   if(button.dataset.revisionChoice){const choice=secondBallotOptions(state,sourceBundle).find(item=>item.offer.join('-')===button.dataset.revisionChoice);if(choice){ui.revisionOffer=[...choice.offer];ui.folds['last-negotiation']=true;render();document.querySelector(`[data-revision-choice="${button.dataset.revisionChoice}"]`)?.focus({preventScroll:true});announce('Revisión preparada. Comprueba la renuncia y confirma el coste.');}return;}
   switch(button.dataset.act){
-    case 'next-reveal':ui.revealIndex=Number(ui.revealIndex||0)+1;render(true);announce('Siguiente resultado provincial confirmado.');break;
-    case 'skip-reveal':ui.revealIndex=electionRevealSteps(state,sourceBundle).length;render(true);announce(`Resultado completo: ${electionResult().national.seatsByParty.P1} escaños para tu candidatura.`);break;
+    case 'next-reveal':electionAdvance(false);break;
+    case 'skip-reveal':electionAdvance(true);break;
     case 'tutorial-start':ui.teamPractice=null;ui.tutorial=startTutorial(state);rememberTutorial();if(dialog.open)closeDialog();render();document.getElementById('tutorial-title')?.focus();break;
     case 'tutorial-resume':ui.tutorial=resumeTutorial(ui.tutorial,state);rememberTutorial();if(dialog.open)closeDialog();render();document.getElementById('tutorial-title')?.focus();break;
     case 'tutorial-focus':focusTutorialControl();break;
@@ -932,7 +1162,10 @@ document.addEventListener('click',e=>{
     case 'practice-close':ui.teamPractice=null;render();document.getElementById('prepared-plan')?.focus({preventScroll:true});announce('Ejercicio cerrado. Tu plan se conserva; solo Jugar lo ejecuta.');break;
     case 'tutorial-skip':ui.teamPractice=null;ui.tutorial=skipTutorial(ui.tutorial);rememberTutorial();render();focusHeading();announce('Guía oculta. Puedes retomarla desde Guía.');break;
     case 'confirm-counteroffer':{const option=counterofferOptions(state,sourceBundle).find(item=>item.id===ui.counterofferId);if(option)send({type:'COUNTEROFFER',offer:[...option.offer],target:option.target});break;}
-    case 'new':newSetup({differentStory:button.dataset.newStory==='true'});break;
+    case 'try-pact':void tryAnotherPact(button);break;
+    case 'original-ending':leavePactTrial();render(true);window.scrollTo({top:0,behavior:'instant'});announce('Has vuelto a tu primer final.');break;
+    case 'retry-poster':render();break;
+    case 'new':leavePactTrial();newSetup({differentStory:button.dataset.newStory==='true'});break;
     case 'setup-step':ui.setupStep=Number(button.dataset.step);ui.setupAll=false;render();document.querySelector(`[data-act="setup-step"][data-step="${ui.setupStep}"]`)?.focus({preventScroll:true});break;
     case 'setup-next':advanceSetup();break;
     case 'setup-all':ui.setupAll=!ui.setupAll;render();document.querySelector('[data-act="setup-all"]')?.focus({preventScroll:true});break;
@@ -947,7 +1180,7 @@ document.addEventListener('click',e=>{
     case 'review-plan':{ui.folds.team=false;render();const target=document.getElementById('prepared-plan');target?.scrollIntoView({block:'center',behavior:'instant'});target?.focus({preventScroll:true});announce('Revisa tu jugada y el coste del equipo. Pulsa Jugar para ejecutarlos.');break;}
     case 'start':if(button.closest('#campaign-setup'))return;startCampaign();break;
     case 'resume':if(resumeState){state=resumeState;resetCampaignView(state);ui.screen='game';render(true);}break;
-    case 'home':if(state)resumeState=state;ui.screen='home';render(true);break;
+    case 'home':leavePactTrial();if(state)resumeState=state;ui.screen='home';render(true);break;
     case 'help':helpDialog();break;
     case 'help-level':helpDialog(button.dataset.level);dialog.querySelector(`[data-act="help-level"][data-level="${ui.guideLevel}"]`)?.focus();break;
     case 'help-resource':helpDialog('advanced',button.dataset.resource);break;
@@ -971,7 +1204,7 @@ document.addEventListener('click',e=>{
     case 'propose':send({type:'PROPOSE',offer:[...ui.offer]});break;
     case 'confirm-revision':if(ui.revisionOffer){const result=send({type:'REVISE_OFFER',offer:[...ui.revisionOffer]});if(result.ok)ui.revisionOffer=null;}break;
     case 'vote':send({type:'VOTE',vote:ui.vote});break;
-    case 'replay':try{ui.revealIndex=0;ui.counterofferId=null;state=createGame(selectBundle(sourceBundle,state),state.seed,state.initialSetup);resetCampaignView(state);ui.screen='game';persist();render(true);announce('La campaña empieza de nuevo con la misma clave.');window.scrollTo({top:0,behavior:'instant'});}catch(error){toastMessage(error.message||'No se pudo repetir esta campaña.',true);}break;
+    case 'replay':try{leavePactTrial();ui.revealIndex=0;ui.counterofferId=null;state=createGame(selectBundle(sourceBundle,state),state.seed,state.initialSetup);resetCampaignView(state);ui.screen='game';persist();render(true);announce('La campaña empieza de nuevo con la misma clave.');window.scrollTo({top:0,behavior:'instant'});}catch(error){toastMessage(error.message||'No se pudo repetir esta campaña.',true);}break;
   }
 });
 document.addEventListener('submit',e=>{if(e.target.id!=='campaign-setup')return;e.preventDefault();if(advanceSetup())return;const issues=setupIssues(ui.setup);if(issues.length){updateSetupReadiness();document.querySelector(issues[0].target)?.focus();announce(issues[0].message);return;}startCampaign();});

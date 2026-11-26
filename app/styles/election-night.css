@@ -1,0 +1,146 @@
+/* Provincial bulletins above the running count. */
+.night-edition {
+  --night-ink: #18313d;
+  --night-paper: #fffcf5;
+  --night-light: #d4e1e0;
+  display: block;
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid #abb8b4;
+  border-radius: 16px;
+  background: var(--night-paper);
+  box-shadow: 0 5px 16px #203a3f0f;
+}
+.night-masthead, .night-story, .night-local-detail { background: var(--night-ink); color: var(--night-paper); }
+.night-masthead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1em;
+  padding: .85rem clamp(1rem, 3vw, 2rem);
+  border-top: 4px solid #d7ad67;
+  border-bottom: 1px solid #45606a;
+  font-size: .82rem;
+}
+.night-masthead strong { letter-spacing: .12em; text-transform: uppercase; }
+.night-masthead span { color: var(--night-light); }
+.night-story {
+  display: grid;
+  grid-template-columns: minmax(0, 2.2fr) minmax(10rem, 1fr);
+  align-items: center;
+  gap: 1rem;
+  padding: 1.4rem clamp(1rem, 3vw, 2rem) .8rem;
+}
+.night-story-text h1 {
+  max-width: 28ch;
+  margin: 0;
+  color: var(--night-paper);
+  font: 500 clamp(2rem, 4vw, 3.5rem)/1.06 Georgia, 'Times New Roman', serif;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+.night-story-lead { max-width: 56ch; margin: .75rem 0 0; color: var(--night-light); line-height: 1.5; }
+.night-desk-voice { display: flex; align-items: center; gap: .65rem; margin-top: .75rem; max-width: 58ch; }
+.night-desk-voice > span { display: block; flex: 0 0 2.6rem; }
+.night-desk-voice svg { display: block; width: 100%; }
+.night-desk-voice small { color: #efcf98; font-weight: 650; }
+.night-desk-voice p { margin: .15rem 0 0; color: var(--night-light); font-size: .94rem; line-height: 1.45; }
+.night-local-count { display: flex; flex-wrap: wrap; gap: .6rem 1.2rem; margin: 1rem 0 .1rem; }
+.night-local-count > div { padding-inline-start: .7rem; border-inline-start: 2px solid #bc9b62; }
+.night-local-count dt { font-size: .77rem; color: var(--night-light); }
+.night-local-count dd { margin: .12rem 0 0; font-size: 1.65rem; font-weight: 740; line-height: 1.15; }
+.night-local-count small { font-size: .8rem; font-weight: 600; color: #dce5df; }
+.night-local-count .reveal-change.negative { color: #ffd2c8; }
+.night-local-count .reveal-change.positive { color: #c9edc8; }
+.night-local-count .reveal-change.neutral { color: #dce5df; }
+.night-geography {
+  display: grid;
+  justify-items: center;
+  min-width: 0;
+  margin: 0;
+  padding: .5rem;
+  border-inline-start: 1px solid #45606a;
+}
+.night-geography .reveal-province { width: 95%; height: 10rem; max-width: 15rem; filter: drop-shadow(0 4px 2px #071a2570); }
+.night-geography figcaption { margin-top: .3rem; color: var(--night-light); text-align: center; font-size: .8rem; }
+.night-geography figcaption b { display: block; color: var(--night-paper); font-size: 1.08em; }
+.night-local-detail { padding: 0 clamp(1rem, 3vw, 2rem) .8rem; font-size: .85rem; }
+.night-local-detail summary { width: fit-content; max-width: 100%; padding: .35rem .1rem; cursor: pointer; color: #f3dfb9; }
+.night-local-detail summary:focus-visible { outline: 2px solid #ffe3ae; outline-offset: 2px; }
+.night-story-text h1:focus-visible { position: relative; outline: none; }
+.night-story-text h1:focus-visible::before { content: ''; position: absolute; inset: .08em auto .04em -.38rem; width: 2px; background: #ffe3ae; }
+.night-local-detail p { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; margin: .5rem 0; }
+.night-local-detail .reveal-party-seats { margin: .5rem 0; }
+.night-local-detail .party-badge { color: var(--night-paper); }
+.night-local-detail .reveal-party-seats > span { border-color: #67818a; }
+.night-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .3rem .8rem;
+  padding: .8rem clamp(1rem, 3vw, 2rem);
+  border-top: 1px solid #d5d9cc;
+}
+.night-controls .primary { min-height: 44px; }
+.phase-heading .night-enter-pacts { flex: 0 0 auto; align-self: center; margin-block: .75rem; min-height: 44px; }
+.night-controls p { flex: 1 1 13rem; margin: 0; color: #405754; font-size: .9rem; }
+.night-partial { padding: .9rem clamp(1rem, 3vw, 2rem) 1rem; }
+.night-partial-heading { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .2rem 1rem; }
+.night-partial-heading h2 { font-size: 1.15rem; margin: 0; }
+.night-partial-heading > span, .night-counted { font-size: .83rem; color: #445751; }
+.night-seat-meter {
+  display: flex;
+  height: .65rem;
+  margin: .6rem 0 .2rem;
+  overflow: hidden;
+  border-radius: 3px;
+  background: repeating-linear-gradient(125deg, #f0efe6 0 3px, #d6d8cd 3px 5px);
+}
+.night-seat-meter span { box-shadow: inset -1px 0 var(--night-paper); }
+.night-counted { margin: 0 0 .6rem; }
+.night-standings {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+  gap: .25rem .7rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.night-standings li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: .4rem;
+  align-items: center;
+  padding: .4rem .25rem;
+  border-top: 1px solid #dedfd4;
+  font-size: .9rem;
+  overflow-wrap: anywhere;
+}
+.night-standings li.night-player { font-weight: 720; }
+.night-standings small { font-size: .78em; }
+.night-standings b { font-variant-numeric: tabular-nums; font-size: 1.05em; }
+@media (min-width: 960px) {
+  .night-edition { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(17rem, 1fr); gap: 0; }
+  .night-masthead, .night-controls { grid-column: 1 / -1; }
+  .night-story { grid-column: 1; grid-row: 2; grid-template-columns: minmax(0, 1fr) minmax(5.5rem, 27%); }
+  .night-local-detail { grid-column: 1; grid-row: 3; }
+  .night-partial { grid-column: 2; grid-row: 2 / 4; align-self: center; padding: 1rem 1.35rem; }
+  .night-standings { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .night-geography .reveal-province { height: 8rem; }
+}
+@media (max-width: 680px) {
+  .night-story { grid-template-columns: minmax(0, 1fr) 5rem; gap: .5rem; align-items: start; }
+  .night-story-text { display: contents; }
+  .night-story h1 { grid-column: 1; grid-row: 1; max-width: none; font-size: clamp(1.7rem, 7.3vw, 2.35rem); }
+  .night-geography { grid-column: 2; grid-row: 1; padding: .25rem; border: 0; }
+  .night-geography .reveal-province { width: 100%; height: 4.1rem; }
+  .night-geography figcaption { font-size: .65rem; overflow-wrap: anywhere; }
+  .night-story-lead, .night-local-count, .night-desk-voice { grid-column: 1 / -1; margin: .35rem 0 0; }
+  .night-controls { align-items: stretch; }
+  .night-controls button { flex: 1 1 10rem; }
+  .night-controls p { flex-basis: 100%; }
+}
+@media (max-width: 360px) {
+  .night-story { grid-template-columns: minmax(0, 1fr) 3.5rem; }
+  .night-standings { grid-template-columns: repeat(auto-fit, minmax(min(100%, 7rem), 1fr)); }
+}

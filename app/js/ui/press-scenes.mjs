@@ -63,6 +63,13 @@ export function pressScene(state, bundle, eventId, turn) {
             keep_interval: 'Conservas caja y energía. Renuncias a los dos anuncios y eliges tu próxima jugada en el mapa.'});
         result.issueIds = launch.choices.map(choice => choice.issue.id);
         result.topicIds = launch.choices.map(choice => choice.topicId);
+        result.newsIntro = 'La prensa espera tu primer titular. ¿Qué problema vas a poner sobre la mesa?';
+        result.newsLines = {
+          launch_first: `${first.issue.shortSituation} Propones ${first.issue.brief}.`,
+          launch_second: `${second.issue.shortSituation} Propones ${second.issue.brief}.`,
+          keep_interval: 'Sales de ruta sin hacer un anuncio.',
+        };
+        result.newsVerbs = {launch_first: 'Anunciar', launch_second: 'Anunciar', keep_interval: 'Seguir la ruta'};
         result.optionSpeeches = {
           launch_first: first.issue.reply,
           launch_second: second.issue.reply,
